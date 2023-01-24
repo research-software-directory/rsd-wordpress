@@ -1,2 +1,2 @@
-# wordpress-plugin
-WordPress plugin that integrates the RSD into the CMS
+# Wordpress Plugin
+Integrate the RSD into WordPress
