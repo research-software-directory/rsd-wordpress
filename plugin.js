@@ -9,6 +9,7 @@ $(document).ready(function () {
   let numPages = 0;
   let itemsPerPage = 10;
   let researchUnits = [];
+  let keywords = [];
   let organisation_id = "35c17f17-6b5f-4385-aa8b-6b1d33a10157"; // not in used yet
 
   // Function to display the table with data
@@ -30,15 +31,64 @@ $(document).ready(function () {
       tbody.append(row);
     }
   }
+  // fetch and print keywords filter
+  $.ajax({
+    type: "GET",
+    url: "https://research-software-directory.org/api/v1/rpc/keyword_count_for_software?keyword=ilike.**&cnt=gt.0&order=cnt.desc.nullslast,keyword.asc&limit=30",
+    success: function (response) {
+      keywords = response;
+      for (let i = 0; i < keywords.length; i++) {
+        let keyword = `
+              <button keyword-id="${keywords[i].id}" data-keyword="${keywords[i].keyword}">
+                ${keywords[i].keyword} (${keywords[i].cnt})
+               </button>
+              `;
+        $("#keywords").append(keyword);
+      }
+    },
+  });
+
+  function fetchSoftwareByKeyword(url) {
+    $.ajax({
+      type: "GET",
+      url,
+      success: function (response) {
+        data = response;
+        filteredData = response;
+        $("#count").text(data.length);
+        $("#results").text(data.length);
+        // console.log('🎹 data', data);
+        numPages = Math.ceil(data.length / itemsPerPage);
+        paginate();
+      },
+    });
+  }
+
+  //
+  //
+  //
+  // CONTINUE HERE!!!!!!
+  // FITER BY KEYWORD
+  // Possible solution: 'https://research-software-directory.org/api/v1/rpc/keyword_filter_for_software'  <-- it needs parameters
+  // this comes from NextJS: 'https://research-software-directory.org/_next/data/4cSMPdvXwrvj8jHjOvmPc/software.json?page=0&rows=12&keywords=%5B%22Visualization%22%5D'
+  //
+
+  $("#keywords").on("click", "button", function () {
+    const keywordId = $(this).attr("keyword-id");
+    console.log('🎹 $(this).attr("keyword"', $(this).attr("keyword-id"));
+
+    // alert(keywordId);
+    // fetchSoftwareByOrganisation(
+    //   `https://research-software-directory.org/api/v1/software?select=*,organisation!inner(name)&organisation.id=eq.${organisationId}`
+    // );
+  });
 
   function fetchResearchUnits(url) {
     $.ajax({
       type: "GET",
       url,
-      success: function (response) {
+      success: (response) => {
         researchUnits = response;
-        console.log("🎹 researchUnits", researchUnits);
-        // displayResearchUnits(researchUnits);
       },
     });
   }
@@ -66,10 +116,7 @@ $(document).ready(function () {
     displayPages();
   }
 
-  // params = { organisationId ='35c17f17-6b5f-4385-aa8b-6b1d33a10157' }
-
   function fetchSoftwareByOrganisation(url) {
-    // `https://research-software-directory.org/api/v1/rpc/list_child_organisations?parent_id=${organisationId}&organisation_id=not.eq.${organisationId}`
     // Fetch data from the API
     console.log("🎹 response", url);
     $.ajax({
@@ -93,13 +140,10 @@ $(document).ready(function () {
   );
 
   // Filter by research unit
-
   function fetchListOfResesarchUnits() {
     $.getJSON(
       "https://research-software-directory.org/api/v1/rpc/list_child_organisations?parent_id=35c17f17-6b5f-4385-aa8b-6b1d33a10157&organisation_id=not.eq.35c17f17-6b5f-4385-aa8b-6b1d33a10157",
       (data) => {
-        console.log("🎹 data", data);
-
         $.each(data, (index, item) => {
           $("#research-units").append(
             `
@@ -108,11 +152,6 @@ $(document).ready(function () {
             </button>
             `
           );
-          // $("#research-units").append("
-          // <button onclick="hello(\"" + item.organization_id + "\")'>"
-          //     ${item.organisation_id}
-          //     </button>
-          //     ");
         });
       }
     );
