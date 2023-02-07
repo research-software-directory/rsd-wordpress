@@ -1,128 +1,20 @@
 <html>
 
 <head>
-  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://code.jquery.com/jquery-3.6.3.min.js"></script>
   <!-- <script src="https://cdn.tailwindcss.com"></script> -->
   <!-- <script src="https://cdn.tailwindcss.com?plugins=forms,typography,aspect-ratio,line-clamp"></script> -->
   <!-- <link href="https://cdn.jsdelivr.net/npm/daisyui@2.13.6/dist/full.min.css" rel="stylesheet" type="text/css" /> -->
-  <script>
-    // Utility function to sort an array of objects by a property
-    function sortBy(array, property) {
-      return array.sort((a, b) => (a[property] > b[property]) ? 1 : -1);
-    }
 
-    $(document).ready(function () {
-      let currentPage = 0;
-      let data = [];
-      let filteredData = [];
-      let tableData = [];
-      let numPages = 0;
-      let itemsPerPage = 10;
-
-      // Function to display the table with data
-      function displayTable(data, page) {
-        let start = page * itemsPerPage;
-        let end = start + itemsPerPage;
-        tableData = filteredData.slice(start, end);
-
-        let tbody = $("#software-table tbody");
-        tbody.empty();
-        for (let i = 0; i < tableData.length; i++) {
-          let row = `
-          <tr>
-            <td> ${tableData[i].brand_name} </td>
-            <td> ${tableData[i].slug} </td>
-            <td> ${tableData[i].short_statement} </td>
-          </tr>
-          `
-          tbody.append(row);
-        }
-      }
-
-      // Display a list of pages
-      function displayPages() {
-        let pages = $("#pages");
-        pages.empty();
-        for (let i = 0; i < numPages; i++) {
-          let page = `
-          <button class="page" data-page="${i}"> ${i + 1} </button>
-          `
-          pages.append(page);
-        }
-
-      }
-      // Function to paginate the table
-      function paginate() {
-        $("#page-number").text(currentPage + 1);
-        $("#results").text(filteredData.length);
-        displayTable(data, currentPage);
-        displayPages()
-      }
-
-      // Fetch data from the API
-      $.ajax({
-        type: "GET",
-        // url: "https://research-software-directory.org/api/v1/software?select=*,organisation!left(name)&organisation.id=eq.35c17f17-6b5f-4385-aa8b-6b1d33a10157&limit=10&offset=2",
-        url: "https://research-software-directory.org/api/v1/software?select=*,organisation!left(name)&organisation.id=eq.35c17f17-6b5f-4385-aa8b-6b1d33a10157",
-        success: function (response) {
-          data = response;
-          filteredData = response;
-          $("#count").text(data.length);
-          $("#results").text(data.length);
-          // console.log('🎹 data', data);
-
-          numPages = Math.ceil(data.length / itemsPerPage);
-          paginate();
-        }
-      });
-
-      // Handle searches
-      // Search by brnad name, slug or description or short statement
-      $("#search").keyup(function () {
-
-        let searchTerm = $(this).val().toLowerCase();
-        filteredData = data.filter((software) => {
-          return (
-            software.brand_name?.toLowerCase().indexOf(searchTerm) !== -1 ||
-            software.short_statement?.toLowerCase().indexOf(searchTerm) !== -1
-            // software.slug?.toLowerCase().indexOf(searchTerm) !== -1 ||
-            // software.description?.toLowerCase().indexOf(searchTerm) !== -1
-          );
-        });
-        numPages = Math.ceil(filteredData.length / itemsPerPage);
-        currentPage = 0;
-        paginate();
-      });
-
-      // Handle clicks on the "Previous" button
-      $("#previous").click(function () {
-        if (currentPage > 0) {
-          currentPage--;
-          paginate();
-        }
-      });
-
-      // Handle clicks on the "Next" button
-      $("#next").click(function () {
-        if (currentPage < numPages - 1) {
-          currentPage++;
-          paginate();
-        }
-      });
-
-      // handle clicks on the page buttons
-      $("#pages").on("click", ".page", function () {
-        currentPage = $(this).data("page");
-        paginate();
-      });
-
-    });
-  </script>
 </head>
 
 <body>
   <div>Software: <span id="count"></span></div>
   <div>Results: <span id="results"></span></div>
+
+  <button id="reset-filters">Reset filters</button>
+  <div id="research-units"></div>
+
   <input type="text" id="search" placeholder="Search...">
   <table id="software-table">
     <thead>
@@ -143,64 +35,66 @@
   <!--  Virtual scroll -->
   <!-- ================================================================= -->
   <!-- <h3>Virtual scrolling</h3>
-  <div id="list">
-    <div class="item" id="item-template" style="display: none;">
-      Item <span class="index"></span>
+    <div id="list">
+      <div class="item" id="item-template" style="display: none;">
+        Item <span class="index"></span>
+      </div>
     </div>
-  </div>
-  <script>
-    $(document).ready(function () {
-      var list = $("#list");
-      var itemTemplate = $("#item-template").removeAttr("id").removeAttr("style");
-      var visibleItems = [];
-      var ITEM_HEIGHT = 40;
-      var ITEM_COUNT = 4000;
-      var viewportHeight = list.height();
-      var firstVisibleIndex = 0;
-      var lastVisibleIndex = Math.ceil(viewportHeight / ITEM_HEIGHT) - 1;
+    <script>
+      $(document).ready(function () {
+        var list = $("#list");
+        var itemTemplate = $("#item-template").removeAttr("id").removeAttr("style");
+        var visibleItems = [];
+        var ITEM_HEIGHT = 40;
+        var ITEM_COUNT = 4000;
+        var viewportHeight = list.height();
+        var firstVisibleIndex = 0;
+        var lastVisibleIndex = Math.ceil(viewportHeight / ITEM_HEIGHT) - 1;
 
-      function update() {
-        var scrollTop = list.scrollTop();
-        firstVisibleIndex = Math.floor(scrollTop / ITEM_HEIGHT);
-        lastVisibleIndex = Math.ceil((scrollTop + viewportHeight) / ITEM_HEIGHT) - 1;
+        function update() {
+          var scrollTop = list.scrollTop();
+          firstVisibleIndex = Math.floor(scrollTop / ITEM_HEIGHT);
+          lastVisibleIndex = Math.ceil((scrollTop + viewportHeight) / ITEM_HEIGHT) - 1;
 
-        var itemsToShow = [];
-        for (var i = firstVisibleIndex; i <= lastVisibleIndex && i < ITEM_COUNT; i++) {
-          itemsToShow.push(i);
+          var itemsToShow = [];
+          for (var i = firstVisibleIndex; i <= lastVisibleIndex && i < ITEM_COUNT; i++) {
+            itemsToShow.push(i);
+          }
+
+          var itemsToHide = $(visibleItems).not(itemsToShow).get();
+          var itemsToCreate = $(itemsToShow).not(visibleItems).get();
+
+          $(itemsToHide).each(function (index, itemIndex) {
+            $("#item-" + itemIndex).remove();
+          });
+
+          $(itemsToCreate).each(function (index, itemIndex) {
+            var item = itemTemplate.clone();
+            item.attr("id", "item-" + itemIndex);
+            item.find(".index").text(itemIndex);
+            list.append(item);
+          });
+
+          visibleItems = itemsToShow;
         }
 
-        var itemsToHide = $(visibleItems).not(itemsToShow).get();
-        var itemsToCreate = $(itemsToShow).not(visibleItems).get();
-
-        $(itemsToHide).each(function (index, itemIndex) {
-          $("#item-" + itemIndex).remove();
-        });
-
-        $(itemsToCreate).each(function (index, itemIndex) {
-          var item = itemTemplate.clone();
-          item.attr("id", "item-" + itemIndex);
-          item.find(".index").text(itemIndex);
-          list.append(item);
-        });
-
-        visibleItems = itemsToShow;
+        list.scroll(update);
+        update();
+      });
+    </script>
+    <style>
+      #list {
+        height: 200px;
+        overflow: auto;
       }
 
-      list.scroll(update);
-      update();
-    });
-  </script>
-  <style>
-    #list {
-      height: 200px;
-      overflow: auto;
-    }
+      .item {
+        height: 40px;
+        border-bottom: 1px solid gray;
+      }
+    </style> -->
 
-    .item {
-      height: 40px;
-      border-bottom: 1px solid gray;
-    }
-  </style> -->
+  <script src="./plugin.js" />
 </body>
 
 </html>
