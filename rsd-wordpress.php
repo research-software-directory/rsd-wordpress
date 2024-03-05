@@ -1,7 +1,7 @@
 <?php
 /*
-Plugin Name: Research Software Directory API Table
-Description: Displays software information from the Research Software Directory API as a table
+Plugin Name: Research Software Directory for WordPress
+Description: Displays projects and software information from the Research Software Directory API.
 Version: 1.0
 Author: ctw@ctwhome.com (eScience Center)
 */
