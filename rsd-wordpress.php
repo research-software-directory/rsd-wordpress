@@ -10,7 +10,8 @@
  * Plugin URI:  https://github.com/research-software-directory/rsd-wordpress
  * Description: Displays projects and software information from the Research Software Directory API.
  * Version:     0.0.1
- * Author:      ctw@ctwhome.com (eScience Center)
+ * Author:      ctw@ctwhome.com (eScience Center), Vincent Twigt (Mezzo Media)
+ * Author URI:  https://www.esciencecenter.nl/
  * Text domain: rsd-wordpress
  * License:     Apache-2.0
  * License URI: https://www.apache.org/licenses/LICENSE-2.0
