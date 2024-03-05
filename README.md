@@ -1,5 +1,5 @@
-# WordPress Plugin
-Integrate the RSD into WordPress
+# RSD WordPress Plugin
+Integrate the RSD into WordPress.
 
 
 ## Use the plugin inside a page or post inside WordPress
