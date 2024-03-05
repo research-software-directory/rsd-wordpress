@@ -1,20 +1,20 @@
-# RSD WordPress Plugin
-Integrate the RSD into WordPress.
+# Research Software Directory plugin for WordPress
 
+WordPress integration of the Projects and Software overview of the Research Software Directory, using the RSD API.
 
 ## Use the plugin inside a page or post inside WordPress
-To display the table on your Wordpress site, you can use the shortcode in any post or page providing the followin information:
+
+To display the overview table on your Wordpress site, use the following shortcode in any post or page:
 ```shell
-[software_grid limit="4" organisation="12345678-1234-1234-1234-1234567890ab"]
+[research_software_directory_table limit="4" organisation="12345678-1234-1234-1234-1234567890ab"]
 ```
 
 ## Local developent
-You will need a WordPress set up. You can eithor do it with an existing WordPRess intallation, use a development environment like the application Local, or use the Docker Compose provided in this repo:
-```
-docker comppose up
-```
 
+This plugin can be used in a new or existing WordPress intallation in a local development environment, like with the application [Local](https://localwp.com/).
 
-Then move the plugin file inside the the folder: `wp_data > wp_content > plugins > plugin_name.php`
+First make sure your WordPress installation is functional, then move the plugin file to the plugins folder of your installation, which is usually something like `<wordpress_folder>/wp-content/plugins/`.
 
+### EditorConfig
 
+This project uses [EditorConfig](https://editorconfig.org/) to maintain a consistent coding style. Please make sure your editor applies this configuration to any of your code changes for this repo.
