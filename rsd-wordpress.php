@@ -17,34 +17,6 @@
  * License URI: https://www.apache.org/licenses/LICENSE-2.0
  */
 
-/*
-"id": "77201671-58bf-4d6e-9f3d-d509c0ff5b88",
-"slug": "knime-kripodb",
-"brand_name": "KNIME node for Kripo",
-"concept_doi": "10.5281/zenodo.597262",
-"description": "* For cheminformaticans who want to do structure-based protein binding site comparison and bioisosteric replacement for ligand design\n* It makes the Kripo Python library available in the KNIME workflow platform as workflow nodes.\n* Kripo encodes the interactions of protein and bound ligand also known as a pharmacophore into a fingerprint, the fingerprints can be compared to each other to find similar pharmacophores\n* The Kripo software is open source while most other similar software is commercial or requires registration",
-"description_url": null,
-"description_type": "markdown",
-"get_started_url": "https://www.knime.com/3d-e-chem-nodes-for-knime",
-"is_published": true,
-"short_statement": "A node for the KNIME workflow systems that allows you to compare different binding sites in proteins with each other.",
-"created_at": "2022-07-06T15:41:57.646939+00:00",
-"updated_at": "2022-07-06T15:41:57.646939+00:00",
-*/
-
-/*
-brand_name
-short_statement
-description
-
-I don't have yet:
-- Year of the software (releases this year)
-- Domain
-- License
-- Impact metric (Num visits, downloads, citations, etc)
-
-*/
-
 function research_software_directory_api_table() {
     // Call the API
     $response = wp_remote_get( 'https://research-software-directory.org/api/v1/software_for_organisation?select=*,software!left(*)&organisation=eq.35c17f17-6b5f-4385-aa8b-6b1d33a10157&limit=2' );
