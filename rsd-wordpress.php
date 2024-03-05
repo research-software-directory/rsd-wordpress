@@ -79,7 +79,6 @@ function research_software_directory_api_table() {
 }
 
 // Add shortcode to display the table
-// [research_software_directory_table limit="10" organization-id="35c17f17-6b5f-4385-aa8b-6b1d33a10157"]
 add_shortcode( 'research_software_directory_table', 'research_software_directory_api_table' );
 
 $atts = shortcode_atts( array(
