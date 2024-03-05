@@ -29,9 +29,21 @@ if ( defined( 'WP_RSD_LOADED' ) ) {
 
 define( 'WP_RSD_LOADED', true );
 
-function research_software_directory_api_table() {
-    // Call the API
-    $response = wp_remote_get( 'https://research-software-directory.org/api/v1/software_for_organisation?select=*,software!left(*)&organisation=eq.35c17f17-6b5f-4385-aa8b-6b1d33a10157&limit=2' );
+// Easiest way to render the table
+function research_software_directory_api_table( $atts ) {
+	// Set default attributes
+	$atts = shortcode_atts( array(
+		'organization-id' => '35c17f17-6b5f-4385-aa8b-6b1d33a10157',
+		'limit' => 10,
+	), $atts, 'research_software_directory_table' );
+
+	// Process attributes
+	$organization_id = $atts['organization-id'];
+	$limit = intval( $atts['limit'] );
+
+	// Call the API
+	$url = sprintf( 'https://research-software-directory.org/api/v1/software_for_organisation?select=*,software!left(*)&organisation=eq.%s&limit=%s', $organization_id, $limit );
+    $response = wp_remote_get( $url );
 
     // Check for error
     if ( is_wp_error( $response ) ) {
@@ -92,8 +104,3 @@ function research_software_directory_api_table() {
 
 // Add shortcode to display the table
 add_shortcode( 'research_software_directory_table', 'research_software_directory_api_table' );
-
-$atts = shortcode_atts( array(
-    'organization-id' => '35c17f17-6b5f-4385-aa8b-6b1d33a10157',
-    'limit' => 10,
-), $atts, 'research_software_directory_table' );
