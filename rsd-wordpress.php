@@ -31,6 +31,10 @@ define( 'RSD_WP_LOADED', true );
 
 // Easiest way to render the table
 function research_software_directory_api_table( $atts ) {
+	if ( is_admin() ) {
+		return;
+	}
+
 	// Set default attributes
 	$atts = shortcode_atts( array(
 		'organization-id' => '35c17f17-6b5f-4385-aa8b-6b1d33a10157',
