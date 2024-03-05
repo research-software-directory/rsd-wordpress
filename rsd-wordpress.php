@@ -17,6 +17,18 @@
  * License URI: https://www.apache.org/licenses/LICENSE-2.0
  */
 
+// Exit if accessed directly
+if ( ! defined( 'ABSPATH' ) ) {
+    exit;
+}
+
+// If the plugin was already loaded, do not load again
+if ( defined( 'WP_RSD_LOADED' ) ) {
+	return;
+}
+
+define( 'WP_RSD_LOADED', true );
+
 function research_software_directory_api_table() {
     // Call the API
     $response = wp_remote_get( 'https://research-software-directory.org/api/v1/software_for_organisation?select=*,software!left(*)&organisation=eq.35c17f17-6b5f-4385-aa8b-6b1d33a10157&limit=2' );
