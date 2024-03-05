@@ -1,10 +1,18 @@
 <?php
 /*
-Plugin Name: Research Software Directory for WordPress
-Description: Displays projects and software information from the Research Software Directory API.
-Version: 1.0
-Author: ctw@ctwhome.com (eScience Center)
-*/
+ * Research Software Directory
+ *
+ * @package     RSD
+ * @author      Netherlands eScience Center
+ * 
+ * @wordpress-plugin
+ * Plugin Name: Research Software Directory for WordPress
+ * Plugin URI:  https://github.com/research-software-directory/rsd-wordpress
+ * Description: Displays projects and software information from the Research Software Directory API.
+ * Version:     1.0
+ * Author:      ctw@ctwhome.com (eScience Center)
+ * Text domain: rsd-wordpress
+ */
 
 /*
 "id": "77201671-58bf-4d6e-9f3d-d509c0ff5b88",
