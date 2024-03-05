@@ -12,6 +12,10 @@ class RSD_WP {
 	 * Easiest way to render the table.
 	 */
 	public static function display_table( $atts ) {
+		if ( is_admin() ) {
+			return;
+		}
+
 		// Set default attributes
 		$atts = shortcode_atts( array(
 			'organization-id' => '35c17f17-6b5f-4385-aa8b-6b1d33a10157',
