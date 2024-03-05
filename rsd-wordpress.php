@@ -4,7 +4,7 @@
  *
  * @package     RSD
  * @author      Netherlands eScience Center
- * 
+ *
  * @wordpress-plugin
  * Plugin Name: Research Software Directory for WordPress
  * Plugin URI:  https://github.com/research-software-directory/rsd-wordpress
@@ -86,5 +86,3 @@ $atts = shortcode_atts( array(
     'organization-id' => '35c17f17-6b5f-4385-aa8b-6b1d33a10157',
     'limit' => 10,
 ), $atts, 'research_software_directory_table' );
-
-?>
