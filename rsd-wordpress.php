@@ -23,11 +23,11 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 // If the plugin was already loaded, do not load again
-if ( defined( 'WP_RSD_LOADED' ) ) {
+if ( defined( 'RSD_WP_LOADED' ) ) {
 	return;
 }
 
-define( 'WP_RSD_LOADED', true );
+define( 'RSD_WP_LOADED', true );
 
 // Easiest way to render the table
 function research_software_directory_api_table( $atts ) {
