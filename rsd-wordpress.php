@@ -103,7 +103,7 @@ function research_software_directory_api_table() {
   }
 
   $output .= '</div>';
-  echo $output
+  echo $output;
 }
 
 // Add shortcode to display the table
