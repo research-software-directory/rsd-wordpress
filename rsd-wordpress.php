@@ -9,7 +9,7 @@
  * Plugin Name: Research Software Directory for WordPress
  * Plugin URI:  https://github.com/research-software-directory/rsd-wordpress
  * Description: Displays projects and software information from the Research Software Directory API.
- * Version:     1.0
+ * Version:     0.0.1
  * Author:      ctw@ctwhome.com (eScience Center)
  * Text domain: rsd-wordpress
  */
