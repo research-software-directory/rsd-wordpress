@@ -25,3 +25,6 @@ wp_data
 db_data
 .idea
 .history
+
+# ignore VS Code settings
+.vscode/
