@@ -12,6 +12,8 @@
  * Version:     0.0.1
  * Author:      ctw@ctwhome.com (eScience Center)
  * Text domain: rsd-wordpress
+ * License:     Apache-2.0
+ * License URI: https://www.apache.org/licenses/LICENSE-2.0
  */
 
 /*
