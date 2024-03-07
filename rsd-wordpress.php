@@ -30,6 +30,6 @@ if ( defined( 'RSD_WP_LOADED' ) ) {
 define( 'RSD_WP_LOADED', true );
 define( 'RSD_WP__PLUGIN_DIR', plugin_dir_path( __FILE__ ) );
 
-require_once RSD_WP__PLUGIN_DIR . 'includes/class.rsd-wp.php';
+require_once RSD_WP__PLUGIN_DIR . 'includes/class-rsd-wp.php';
 
 add_action( 'init', array( 'RSD_WP', 'init' ) );
