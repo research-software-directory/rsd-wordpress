@@ -12,7 +12,7 @@ namespace RSD;
 
 defined( 'ABSPATH' ) || exit;
 
-require 'Controller/Api.php';
+require 'class-api.php';
 
 /**
  * Plugin main class.
@@ -118,12 +118,19 @@ class Plugin {
 		ob_start();
 		?>
 		<div class="rsd">
-			<?php echo self::display_search_bar(); ?>
-			<?php echo self::display_filter_sidebar(); ?>
+			<?php
+			// phpcs:ignore
+			echo self::display_search_bar();
+			?>
+			<?php
+			// phpcs:ignore
+			echo self::display_filter_sidebar();
+			?>
 			<?php
 			if ( ! $data ) {
 				echo 'No data returned from API';
 			} else {
+				// phpcs:ignore
 				echo self::display_results( $data );
 			}
 			?>
@@ -139,14 +146,17 @@ class Plugin {
 	public static function display_search_bar() {
 		ob_start();
 
-		$btn_placeholder = 'software' === self::$section ? __('Search software', 'rsd-wordpress') : __('Search projects', 'rsd-wordpress');
+		$btn_placeholder = 'software' === self::$section ? __( 'Search software', 'rsd-wordpress' ) : __( 'Search projects', 'rsd-wordpress' );
 		?>
 			<div class="rsd-search-bar">
 				<form action="" method="get">
 					<input type="text" name="q" id="rsd-search" placeholder="<?php echo esc_html( $btn_placeholder ); ?>">
-					<input type="submit" value="<?php _e( 'Search', 'rsd-wordpress' ); ?>">
+					<input type="submit" value="<?php esc_html_e( 'Search', 'rsd-wordpress' ); ?>">
 				</form>
-				<?php echo self::display_results_settings(); ?>
+				<?php
+				// phpcs:ignore
+				echo self::display_results_settings();
+				?>
 			</div>
 		<?php
 
@@ -190,8 +200,10 @@ class Plugin {
 				<form action="" method="get">
 					<?php
 					if ( 'software' === self::$section ) {
+						// phpcs:ignore
 						echo self::display_software_filter();
 					} else {
+						// phpcs:ignore
 						echo self::display_project_filter();
 					}
 					?>
@@ -206,6 +218,7 @@ class Plugin {
 	 * Renders the software filter.
 	 */
 	public static function display_software_filter() {
+		// phpcs:ignore
 		// TODO: get the keywords and licenses from the API.
 		ob_start();
 		?>
@@ -233,6 +246,7 @@ class Plugin {
 	 * Renders the project filter.
 	 */
 	public static function display_project_filter() {
+		// phpcs:ignore
 		// TODO: get the keywords, research domains and partners from the API.
 		ob_start();
 		?>
@@ -247,7 +261,7 @@ class Plugin {
 				<div class="project-filter-keywords">
 					<h3><label for="rsd-keywords"><?php esc_html_e( 'Keywords', 'rsd-wordpress' ); ?></label></h3>
 					<select name="rsd-keywords" id="rsd-keywords">
-						<option value="" class="placeholder"><?php _e( 'Filter by keywords', 'rsd-wordpress' ); ?></option>
+						<option value="" class="placeholder"><?php esc_html_e( 'Filter by keywords', 'rsd-wordpress' ); ?></option>
 						<option value="1">Keyword 1</option>
 						<option value="2">Keyword 2</option>
 						<option value="3">Keyword 3</option>
@@ -266,7 +280,7 @@ class Plugin {
 				<div class="project-filter-partners">
 					<h3><label for="rsd-partners"><?php esc_html_e( 'Partners', 'rsd-wordpress' ); ?></label></h3>
 					<select name="rsd-partners" id="rsd-partners">
-						<option value="" class="placeholder"><?php _e( 'Filter by participating organisations', 'rsd-wordpress' ); ?></option>
+						<option value="" class="placeholder"><?php esc_html_e( 'Filter by participating organisations', 'rsd-wordpress' ); ?></option>
 						<option value="1">Partner 1</option>
 						<option value="2">Partner 2</option>
 						<option value="3">Partner 3</option>
@@ -291,7 +305,10 @@ class Plugin {
 			<h2 class="show-for-sr"><?php esc_html_e( 'Results', 'rsd-wordpress' ); ?></h2>
 			<div class="rsd-results-stats">
 				<h3 class="rsd-results-count">
-					<?php printf( esc_html__( '%s items found', 'rsd-wordpress' ), count( $items ) ); ?>
+					<?php
+					// translators: Number of result items found.
+					printf( esc_html__( '%s items found', 'rsd-wordpress' ), count( $items ) );
+					?>
 				</h3>
 				<button class="button rsd-results-clear-filters"><?php esc_html_e( 'Clear filters', 'rsd-wordpress' ); ?></button>
 				<div class="rsd-results-sort">
@@ -348,6 +365,7 @@ class Plugin {
 			</div>
 			<div class="rsd-results-show-more">
 				<?php
+				// phpcs:ignore
 				// TODO: Add the following features:
 				// - (optional) show more button (using infinite scroll and AJAX loading of more results).
 				?>

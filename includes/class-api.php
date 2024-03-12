@@ -94,8 +94,8 @@ class Api {
 	 * @return array
 	 */
 	public static function get_response( $path, $args = array() ) {
-		// Call the API
-		$url = self::get_url( $path );
+		// Call the API.
+		$url      = self::get_url( $path );
 		$response = wp_remote_get( $url, $args );
 
 		if ( is_wp_error( $response ) ) {
@@ -108,5 +108,4 @@ class Api {
 		// Return the data.
 		return $data;
 	}
-
 }
