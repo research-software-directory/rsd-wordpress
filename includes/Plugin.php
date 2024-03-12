@@ -345,6 +345,10 @@ class Plugin {
 			?>
 			</div>
 			<div class="rsd-results-show-more">
+				<?php
+				// TODO: Add the following features:
+				// - (optional) show more button (using infinite scroll and AJAX loading of more results).
+				?>
 				<a role="" class="button rsd-results-show-more-button" href="#more"><?php esc_html_e( 'Show more', 'rsd-wordpress' ); ?></a>
 			</div>
 		</div>
