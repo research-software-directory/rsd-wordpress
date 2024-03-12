@@ -57,7 +57,7 @@ class Plugin {
 	 * Constructor.
 	 */
 	public function __construct() {
-		//new Api();
+		// Do nothing (yet).
 	}
 
 	/**
@@ -138,11 +138,13 @@ class Plugin {
 	 */
 	public static function display_search_bar() {
 		ob_start();
+
+		$btn_placeholder = 'software' === self::$section ? __('Search software', 'rsd-wordpress') : __('Search projects', 'rsd-wordpress');
 		?>
 			<div class="rsd-search-bar">
 				<form action="" method="get">
-					<input type="text" name="rsd-search" id="rsd-search" placeholder="<?php esc_html_e( 'Search software', 'rsd-wordpress' ); ?>">
-					<input type="submit" value="Search">
+					<input type="text" name="q" id="rsd-search" placeholder="<?php echo esc_html( $btn_placeholder ); ?>">
+					<input type="submit" value="<?php _e( 'Search', 'rsd-wordpress' ); ?>">
 				</form>
 				<?php echo self::display_results_settings(); ?>
 			</div>
@@ -208,7 +210,7 @@ class Plugin {
 		ob_start();
 		?>
 			<div class="software-filter">
-				<h2 class="show-for-sr"><?php esc_html_e( 'Filter', 'rsd-wordpress' ); ?></h2>
+				<h2 class="show-for-sr"><?php esc_html_e( 'Filters', 'rsd-wordpress' ); ?></h2>
 				<h3><label for="rsd-keywords"><?php esc_html_e( 'Keywords', 'rsd-wordpress' ); ?></label></h3>
 				<select name="rsd-keywords" id="rsd-keywords">
 					<option value="1">Keyword 1</option>
@@ -235,7 +237,7 @@ class Plugin {
 		ob_start();
 		?>
 			<div class="project-filter">
-				<h2 class="show-for-sr"><?php esc_html_e( 'Filter', 'rsd-wordpress' ); ?></h2>
+				<h2 class="show-for-sr"><?php esc_html_e( 'Filters', 'rsd-wordpress' ); ?></h2>
 				<div class="project-filter-status">
 					<h3><?php esc_html_e( 'Project status', 'rsd-wordpress' ); ?></h3>
 					<label for="rsd-status-1"><input type="checkbox" name="rsd-status[]" id="rsd-status-1" value="1"> <?php esc_html_e( 'Finished', 'rsd-wordpress' ); ?></label>
