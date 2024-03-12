@@ -8,20 +8,19 @@
  * @since     1.0.0
  */
 
+namespace RSD;
+
 defined( 'ABSPATH' ) || exit;
 
+require 'Controller/Api.php';
+
 /**
- * Class RSD_WP
+ * Plugin main class.
  *
  * @package RSD_WP
  * @since   1.0.0
  */
-class RSD_WP {
-
-	// TODO: Add the following features:
-	// - (optional) show more button (using infinite scroll and AJAX loading of more results).
-
-	const API_URL = 'https://research-software-directory.org/api/v1/';
+class Plugin {
 
 	/**
 	 * The section to display.
@@ -55,12 +54,19 @@ class RSD_WP {
 	public static $limit = 10;
 
 	/**
+	 * Constructor.
+	 */
+	public function __construct() {
+		//new Api();
+	}
+
+	/**
 	 * Initializes the plugin.
 	 */
 	public static function init() {
 		if ( ! shortcode_exists( 'research_software_directory_table' ) ) {
 			// Add shortcode to display the table.
-			add_shortcode( 'research_software_directory_table', array( 'RSD_WP', 'display_all' ) );
+			add_shortcode( 'research_software_directory_table', array( 'RSD\\Plugin', 'display_all' ) );
 		}
 	}
 
@@ -76,27 +82,6 @@ class RSD_WP {
 	 */
 	public static function plugin_deactivation() {
 		// Do nothing (yet).
-	}
-
-	/**
-	 * Calls the API and return the data.
-	 *
-	 * @param string $command The API command fragment of the API URL.
-	 * @return array|string
-	 */
-	public static function call_api( string $command ) {
-		// Call the API.
-		$url = sprintf( self::API_URL . '%s', $command );
-		$response = wp_remote_get( $url );
-
-		if ( is_wp_error( $response ) ) {
-			return 'Error: ' . $response->get_error_message();
-		}
-
-		// Decode the API response.
-		$data = json_decode( wp_remote_retrieve_body( $response ), true );
-
-		return $data;
 	}
 
 	/**
@@ -125,7 +110,7 @@ class RSD_WP {
 		$limit           = (int) $atts['limit'];
 
 		// Call the API.
-		$data = self::call_api(
+		$data = Api::get_response(
 			sprintf( 'software_for_organisation?select=*,software!left(*)&organisation=eq.%s&limit=%s', $organization_id, $limit )
 		);
 
