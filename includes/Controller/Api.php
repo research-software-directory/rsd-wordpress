@@ -29,7 +29,7 @@ class Api {
 	 * @access private
 	 * @var string
 	 */
-	static private $endpoint = 'https://research-software-directory.org/api';
+	private static $endpoint = 'https://research-software-directory.org/api';
 
 	/**
 	 * The API version.
@@ -38,7 +38,7 @@ class Api {
 	 * @access private
 	 * @var string
 	 */
-	static private $version = 'v1';
+	private static $version = 'v1';
 
 	/**
 	 * Constructor.
@@ -46,7 +46,7 @@ class Api {
 	 * @since 1.0.0
 	 * @access public
 	 */
-	public function __construct() {
+	private function __construct() {
 	}
 
 	/**
@@ -56,7 +56,7 @@ class Api {
 	 * @access public
 	 * @return string
 	 */
-	public function get_endpoint() {
+	public static function get_endpoint() {
 		return self::$endpoint;
 	}
 
@@ -67,7 +67,7 @@ class Api {
 	 * @access public
 	 * @return string
 	 */
-	static public function get_version() {
+	public static function get_version() {
 
 		return self::$version;
 	}
@@ -80,7 +80,7 @@ class Api {
 	 * @param string $path The path.
 	 * @return string
 	 */
-	static public function get_url( $path ) {
+	public static function get_url( $path ) {
 		return self::$endpoint . '/' . self::$version . '/' . $path;
 	}
 
@@ -93,7 +93,7 @@ class Api {
 	 * @param array  $args The arguments.
 	 * @return array
 	 */
-	static public function get_response( $path, $args = array() ) {
+	public static function get_response( $path, $args = array() ) {
 		// Call the API
 		$url = self::get_url( $path );
 		$response = wp_remote_get( $url, $args );
