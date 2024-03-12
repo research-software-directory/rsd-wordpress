@@ -1,5 +1,5 @@
 <?php
-/*
+/**
  * Research Software Directory
  *
  * @package     RSD
@@ -17,18 +17,21 @@
  * License URI: https://www.apache.org/licenses/LICENSE-2.0
  */
 
-// Exit if accessed directly
+// Exit if accessed directly.
 if ( ! defined( 'ABSPATH' ) ) {
-    exit;
+	exit;
 }
 
-// If the plugin was already loaded, do not load again
+// If the plugin was already loaded, do not load again.
 if ( defined( 'RSD_WP_LOADED' ) ) {
 	return;
 }
 
 define( 'RSD_WP_LOADED', true );
 define( 'RSD_WP__PLUGIN_DIR', plugin_dir_path( __FILE__ ) );
+
+register_activation_hook( __FILE__, array( 'RSD_WP', 'plugin_activation' ) );
+register_deactivation_hook( __FILE__, array( 'RSD_WP', 'plugin_deactivation' ) );
 
 require_once RSD_WP__PLUGIN_DIR . 'includes/class-rsd-wp.php';
 
