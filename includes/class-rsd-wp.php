@@ -1,91 +1,370 @@
 <?php
+/**
+ * Research Software Directory
+ *
+ * @package   RSD_WP
+ * @version   1.0.0
+ * @link      https://research-software-directory.org
+ * @since     1.0.0
+ */
 
+defined( 'ABSPATH' ) || exit;
+
+/**
+ * Class RSD_WP
+ *
+ * @package RSD_WP
+ * @since   1.0.0
+ */
 class RSD_WP {
+
+	// TODO: Add the following features:
+	// - (optional) show more button (using infinite scroll and AJAX loading of more results).
+
+	const API_URL = 'https://research-software-directory.org/api/v1/';
+
+	/**
+	 * The section to display.
+	 *
+	 * @var string
+	 */
+	public static $section = 'software';
+	/**
+	 * The search term.
+	 *
+	 * @var string
+	 */
+	public static $search = '';
+	/**
+	 * The filter.
+	 *
+	 * @var string
+	 */
+	public static $orderby = 'impact';
+	/**
+	 * The order.
+	 *
+	 * @var string
+	 */
+	public static $order = 'desc';
+	/**
+	 * The limit.
+	 *
+	 * @var int
+	 */
+	public static $limit = 10;
+
+	/**
+	 * Initializes the plugin.
+	 */
 	public static function init() {
 		if ( ! shortcode_exists( 'research_software_directory_table' ) ) {
-			// Add shortcode to display the table
-			add_shortcode( 'research_software_directory_table', array( 'RSD_WP', 'display_table' ) );
+			// Add shortcode to display the table.
+			add_shortcode( 'research_software_directory_table', array( 'RSD_WP', 'display_all' ) );
 		}
 	}
 
 	/**
-	 * Easiest way to render the table.
+	 * Plugin activation hook.
 	 */
-	public static function display_table( $atts ) {
+	public static function plugin_activation() {
+		// Do nothing (yet).
+	}
+
+	/**
+	 * Plugin deactivation hook.
+	 */
+	public static function plugin_deactivation() {
+		// Do nothing (yet).
+	}
+
+	/**
+	 * Calls the API and return the data.
+	 *
+	 * @param string $command The API command fragment of the API URL.
+	 * @return array|string
+	 */
+	public static function call_api( string $command ) {
+		// Call the API.
+		$url = sprintf( self::API_URL . '%s', $command );
+		$response = wp_remote_get( $url );
+
+		if ( is_wp_error( $response ) ) {
+			return 'Error: ' . $response->get_error_message();
+		}
+
+		// Decode the API response.
+		$data = json_decode( wp_remote_retrieve_body( $response ), true );
+
+		return $data;
+	}
+
+	/**
+	 * Renders all components: search bar, results settings, filter sidebar and results.
+	 *
+	 * @param array $atts The shortcode attributes.
+	 * @return string
+	 */
+	public static function display_all( $atts ) {
 		if ( is_admin() ) {
 			return;
 		}
 
-		// Set default attributes
-		$atts = shortcode_atts( array(
-			'organization-id' => '35c17f17-6b5f-4385-aa8b-6b1d33a10157',
-			'limit' => 10,
-		), $atts, 'research_software_directory_table' );
+		// Set default attributes.
+		$atts = shortcode_atts(
+			array(
+				'organization-id' => '35c17f17-6b5f-4385-aa8b-6b1d33a10157',
+				'limit'           => 10,
+			),
+			$atts,
+			'research_software_directory_table'
+		);
 
-		// Process attributes
+		// Process attributes.
 		$organization_id = $atts['organization-id'];
-		$limit = intval( $atts['limit'] );
+		$limit           = (int) $atts['limit'];
 
-		// Call the API
-		$url = sprintf( 'https://research-software-directory.org/api/v1/software_for_organisation?select=*,software!left(*)&organisation=eq.%s&limit=%s', $organization_id, $limit );
-		$response = wp_remote_get( $url );
+		// Call the API.
+		$data = self::call_api(
+			sprintf( 'software_for_organisation?select=*,software!left(*)&organisation=eq.%s&limit=%s', $organization_id, $limit )
+		);
 
-		// Check for error
-		if ( is_wp_error( $response ) ) {
-			echo 'Error: ' . $response->get_error_message();
-			return;
-		}
+		// Render the RSD components.
+		ob_start();
+		?>
+		<div class="rsd">
+			<?php echo self::display_search_bar(); ?>
+			<?php echo self::display_filter_sidebar(); ?>
+			<?php
+			if ( ! $data ) {
+				echo 'No data returned from API';
+			} else {
+				echo self::display_results( $data );
+			}
+			?>
+		</div>
+		<?php
 
-		// Decode the API response
-		$data = json_decode( wp_remote_retrieve_body( $response ), true );
-
-		// Check if data is returned
-		if ( ! $data ) {
-			echo 'No data returned from API';
-			return;
-		}
-
-		// Start building the table
-		$table = '<table>';
-		$table .= '<thead>';
-		$table .= '<tr>';
-		$table .= '<th>Software Name</th>';
-		$table .= '<th>Description</th>';
-		$table .= '<th>is_published</th>';
-		$table .= '</tr>';
-		$table .= '</thead>';
-		$table .= '<tbody>';
-
-		// Loop through the data and add each item to the table
-		foreach ( $data as $item ) {
-			$table .= '<tr>';
-			$table .= '<td><a href="https://research-software-directory.org/software/' . $item['software']['slug'] . '" target="_blank">' . $item['software']['brand_name'] . '</a></td>';
-			$table .= '<td>Desc ' . $item['software']['description'] . '</td>';
-			$table .= '<td><a href="' . $item['software']['is_published'] . '">' . $item['software']['is_published'] . '</a></td>';
-			$table .= '</tr>';
-		}
-
-		// Close the table
-		$table .= '</tbody>';
-		$table .= '</table>';
-
-		// Output the table
-		echo $table;
-
-		// Start building HTML output
-		$output = '<div class="software-grid">';
-
-		$output .= '<h2>Software</h2>';
-		// Loop through each item in the data and display a card
-		foreach ( $data as $item ) {
-			$output .= '<div class="software-card">';
-			$output .= '<h3>' . $item['brand_name'] . '</h3>';
-			$output .= '</div>';
-		}
-
-		$output .= '</div>';
-
-		return $output;
+		return ob_get_clean();
 	}
 
+	/**
+	 * Renders the search bar.
+	 */
+	public static function display_search_bar() {
+		ob_start();
+		?>
+			<div class="rsd-search-bar">
+				<form action="" method="get">
+					<input type="text" name="rsd-search" id="rsd-search" placeholder="<?php esc_html_e( 'Search software', 'rsd-wordpress' ); ?>">
+					<input type="submit" value="Search">
+				</form>
+				<?php echo self::display_results_settings(); ?>
+			</div>
+		<?php
+
+		return ob_get_clean();
+	}
+
+	/**
+	 * Renders the results settings.
+	 */
+	public static function display_results_settings() {
+		ob_start();
+		?>
+			<div class="rsd-results-settings">
+				<form action="" method="get">
+					<label for="rsd-view"><?php esc_html_e( 'View:', 'rsd-wordpress' ); ?></label>
+					<select name="rsd-view" id="rsd-view">
+						<option value="card"><?php esc_html_e( 'Card', 'rsd-wordpress' ); ?></option>
+						<option value="row"><?php esc_html_e( 'Row', 'rsd-wordpress' ); ?></option>
+					</select>
+					<label for="rsd-limit"><?php esc_html_e( 'Limit:', 'rsd-wordpress' ); ?></label>
+					<select name="rsd-limit" id="rsd-limit">
+						<option value="10">10</option>
+						<option value="20">20</option>
+						<option value="50">50</option>
+						<option value="100">100</option>
+					</select>
+				</form>
+			</div>
+		<?php
+
+		return ob_get_clean();
+	}
+
+	/**
+	 * Renders the filter sidebar.
+	 */
+	public static function display_filter_sidebar() {
+		ob_start();
+		?>
+			<div class="rsd-filter-sidebar">
+				<form action="" method="get">
+					<?php
+					if ( 'software' === self::$section ) {
+						echo self::display_software_filter();
+					} else {
+						echo self::display_project_filter();
+					}
+					?>
+				</form>
+			</div>
+		<?php
+
+		return ob_get_clean();
+	}
+
+	/**
+	 * Renders the software filter.
+	 */
+	public static function display_software_filter() {
+		// TODO: get the keywords and licenses from the API.
+		ob_start();
+		?>
+			<div class="software-filter">
+				<h2 class="show-for-sr"><?php esc_html_e( 'Filter', 'rsd-wordpress' ); ?></h2>
+				<h3><label for="rsd-keywords"><?php esc_html_e( 'Keywords', 'rsd-wordpress' ); ?></label></h3>
+				<select name="rsd-keywords" id="rsd-keywords">
+					<option value="1">Keyword 1</option>
+					<option value="2">Keyword 2</option>
+					<option value="3">Keyword 3</option>
+				</select>
+				<h3><label for="rsd-license"><?php esc_html_e( 'License', 'rsd-wordpress' ); ?></label></h3>
+				<select name="rsd-license" id="rsd-license">
+					<option value="1">License 1</option>
+					<option value="2">License 2</option>
+					<option value="3">License 3</option>
+				</select>
+			</div>
+		<?php
+
+		return ob_get_clean();
+	}
+
+	/**
+	 * Renders the project filter.
+	 */
+	public static function display_project_filter() {
+		// TODO: get the keywords, research domains and partners from the API.
+		ob_start();
+		?>
+			<div class="project-filter">
+				<h2 class="show-for-sr"><?php esc_html_e( 'Filter', 'rsd-wordpress' ); ?></h2>
+				<div class="project-filter-status">
+					<h3><?php esc_html_e( 'Project status', 'rsd-wordpress' ); ?></h3>
+					<label for="rsd-status-1"><input type="checkbox" name="rsd-status[]" id="rsd-status-1" value="1"> <?php esc_html_e( 'Finished', 'rsd-wordpress' ); ?></label>
+					<label for="rsd-status-2"><input type="checkbox" name="rsd-status[]" id="rsd-status-2" value="2"> <?php esc_html_e( 'In progress', 'rsd-wordpress' ); ?></label>
+					<label for="rsd-status-3"><input type="checkbox" name="rsd-status[]" id="rsd-status-3" value="3"> <?php esc_html_e( 'Upcoming', 'rsd-wordpress' ); ?></label>
+				</div>
+				<div class="project-filter-keywords">
+					<h3><label for="rsd-keywords"><?php esc_html_e( 'Keywords', 'rsd-wordpress' ); ?></label></h3>
+					<select name="rsd-keywords" id="rsd-keywords">
+						<option value="" class="placeholder"><?php _e( 'Filter by keywords', 'rsd-wordpress' ); ?></option>
+						<option value="1">Keyword 1</option>
+						<option value="2">Keyword 2</option>
+						<option value="3">Keyword 3</option>
+					</select>
+				</div>
+				<div class="project-filter-researchdomain">
+					<h3><label for="rsd-researchdomain"><?php esc_html_e( 'Research domain', 'rsd-wordpress' ); ?></label></h3>
+					<div class="project-filter-researchdomain">
+						<h3><label for="rsd-researchdomain"><?php esc_html_e( 'Research domain', 'rsd-wordpress' ); ?></label></h3>
+						<label for="rsd-researchdomain-1"><input type="checkbox" name="rsd-researchdomain[]" id="rsd-researchdomain-1" value="1"> <?php esc_html_e( 'Environment and Sustainability', 'rsd-wordpress' ); ?></label>
+						<label for="rsd-researchdomain-2"><input type="checkbox" name="rsd-researchdomain[]" id="rsd-researchdomain-2" value="2"> <?php esc_html_e( 'Life Sciences', 'rsd-wordpress' ); ?></label>
+						<label for="rsd-researchdomain-3"><input type="checkbox" name="rsd-researchdomain[]" id="rsd-researchdomain-3" value="3"> <?php esc_html_e( 'Natural Sciences & Engineering', 'rsd-wordpress' ); ?></label>
+						<label for="rsd-researchdomain-4"><input type="checkbox" name="rsd-researchdomain[]" id="rsd-researchdomain-4" value="4"> <?php esc_html_e( 'Social Sciences & Humanities', 'rsd-wordpress' ); ?></label>
+					</div>
+				</div>
+				<div class="project-filter-partners">
+					<h3><label for="rsd-partners"><?php esc_html_e( 'Partners', 'rsd-wordpress' ); ?></label></h3>
+					<select name="rsd-partners" id="rsd-partners">
+						<option value="" class="placeholder"><?php _e( 'Filter by participating organisations', 'rsd-wordpress' ); ?></option>
+						<option value="1">Partner 1</option>
+						<option value="2">Partner 2</option>
+						<option value="3">Partner 3</option>
+					</select>
+				</div>
+			</div>
+		<?php
+
+		return ob_get_clean();
+	}
+
+	/**
+	 * Renders the results in row or card view.
+	 *
+	 * @param array $items The items to display.
+	 */
+	public static function display_results( $items ) {
+		ob_start();
+
+		?>
+		<div class="rsd-results">
+			<h2 class="show-for-sr"><?php esc_html_e( 'Results', 'rsd-wordpress' ); ?></h2>
+			<div class="rsd-results-stats">
+				<h3 class="rsd-results-count">
+					<?php printf( esc_html__( '%s items found', 'rsd-wordpress' ), count( $items ) ); ?>
+				</h3>
+				<button class="button rsd-results-clear-filters"><?php esc_html_e( 'Clear filters', 'rsd-wordpress' ); ?></button>
+				<div class="rsd-results-sort">
+					<label for="rsd-sortby"><?php esc_html_e( 'Sort by', 'rsd-wordpress' ); ?></label>
+					<select name="rsd-sortby" id="rsd-sortby">
+						<option value="impact"><?php esc_html_e( 'Impact', 'rsd-wordpress' ); ?></option>
+						<option value="name"><?php esc_html_e( 'Name', 'rsd-wordpress' ); ?></option>
+						<option value="date_added"><?php esc_html_e( 'Date added', 'rsd-wordpress' ); ?></option>
+						<option value="contributors"><?php esc_html_e( 'Number of contributors', 'rsd-wordpress' ); ?></option>
+						<option value="mentions"><?php esc_html_e( 'Number of mentions', 'rsd-wordpress' ); ?></option>
+					</select>
+				</div>
+			</div>
+			<div class="rsd-results-items">
+			<?php
+			// Loop through the data and add each item as a card div.
+			foreach ( $items as $item ) {
+				?>
+				<div class="rsd-results-item card">
+					<div class="card-section">
+						<h3><a href="<?php printf( 'https://research-software-directory.org/software/%s', esc_attr( $item['software']['slug'] ) ); ?>" target="_blank" rel="external"><?php echo esc_html( $item['software']['brand_name'] ); ?></a></h3>
+						<p><?php echo esc_html( mb_strimwidth( $item['software']['description'], 0, 100, '...' ) ); ?></p>
+					</div>
+					<div class="card-footer">
+						<div class="rsd-results-item-specs">
+							<ul class="rsd-results-item-labels">
+							<?php foreach ( $item['software']['labels'] as $label ) : ?>
+								<li class="rsd-results-item-label"><?php echo esc_html( $label ); ?></li>
+							<?php endforeach; ?>
+							</ul>
+						</div>
+						<div class="rsd-results-item-props">
+							<?php if ( 'software' === self::$section ) : ?>
+								<div class="rsd-results-item-contributors">
+									<?php esc_html_e( 'Contributors:', 'rsd-wordpress' ); ?> <?php echo esc_html( $item['software']['contributors'] ); ?>
+								</div>
+								<div class="rsd-results-item-mentions">
+									<?php esc_html_e( 'Mentions:', 'rsd-wordpress' ); ?> <?php echo esc_html( $item['software']['mentions'] ); ?>
+								</div>
+							<?php elseif ( 'projects' === self::$section ) : ?>
+								<div class="rsd-results-item-progress">
+									<?php esc_html_e( 'Progress:', 'rsd-wordpress' ); ?> <?php echo esc_html( $item['project']['progress'] ); ?>
+								</div>
+								<div class="rsd-results-item-mentions">
+									<?php esc_html_e( 'Mentions:', 'rsd-wordpress' ); ?> <?php echo esc_html( $item['project']['mentions'] ); ?>
+								</div>
+							<?php endif; ?>
+						</div>
+					</div>
+				</div>
+				<?php
+			}
+			?>
+			</div>
+			<div class="rsd-results-show-more">
+				<a role="" class="button rsd-results-show-more-button" href="#more"><?php esc_html_e( 'Show more', 'rsd-wordpress' ); ?></a>
+			</div>
+		</div>
+		<?php
+
+		return ob_get_clean();
+	}
 }
