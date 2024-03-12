@@ -35,6 +35,6 @@ define( 'RSD_WP__PLUGIN_DIR', plugin_dir_path( __FILE__ ) );
 register_activation_hook( __FILE__, array( 'RSD\\Plugin', 'plugin_activation' ) );
 register_deactivation_hook( __FILE__, array( 'RSD\\Plugin', 'plugin_deactivation' ) );
 
-require_once RSD_WP__PLUGIN_DIR . 'includes/Plugin.php';
+require_once RSD_WP__PLUGIN_DIR . 'includes/class-plugin.php';
 
 add_action( 'init', array( 'RSD\\Plugin', 'init' ) );
