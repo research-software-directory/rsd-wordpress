@@ -2,7 +2,7 @@
 /**
  * Research Software Directory
  *
- * @package     RSD
+ * @package     RSD_WP
  * @author      Netherlands eScience Center
  *
  * @wordpress-plugin
@@ -17,6 +17,8 @@
  * License URI: https://www.apache.org/licenses/LICENSE-2.0
  */
 
+namespace RSD;
+
 // Exit if accessed directly.
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
@@ -30,9 +32,9 @@ if ( defined( 'RSD_WP_LOADED' ) ) {
 define( 'RSD_WP_LOADED', true );
 define( 'RSD_WP__PLUGIN_DIR', plugin_dir_path( __FILE__ ) );
 
-register_activation_hook( __FILE__, array( 'RSD_WP', 'plugin_activation' ) );
-register_deactivation_hook( __FILE__, array( 'RSD_WP', 'plugin_deactivation' ) );
+register_activation_hook( __FILE__, array( 'RSD\\Plugin', 'plugin_activation' ) );
+register_deactivation_hook( __FILE__, array( 'RSD\\Plugin', 'plugin_deactivation' ) );
 
-require_once RSD_WP__PLUGIN_DIR . 'includes/class-rsd-wp.php';
+require_once RSD_WP__PLUGIN_DIR . 'includes/Plugin.php';
 
-add_action( 'init', array( 'RSD_WP', 'init' ) );
+add_action( 'init', array( 'RSD\\Plugin', 'init' ) );
