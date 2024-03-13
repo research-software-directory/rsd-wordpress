@@ -18,3 +18,7 @@ First make sure your WordPress installation is functional, then move the plugin 
 ### Editor configuration
 
 This project uses [EditorConfig](https://editorconfig.org/) to maintain a consistent coding style. Please make sure your editor applies this configuration to any of your code changes for this repo.
+
+### WordPress Coding Standards
+
+To ensure code quality and adherence to coding conventions, before committing any changes to the code of this project, please use `phpcs` (see [WordPress Coding Standards for PHP_CodeSniffer](https://github.com/WordPress/WordPress-Coding-Standards)) with the bundle PHP_CS configuration file.
