@@ -70,6 +70,23 @@ class Api {
 	}
 
 	/**
+	 * Build the API path.
+	 *
+	 * @since 1.1.0
+	 * @access public
+	 * @param string $endpoint The endpoint.
+	 * @param array  $params The query parameters.
+	 * @return string
+	 */
+	public static function build_path( $endpoint, $params = array() ) {
+		if ( ! empty( $params ) && is_array( $params ) ) {
+			return sprintf( $endpoint . '?%s', http_build_query( $params ) );
+		} else {
+			return $endpoint;
+		}
+	}
+
+	/**
 	 * Get the API URL.
 	 *
 	 * @since 1.0.0

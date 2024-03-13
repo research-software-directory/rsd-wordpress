@@ -175,7 +175,12 @@ class Plugin {
 		self::set_limit( sanitize_text_field( $atts['limit'] ) );
 
 		// Call the API.
-		$path = sprintf( 'software_for_organisation?select=*,%s!left(*)&organisation=eq.%s&limit=%s', self::get_section(), self::get_organization_id(), self::get_limit() );
+		$params = array(
+			'select'       => sprintf( '*,%s!left(*)', self::get_section() ),
+			'organisation' => 'eq.' . self::get_organization_id(),
+			'limit'        => self::get_limit(),
+		);
+		$path = Api::build_path( 'software_for_organisation', $params );
 		$data = Api::get_response( $path );
 
 		// Display all components.
