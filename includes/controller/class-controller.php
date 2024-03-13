@@ -201,13 +201,13 @@ class Controller {
 			'limit'        => self::get_limit(),
 		);
 
-		if ( 'software' === $args['section'] ) {
-			$endpoint = 'software_for_organisation';
-		} elseif ( 'projects' === $args['section'] ) {
-			$endpoint = 'projects_for_organisation';
+		if ( 'projects' === $args['section'] ) {
+			$path_start = 'projects_for_organisation';
+		} else {
+			$path_start = 'software_for_organisation';
 		}
 
-		$path = Api::build_path( $endpoint, $params );
+		$path = Api::build_path( $path_start, $params );
 		$data = Api::get_response( $path );
 
 		// Process data.
