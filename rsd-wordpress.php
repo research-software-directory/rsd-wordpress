@@ -32,8 +32,8 @@ if ( defined( 'RSD_WP_LOADED' ) ) {
 define( 'RSD_WP_LOADED', true );
 define( 'RSD_WP__PLUGIN_DIR', plugin_dir_path( __FILE__ ) );
 
-register_activation_hook( __FILE__, array( __NAMESPACE__ . '\Plugin', 'plugin_activation' ) );
-register_deactivation_hook( __FILE__, array( __NAMESPACE__ . '\Plugin', 'plugin_deactivation' ) );
+register_activation_hook( __FILE__, array( __NAMESPACE__ . '\Plugin', 'activate' ) );
+register_deactivation_hook( __FILE__, array( __NAMESPACE__ . '\Plugin', 'deactivate' ) );
 
 require_once RSD_WP__PLUGIN_DIR . 'includes/class-plugin.php';
 

@@ -81,14 +81,14 @@ class Plugin {
 	/**
 	 * Plugin activation hook.
 	 */
-	public static function plugin_activation() {
+	public static function activate() {
 		// Do nothing (yet).
 	}
 
 	/**
 	 * Plugin deactivation hook.
 	 */
-	public static function plugin_deactivation() {
+	public static function deactivate() {
 		// Do nothing (yet).
 	}
 
