@@ -56,7 +56,7 @@ class Plugin {
 	/**
 	 * Constructor.
 	 */
-	public function __construct() {
+	private function __construct() {
 		// Do nothing (yet).
 	}
 
