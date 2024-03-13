@@ -1,5 +1,9 @@
 *** Changelog ***
 
+= 1.1.0 - 2024-03-13 =
+
+* Refactor - Clean up according to WordPress Coding Standards and plugin best practices, also removing non-essential code.
+
 = 1.0.0 - 2023-03-15 =
 
 * Add research units filters and reset filters, search filter and paginations
