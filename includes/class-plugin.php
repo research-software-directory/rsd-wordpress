@@ -3,7 +3,6 @@
  * Research Software Directory
  *
  * @package   RSD_WP
- * @version   0.0.1
  * @link      https://research-software-directory.org
  * @since     0.0.1
  */
