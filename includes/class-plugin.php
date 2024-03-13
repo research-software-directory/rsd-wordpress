@@ -9,6 +9,7 @@
 
 namespace RSD;
 
+// Exit if accessed directly.
 defined( 'ABSPATH' ) || exit;
 
 require 'class-api.php';
