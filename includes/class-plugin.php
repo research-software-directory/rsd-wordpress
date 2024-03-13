@@ -170,9 +170,9 @@ class Plugin {
 		);
 
 		// Process attributes.
-		self::set_section( $atts['section'] );
-		self::set_organization_id( $atts['organization-id'] );
-		self::set_limit( $atts['limit'] );
+		self::set_section( sanitize_text_field( $atts['section'] ) );
+		self::set_organization_id( sanitize_text_field( $atts['organization-id'] ) );
+		self::set_limit( sanitize_text_field( $atts['limit'] ) );
 
 		// Call the API.
 		$path = sprintf( 'software_for_organisation?select=*,%s!left(*)&organisation=eq.%s&limit=%s', self::get_section(), self::get_organization_id(), self::get_limit() );
