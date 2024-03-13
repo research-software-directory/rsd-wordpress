@@ -64,7 +64,7 @@ class Display {
 	public static function display_search_bar() {
 		ob_start();
 
-		$btn_placeholder = 'software' === Plugin::get_section() ? __( 'Search software', 'rsd-wordpress' ) : __( 'Search projects', 'rsd-wordpress' );
+		$btn_placeholder = 'software' === Controller::get_section() ? __( 'Search software', 'rsd-wordpress' ) : __( 'Search projects', 'rsd-wordpress' );
 		?>
 			<div class="rsd-search-bar">
 				<form action="" method="get">
@@ -117,7 +117,7 @@ class Display {
 			<div class="rsd-filter-sidebar">
 				<form action="" method="get">
 					<?php
-					if ( 'software' === Plugin::get_section() ) {
+					if ( 'software' === Controller::get_section() ) {
 						// phpcs:ignore
 						echo self::display_software_filter();
 					} else {
@@ -259,14 +259,14 @@ class Display {
 							</ul>
 						</div>
 						<div class="rsd-results-item-props">
-							<?php if ( 'software' === Plugin::get_section() ) : ?>
+							<?php if ( 'software' === Controller::get_section() ) : ?>
 								<div class="rsd-results-item-contributors">
 									<?php esc_html_e( 'Contributors:', 'rsd-wordpress' ); ?> <?php echo esc_html( $item['software']['contributors'] ); ?>
 								</div>
 								<div class="rsd-results-item-mentions">
 									<?php esc_html_e( 'Mentions:', 'rsd-wordpress' ); ?> <?php echo esc_html( $item['software']['mentions'] ); ?>
 								</div>
-							<?php elseif ( 'projects' === Plugin::get_section() ) : ?>
+							<?php elseif ( 'projects' === Controller::get_section() ) : ?>
 								<div class="rsd-results-item-progress">
 									<?php esc_html_e( 'Progress:', 'rsd-wordpress' ); ?> <?php echo esc_html( $item['project']['progress'] ); ?>
 								</div>

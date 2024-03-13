@@ -13,7 +13,8 @@ namespace RSD;
 defined( 'ABSPATH' ) || exit;
 
 // Load plugin components.
-require 'class-api.php';
+require 'controller/class-api.php';
+require 'controller/class-controller.php';
 require 'public/class-display.php';
 
 /**
@@ -23,43 +24,6 @@ require 'public/class-display.php';
  * @since   0.0.1
  */
 class Plugin {
-
-	/**
-	 * The section to display.
-	 *
-	 * @var string
-	 */
-	public static $section = 'software';
-	/**
-	 * The organization ID.
-	 *
-	 * @var string
-	 */
-	public static $organization_id = '35c17f17-6b5f-4385-aa8b-6b1d33a10157';
-	/**
-	 * The search term.
-	 *
-	 * @var string
-	 */
-	public static $search = '';
-	/**
-	 * The filter.
-	 *
-	 * @var string
-	 */
-	public static $orderby = 'impact';
-	/**
-	 * The order.
-	 *
-	 * @var string
-	 */
-	public static $order = 'desc';
-	/**
-	 * The limit.
-	 *
-	 * @var int
-	 */
-	public static $limit = 10;
 
 	/**
 	 * Constructor.
@@ -93,60 +57,6 @@ class Plugin {
 	}
 
 	/**
-	 * Set the section to display.
-	 *
-	 * @param string $section The section to display.
-	 */
-	public static function set_section( $section ) {
-		self::$section = $section;
-	}
-
-	/**
-	 * Get the section to display.
-	 *
-	 * @return string
-	 */
-	public static function get_section() {
-		return self::$section;
-	}
-
-	/**
-	 * Set the organization ID.
-	 *
-	 * @param string $organization_id The organization ID.
-	 */
-	public static function set_organization_id( $organization_id ) {
-		self::$organization_id = $organization_id;
-	}
-
-	/**
-	 * Get the organization ID.
-	 *
-	 * @return string
-	 */
-	public static function get_organization_id() {
-		return self::$organization_id;
-	}
-
-	/**
-	 * Set the limit.
-	 *
-	 * @param int $limit The limit.
-	 */
-	public static function set_limit( $limit ) {
-		self::$limit = (int) $limit;
-	}
-
-	/**
-	 * Get the limit.
-	 *
-	 * @return int
-	 */
-	public static function get_limit() {
-		return self::$limit;
-	}
-
-	/**
 	 * Process shortcode.
 	 *
 	 * @param array $atts Shortcode attributes.
@@ -161,30 +71,23 @@ class Plugin {
 		// Merge default attributes with attributes used in shortcode.
 		$atts = shortcode_atts(
 			array(
-				'section'         => self::get_section(),
-				'organization-id' => self::get_organization_id(),
-				'limit'           => self::get_limit(),
+				'section'         => Controller::get_section(),
+				'organization-id' => Controller::get_organization_id(),
+				'limit'           => Controller::get_limit(),
 			),
 			$atts,
 			'research_software_directory_table'
 		);
 
 		// Process attributes.
-		self::set_section( sanitize_text_field( $atts['section'] ) );
-		self::set_organization_id( sanitize_text_field( $atts['organization-id'] ) );
-		self::set_limit( sanitize_text_field( $atts['limit'] ) );
+		Controller::set_section( sanitize_text_field( $atts['section'] ) );
+		Controller::set_organization_id( sanitize_text_field( $atts['organization-id'] ) );
+		Controller::set_limit( sanitize_text_field( $atts['limit'] ) );
 
-		// Call the API.
-		$params = array(
-			'select'       => sprintf( '*,%s!left(*)', self::get_section() ),
-			'organisation' => 'eq.' . self::get_organization_id(),
-			'limit'        => self::get_limit(),
-		);
-		$path = Api::build_path( 'software_for_organisation', $params );
-		$data = Api::get_response( $path );
+		// Get items from the API.
+		$items = Controller::get_items( Controller::get_section() );
 
 		// Display all components.
-		// phpcs:ignore
-		return Display::display_all( $data );
+		return Display::display_all( $items );
 	}
 }
