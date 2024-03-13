@@ -1,6 +1,6 @@
 <?php
 /**
- * Research Software Directory
+ * Research Software Directory - Controller API
  *
  * @package     RSD_WP
  * @category    API
