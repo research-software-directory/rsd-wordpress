@@ -66,7 +66,7 @@ class Plugin {
 	public static function init() {
 		if ( ! shortcode_exists( 'research_software_directory_table' ) ) {
 			// Add shortcode to display the table.
-			add_shortcode( 'research_software_directory_table', array( 'RSD\\Plugin', 'display_all' ) );
+			add_shortcode( 'research_software_directory_table', array( __NAMESPACE__ . '\Plugin', 'process_shortcode' ) );
 		}
 	}
 
