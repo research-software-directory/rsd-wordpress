@@ -29,6 +29,12 @@ class Plugin {
 	 */
 	public static $section = 'software';
 	/**
+	 * The organization ID.
+	 *
+	 * @var string
+	 */
+	public static $organization_id = '35c17f17-6b5f-4385-aa8b-6b1d33a10157';
+	/**
 	 * The search term.
 	 *
 	 * @var string
@@ -85,139 +91,90 @@ class Plugin {
 	}
 
 	/**
-	 * Renders all components: search bar, results settings, filter sidebar and results.
+	 * Set the section to display.
 	 *
-	 * @param array $atts The shortcode attributes.
+	 * @param string $section The section to display.
+	 */
+	public static function set_section( $section ) {
+		self::$section = $section;
+	}
+
+	/**
+	 * Get the section to display.
+	 *
 	 * @return string
 	 */
-	public static function display_all( $atts ) {
+	public static function get_section() {
+		return self::$section;
+	}
+
+	/**
+	 * Set the organization ID.
+	 *
+	 * @param string $organization_id The organization ID.
+	 */
+	public static function set_organization_id( $organization_id ) {
+		self::$organization_id = $organization_id;
+	}
+
+	/**
+	 * Get the organization ID.
+	 *
+	 * @return string
+	 */
+	public static function get_organization_id() {
+		return self::$organization_id;
+	}
+
+	/**
+	 * Set the limit.
+	 *
+	 * @param int $limit The limit.
+	 */
+	public static function set_limit( $limit ) {
+		self::$limit = (int) $limit;
+	}
+
+	/**
+	 * Get the limit.
+	 *
+	 * @return int
+	 */
+	public static function get_limit() {
+		return self::$limit;
+	}
+
+	/**
+	 * Process shortcode.
+	 *
+	 * @param array $atts Shortcode attributes.
+	 *
+	 * @return string
+	 */
+	public static function process_shortcode( $atts ) {
 		if ( is_admin() ) {
 			return;
 		}
 
-		// Set default attributes.
+		// Merge default attributes with attributes used in shortcode.
 		$atts = shortcode_atts(
 			array(
-				'organization-id' => '35c17f17-6b5f-4385-aa8b-6b1d33a10157',
-				'limit'           => 10,
+				'section'         => self::get_section(),
+				'organization-id' => self::get_organization_id(),
+				'limit'           => self::get_limit(),
 			),
 			$atts,
 			'research_software_directory_table'
 		);
 
 		// Process attributes.
-		$organization_id = $atts['organization-id'];
-		$limit           = (int) $atts['limit'];
+		self::set_section( $atts['section'] );
+		self::set_organization_id( $atts['organization-id'] );
+		self::set_limit( $atts['limit'] );
 
 		// Call the API.
-		$data = Api::get_response(
-			sprintf( 'software_for_organisation?select=*,software!left(*)&organisation=eq.%s&limit=%s', $organization_id, $limit )
-		);
-
-		// Render the RSD components.
-		ob_start();
-		?>
-		<div class="rsd">
-			<?php
-			// phpcs:ignore
-			echo self::display_search_bar();
-			?>
-			<?php
-			// phpcs:ignore
-			echo self::display_filter_sidebar();
-			?>
-			<?php
-			if ( ! $data ) {
-				echo 'No data returned from API';
-			} else {
-				// phpcs:ignore
-				echo self::display_results( $data );
-			}
-			?>
-		</div>
-		<?php
-
-		return ob_get_clean();
-	}
-
-	/**
-	 * Renders the search bar.
-	 */
-	public static function display_search_bar() {
-		ob_start();
-
-		$btn_placeholder = 'software' === self::$section ? __( 'Search software', 'rsd-wordpress' ) : __( 'Search projects', 'rsd-wordpress' );
-		?>
-			<div class="rsd-search-bar">
-				<form action="" method="get">
-					<input type="text" name="q" id="rsd-search" placeholder="<?php echo esc_html( $btn_placeholder ); ?>">
-					<input type="submit" value="<?php esc_html_e( 'Search', 'rsd-wordpress' ); ?>">
-				</form>
-				<?php
-				// phpcs:ignore
-				echo self::display_results_settings();
-				?>
-			</div>
-		<?php
-
-		return ob_get_clean();
-	}
-
-	/**
-	 * Renders the results settings.
-	 */
-	public static function display_results_settings() {
-		ob_start();
-		?>
-			<div class="rsd-results-settings">
-				<form action="" method="get">
-					<label for="rsd-view"><?php esc_html_e( 'View:', 'rsd-wordpress' ); ?></label>
-					<select name="rsd-view" id="rsd-view">
-						<option value="card"><?php esc_html_e( 'Card', 'rsd-wordpress' ); ?></option>
-						<option value="row"><?php esc_html_e( 'Row', 'rsd-wordpress' ); ?></option>
-					</select>
-					<label for="rsd-limit"><?php esc_html_e( 'Limit:', 'rsd-wordpress' ); ?></label>
-					<select name="rsd-limit" id="rsd-limit">
-						<option value="10">10</option>
-						<option value="20">20</option>
-						<option value="50">50</option>
-						<option value="100">100</option>
-					</select>
-				</form>
-			</div>
-		<?php
-
-		return ob_get_clean();
-	}
-
-	/**
-	 * Renders the filter sidebar.
-	 */
-	public static function display_filter_sidebar() {
-		ob_start();
-		?>
-			<div class="rsd-filter-sidebar">
-				<form action="" method="get">
-					<?php
-					if ( 'software' === self::$section ) {
-						// phpcs:ignore
-						echo self::display_software_filter();
-					} else {
-						// phpcs:ignore
-						echo self::display_project_filter();
-					}
-					?>
-				</form>
-			</div>
-		<?php
-
-		return ob_get_clean();
-	}
-
-	/**
-	 * Renders the software filter.
-	 */
-	public static function display_software_filter() {
+		$path = sprintf( 'software_for_organisation?select=*,%s!left(*)&organisation=eq.%s&limit=%s', self::get_section(), self::get_organization_id(), self::get_limit() );
+		$data = Api::get_response( $path );
 		// phpcs:ignore
 		// TODO: get the keywords and licenses from the API.
 		ob_start();
