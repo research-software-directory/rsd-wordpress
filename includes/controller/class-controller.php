@@ -56,6 +56,12 @@ class Controller {
 	 * @var int
 	 */
 	public static $limit = 10;
+	/**
+	 * The offset.
+	 *
+	 * @var int
+	 */
+	public static $offset = 0;
 
 	/**
 	 * Constructor.
@@ -173,6 +179,24 @@ class Controller {
 	 */
 	public static function get_limit() {
 		return self::$limit;
+	}
+
+	/**
+	 * Set the offset.
+	 *
+	 * @param int $offset The offset.
+	 */
+	public static function set_offset( $offset ) {
+		self::$offset = (int) $offset;
+	}
+
+	/**
+	 * Get the offset.
+	 *
+	 * @return int
+	 */
+	public static function get_offset() {
+		return self::$offset;
 	}
 
 	/**
