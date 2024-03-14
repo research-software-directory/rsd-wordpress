@@ -31,7 +31,7 @@ class Controller {
 	 *
 	 * @var string
 	 */
-	public static $organization_id = '35c17f17-6b5f-4385-aa8b-6b1d33a10157';
+	public static $organisation_id = '35c17f17-6b5f-4385-aa8b-6b1d33a10157';
 	/**
 	 * The search term.
 	 *
@@ -86,12 +86,12 @@ class Controller {
 	}
 
 	/**
-	 * Set the organization ID.
+	 * Set the organisation ID.
 	 *
-	 * @param string $organization_id The organization ID.
+	 * @param string $organisation_id The organisation ID.
 	 */
-	public static function set_organization_id( $organization_id ) {
-		self::$organization_id = $organization_id;
+	public static function set_organisation_id( $organisation_id ) {
+		self::$organisation_id = $organisation_id;
 	}
 
 	/**
@@ -99,8 +99,8 @@ class Controller {
 	 *
 	 * @return string
 	 */
-	public static function get_organization_id() {
-		return self::$organization_id;
+	public static function get_organisation_id() {
+		return self::$organisation_id;
 	}
 
 	/**
@@ -184,11 +184,11 @@ class Controller {
 		// Set the default arguments.
 		$defaults = array(
 			'section'         => self::get_section(),
-			'organization_id' => self::get_organization_id(),
 			'search'          => self::get_search_query(),
 			'orderby'         => self::get_orderby(),
 			'order'           => self::get_order(),
 			'limit'           => self::get_limit(),
+			'organisation_id' => Controller::get_organisation_id(),
 		);
 		$args = wp_parse_args( $args, $defaults );
 
