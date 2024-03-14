@@ -1,6 +1,6 @@
 <?php
 /**
- * Research Software Directory
+ * Research Software Directory - Controller API
  *
  * @package     RSD_WP
  * @category    API
@@ -74,15 +74,15 @@ class Api {
 	 *
 	 * @since 0.1.0
 	 * @access public
-	 * @param string $endpoint The endpoint.
+	 * @param string $path The variable path part.
 	 * @param array  $params The query parameters.
 	 * @return string
 	 */
-	public static function build_path( $endpoint, $params = array() ) {
+	public static function build_path( $path, $params = array() ) {
 		if ( ! empty( $params ) && is_array( $params ) ) {
-			return sprintf( $endpoint . '?%s', http_build_query( $params ) );
+			return sprintf( $path . '?%s', http_build_query( $params ) );
 		} else {
-			return $endpoint;
+			return $path;
 		}
 	}
 
@@ -95,7 +95,7 @@ class Api {
 	 * @return string
 	 */
 	public static function get_url( $path ) {
-		return self::$endpoint . '/' . self::$version . '/' . $path;
+		return self::$endpoint . '/' . self::$version . '/' . ltrim( $path, '/' );
 	}
 
 	/**
