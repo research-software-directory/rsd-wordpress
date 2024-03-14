@@ -89,7 +89,7 @@ class Plugin {
 		Controller::set_limit( sanitize_text_field( $atts['limit'] ) );
 
 		// Get items from the API.
-		$items = Controller::get_items( Controller::get_section() );
+		$items = Controller::get_items();
 
 		// Display all components.
 		return Display::display_all( $items );

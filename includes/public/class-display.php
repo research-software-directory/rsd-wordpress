@@ -27,10 +27,10 @@ class Display {
 	/**
 	 * Renders all components: search bar, results settings, filter sidebar and results.
 	 *
-	 * @param array $data The data to display.
+	 * @param array $items The items to display.
 	 * @return string
 	 */
-	public static function display_all( $data ) {
+	public static function display_all( $items ) {
 
 		// Render the RSD components.
 		ob_start();
@@ -45,11 +45,11 @@ class Display {
 			echo self::display_filter_sidebar();
 			?>
 			<?php
-			if ( ! $data ) {
+			if ( ! $items ) {
 				esc_html_e( 'No data returned from API', 'rsd-wordpress' );
 			} else {
 				// phpcs:ignore
-				echo self::display_results( $data );
+				echo self::display_results( $items );
 			}
 			?>
 		</div>
@@ -244,40 +244,13 @@ class Display {
 			<?php
 			// Loop through the data and add each item as a card div.
 			foreach ( $items as $item ) {
-				?>
-				<div class="rsd-results-item card">
-					<div class="card-section">
-						<h3><a href="<?php printf( 'https://research-software-directory.org/software/%s', esc_attr( $item['software']['slug'] ) ); ?>" target="_blank" rel="external"><?php echo esc_html( $item['software']['brand_name'] ); ?></a></h3>
-						<p><?php echo esc_html( mb_strimwidth( $item['software']['description'], 0, 100, '...' ) ); ?></p>
-					</div>
-					<div class="card-footer">
-						<div class="rsd-results-item-specs">
-							<ul class="rsd-results-item-labels">
-							<?php foreach ( $item['software']['labels'] as $label ) : ?>
-								<li class="rsd-results-item-label"><?php echo esc_html( $label ); ?></li>
-							<?php endforeach; ?>
-							</ul>
-						</div>
-						<div class="rsd-results-item-props">
-							<?php if ( 'software' === Controller::get_section() ) : ?>
-								<div class="rsd-results-item-contributors">
-									<?php esc_html_e( 'Contributors:', 'rsd-wordpress' ); ?> <?php echo esc_html( $item['software']['contributors'] ); ?>
-								</div>
-								<div class="rsd-results-item-mentions">
-									<?php esc_html_e( 'Mentions:', 'rsd-wordpress' ); ?> <?php echo esc_html( $item['software']['mentions'] ); ?>
-								</div>
-							<?php elseif ( 'projects' === Controller::get_section() ) : ?>
-								<div class="rsd-results-item-progress">
-									<?php esc_html_e( 'Progress:', 'rsd-wordpress' ); ?> <?php echo esc_html( $item['project']['progress'] ); ?>
-								</div>
-								<div class="rsd-results-item-mentions">
-									<?php esc_html_e( 'Mentions:', 'rsd-wordpress' ); ?> <?php echo esc_html( $item['project']['mentions'] ); ?>
-								</div>
-							<?php endif; ?>
-						</div>
-					</div>
-				</div>
-				<?php
+				if ( 'projects' === Controller::get_section() ) {
+					// phpcs:ignore
+					echo self::display_project_item( $item );
+				} else {
+					// phpcs:ignore
+					echo self::display_software_item( $item );
+				}
 			}
 			?>
 			</div>
@@ -288,6 +261,106 @@ class Display {
 				// - (optional) show more button (using infinite scroll and AJAX loading of more results).
 				?>
 				<a role="" class="button rsd-results-show-more-button" href="#more"><?php esc_html_e( 'Show more', 'rsd-wordpress' ); ?></a>
+			</div>
+		</div>
+		<?php
+
+		return ob_get_clean();
+	}
+
+	/**
+	 * Display a Software result item.
+	 *
+	 * @param Software_Item $item The item to display.
+	 */
+	public static function display_software_item( $item ) {
+		$domain = __( 'Example', 'rsd-wordpress' );
+		$labels = $item->get_keywords();
+
+		ob_start();
+		?>
+		<div class="rsd-results-item card">
+			<div class="card-section">
+				<h3><a href="<?php printf( 'https://research-software-directory.org/software/%s', esc_attr( $item->get_slug() ) ); ?>" target="_blank" rel="external"><?php echo esc_html( $item->get_brand_name() ); ?></a></h3>
+				<p><?php echo esc_html( mb_strimwidth( $item->get_short_statement(), 0, 100, '...' ) ); ?></p>
+			</div>
+			<div class="card-footer">
+				<div class="rsd-results-item-specs">
+					<?php if ( ! empty( $domain ) ) : ?>
+					<p class="rsd-result-item-domain"><strong class="label"><?php echo esc_html( $domain ); ?></strong></p>
+					<?php endif; ?>
+					<?php if ( ! empty( $labels) && count( $labels ) > 0 ) : ?>
+					<ul class="rsd-results-item-labels">
+					<?php foreach ( $labels as $label ) : ?>
+						<li class="label"><?php echo esc_html( $label ); ?></li>
+					<?php endforeach; ?>
+					</ul>
+					<?php endif; ?>
+				</div>
+				<div class="rsd-results-item-props">
+					<?php if ( 'software' === Controller::get_section() ) : ?>
+						<div class="rsd-results-item-contributors">
+							<?php esc_html_e( 'Contributors:', 'rsd-wordpress' ); ?> <?php echo esc_html( $item->get_contributor_cnt() ); ?>
+						</div>
+						<div class="rsd-results-item-mentions">
+							<?php esc_html_e( 'Mentions:', 'rsd-wordpress' ); ?> <?php echo esc_html( $item->get_mention_cnt() ); ?>
+						</div>
+					<?php elseif ( 'projects' === Controller::get_section() ) : ?>
+						<div class="rsd-results-item-progress">
+							<?php esc_html_e( 'Progress:', 'rsd-wordpress' ); ?> <?php echo esc_html( $item->get_progress() ); ?>
+						</div>
+						<div class="rsd-results-item-mentions">
+							<?php esc_html_e( 'Mentions:', 'rsd-wordpress' ); ?> <?php echo esc_html( $item->get_mention_cnt() ); ?>
+						</div>
+					<?php endif; ?>
+				</div>
+			</div>
+		</div>
+		<?php
+
+		return ob_get_clean();
+	}
+
+	/**
+	 * Display a Project result item.
+	 *
+	 * @param Project_Item $item The item to display.
+	 */
+	public static function display_project_item( $item ) {
+		$domain = __( 'Example', 'rsd-wordpress' );
+		$labels = $item->get_keywords();
+
+		ob_start();
+		?>
+		<div class="rsd-results-item card">
+			<div class="card-section">
+				<h3><a href="<?php printf( 'https://research-software-directory.org/projects/%s', esc_attr( $item->get_slug() ) ); ?>" target="_blank" rel="external"><?php echo esc_html( $item->get_title() ); ?></a></h3>
+				<p><?php echo esc_html( mb_strimwidth( $item->get_subtitle(), 0, 100, '...' ) ); ?></p>
+			</div>
+			<div class="card-footer">
+				<div class="rsd-results-item-specs">
+					<?php if ( ! empty( $domain ) ) : ?>
+					<p class="rsd-result-item-domain"><strong class="label"><?php echo esc_html( $domain ); ?></strong></p>
+					<?php endif; ?>
+					<?php if ( ! empty( $labels ) && count( $labels ) > 0 ) : ?>
+					<ul class="rsd-results-item-labels">
+					<?php foreach ( $labels as $label ) : ?>
+						<li class="label"><?php echo esc_html( $label ); ?></li>
+					<?php endforeach; ?>
+					</ul>
+					<?php endif; ?>
+				</div>
+				<div class="rsd-results-item-props">
+					<div class="rsd-results-item-progress">
+						<?php esc_html_e( 'Progress:', 'rsd-wordpress' ); ?> <?php echo esc_html( $item->get_progress() ); ?>
+					</div>
+					<div class="rsd-results-item-impact">
+						<?php esc_html_e( 'Impact:', 'rsd-wordpress' ); ?> <?php echo esc_html( $item->get_impact_cnt() ); ?>
+					</div>
+					<div class="rsd-results-item-output">
+						<?php esc_html_e( 'Output:', 'rsd-wordpress' ); ?> <?php echo esc_html( $item->get_output_cnt() ); ?>
+					</div>
+				</div>
 			</div>
 		</div>
 		<?php
