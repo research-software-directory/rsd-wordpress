@@ -204,31 +204,28 @@ class Controller {
 	 *
 	 * @param array $args The arguments.
 	 */
-	public static function get_items( $args = array() ) {
-		// Set the default arguments.
+	public static function get_items() {
+		// Set the default API path parameters.
 		$defaults = array(
-			'section'         => self::get_section(),
-			'search'          => self::get_search_query(),
-			'orderby'         => self::get_orderby(),
-			'order'           => self::get_order(),
-			'limit'           => self::get_limit(),
+			// 'section'         => Controller::get_section(),
 			'organisation_id' => Controller::get_organisation_id(),
+			'status'          => 'eq.approved',
+			'is_published'    => 'eq.true',
+			// 'search'          => Controller::get_search_query(),
+			// 'orderby'         => Controller::get_orderby(),
+			// 'order'           => Controller::get_order(),
+			'limit'           => Controller::get_limit(),
+			'offset'          => Controller::get_offset(),
 		);
-		$args = wp_parse_args( $args, $defaults );
+		$params = wp_parse_args( array(), $defaults );
 
 		// TODO: add support for dynamic filters.
 
 		// Call the API.
-		$params = array(
-			'select'       => sprintf( '*,%s!left(*)', $args['section'] ),
-			'organisation' => 'eq.' . $args['organization_id'],
-			'limit'        => self::get_limit(),
-		);
-
-		if ( 'projects' === $args['section'] ) {
-			$path_start = 'projects_for_organisation';
+		if ( 'projects' === self::get_section() ) {
+			$path_start = '/rpc/projects_by_organisation';
 		} else {
-			$path_start = 'software_for_organisation';
+			$path_start = '/rpc/software_by_organisation';
 		}
 
 		$path = Api::build_path( $path_start, $params );
@@ -236,10 +233,21 @@ class Controller {
 
 		// Process data.
 		$items = array();
-		if ( ! empty( $data ) ) {
-			$items = $data;
-		}
 
-		return $items;
+		if ( ! empty( $data ) ) {
+			if ( 'projects' === self::get_section() ) {
+				foreach ( $data as $item ) {
+					$items[] = new Project_Item( $item );
+				}
+			} elseif ( 'software' === self::get_section() ){
+				foreach ( $data as $item ) {
+					$items[] = new Software_Item( $item );
+				}
+			}
+
+			return $items;
+		} else {
+			return false;
+		}
 	}
 }
