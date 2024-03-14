@@ -55,7 +55,7 @@ class Controller {
 	 *
 	 * @var int
 	 */
-	public static $limit = 10;
+	public static $limit = 20;
 	/**
 	 * The offset.
 	 *
