@@ -95,7 +95,7 @@ class Api {
 	 * @return string
 	 */
 	public static function get_url( $path ) {
-		return self::$endpoint . '/' . self::$version . '/' . $path;
+		return self::$endpoint . '/' . self::$version . '/' . ltrim( $path, '/' );
 	}
 
 	/**
