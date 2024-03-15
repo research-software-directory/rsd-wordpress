@@ -116,15 +116,15 @@ class Display {
 		?>
 			<div class="rsd-filter-sidebar">
 				<form action="" method="get">
-					<?php
-					if ( 'software' === Controller::get_section() ) {
-						// phpcs:ignore
-						echo self::display_software_filters();
-					} else {
-						// phpcs:ignore
-						echo self::display_project_filters();
-					}
-					?>
+					<div class="rsd-filters rsd-filters-<?php echo esc_attr( Controller::get_section() ); ?>">
+						<h2 class="show-for-sr"><?php esc_html_e( 'Filters', 'rsd-wordpress' ); ?></h2>
+						<?php
+						foreach ( Controller::get_filters() as $filter ) {
+							// phpcs:ignore
+							echo self::display_filter( $filter );
+						}
+						?>
+					</div>
 				</form>
 			</div>
 		<?php
@@ -164,53 +164,10 @@ class Display {
 	}
 
 	/**
-	 * Renders the software filter.
-	 */
-	public static function display_software_filters() {
-		// phpcs:ignore
-		// TODO: get the keywords and licenses from the API.
-		ob_start();
-		?>
-			<div class="rsd-filters rsd-filters-software">
-				<h2 class="show-for-sr"><?php esc_html_e( 'Filters', 'rsd-wordpress' ); ?></h2>
-				<?php
-				foreach ( Controller::get_filters() as $filter ) {
-					// phpcs:ignore
-					echo self::display_filter( $filter );
-				}
-				?>
-			</div>
-		<?php
-
-		return ob_get_clean();
-	}
-
-	/**
-	 * Renders the project filter.
-	 */
-	public static function display_project_filters() {
-		// phpcs:ignore
-		// TODO: get the keywords, research domains and partners from the API.
-		ob_start();
-		?>
-			<div class="rsd-filters rsd-filters-projects">
-				<h2 class="show-for-sr"><?php esc_html_e( 'Filters', 'rsd-wordpress' ); ?></h2>
-				<?php
-				foreach ( Controller::get_filters() as $filter ) {
-					// phpcs:ignore
-					echo self::display_filter( $filter );
-				}
-				?>
-			</div>
-		<?php
-
-		return ob_get_clean();
-	}
-
-	/**
 	 * Renders the results in row or card view.
 	 *
 	 * @param array $items The items to display.
+	 * @return string The results HTML.
 	 */
 	public static function display_results( $items ) {
 		ob_start();
