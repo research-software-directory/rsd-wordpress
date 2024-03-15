@@ -216,14 +216,14 @@ class Controller {
 
 		// Set the default API path parameters.
 		$defaults = array(
-			'organisation_id' => Controller::get_organisation_id(),
+			'organisation_id' => self::get_organisation_id(),
 			'status'          => 'eq.approved',
 			'is_published'    => 'eq.true',
-			// 'search'          => Controller::get_search_query(),
-			// 'orderby'         => Controller::get_orderby(),
-			// 'order'           => Controller::get_order(),
-			'limit'           => Controller::get_limit(),
-			'offset'          => Controller::get_offset(),
+			// 'search'          => self::get_search_query(),
+			// 'orderby'         => self::get_orderby(),
+			// 'order'           => self::get_order(),
+			'limit'           => self::get_limit(),
+			'offset'          => self::get_offset(),
 		);
 		$params = wp_parse_args( array(), $defaults );
 
