@@ -289,7 +289,7 @@ class Display {
 					<?php if ( ! empty( $domain ) ) : ?>
 					<p class="rsd-result-item-domain"><strong class="label"><?php echo esc_html( $domain ); ?></strong></p>
 					<?php endif; ?>
-					<?php if ( ! empty( $labels) && count( $labels ) > 0 ) : ?>
+					<?php if ( ! empty( $labels) && is_array( $labels ) && count( $labels ) > 0 ) : ?>
 					<ul class="rsd-results-item-labels">
 					<?php foreach ( $labels as $label ) : ?>
 						<li class="label"><?php echo esc_html( $label ); ?></li>
@@ -342,7 +342,7 @@ class Display {
 					<?php if ( ! empty( $domain ) ) : ?>
 					<p class="rsd-result-item-domain"><strong class="label"><?php echo esc_html( $domain ); ?></strong></p>
 					<?php endif; ?>
-					<?php if ( ! empty( $labels ) && count( $labels ) > 0 ) : ?>
+					<?php if ( ! empty( $labels ) && is_array( $labels ) && count( $labels ) > 0 ) : ?>
 					<ul class="rsd-results-item-labels">
 					<?php foreach ( $labels as $label ) : ?>
 						<li class="label"><?php echo esc_html( $label ); ?></li>
