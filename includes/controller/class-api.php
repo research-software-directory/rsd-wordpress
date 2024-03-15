@@ -105,9 +105,10 @@ class Api {
 	 * @access public
 	 * @param string $path The path.
 	 * @param array  $args The arguments.
-	 * @return array
+	 * @param bool   $retrieve_headers Whether to retrieve the headers.
+	 * @return array The API response data and headers.
 	 */
-	public static function get_response( $path, $args = array() ) {
+	public static function get_response( $path, $args = array(), $retrieve_headers = false ) {
 		// Call the API.
 		$url      = self::get_url( $path );
 		$response = wp_remote_get( $url, $args );
@@ -117,9 +118,13 @@ class Api {
 		}
 
 		// Decode the API response.
+		$headers = ( $retrieve_headers ? wp_remote_retrieve_headers( $response ) : array() );
 		$data = json_decode( wp_remote_retrieve_body( $response ), true );
 
 		// Return the data.
-		return $data;
+		return array(
+			'data'    => $data,
+			'headers' => $headers,
+		);
 	}
 }
