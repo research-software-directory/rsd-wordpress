@@ -1,14 +1,23 @@
 *** Changelog ***
 
-= 0.1.0 - 2024-03-13 =
+= 0.3.2 - 2024-03-15 =
+* Retrieve API response headers to show total result item count (instead of item count defined by the limit parameter).
 
+= 0.3.1 - 2024-03-15 =
+* Use UK spelling for `organisation` attribute [research_software_directory organisation="<example>"].
+
+= 0.3.0 - 2024-03-15 =
+* Simplify shortcode to [research_software_directory].
+
+= 0.2.0 - 2024-03-15 =
+* Refactor - Separate Controller, API, result items, and Display functions.
+
+= 0.1.0 - 2024-03-13 =
 * Refactor - Clean up according to WordPress Coding Standards and plugin best practices, also removing non-essential code.
 
 = 0.0.1 - 2023-03-15 =
-
 * Add research units filters and reset filters, search filter and paginations
 * Add project README and `.gitignore`
 
 = 1.0 - 2023-01-24 =
-
 * Initial release
