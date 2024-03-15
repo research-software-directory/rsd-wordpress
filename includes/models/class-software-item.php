@@ -104,7 +104,6 @@ class Software_Item extends Item {
 		parent::__construct( $data );
 
 		$this->brand_name      = ( ! empty( $data['brand_name'] ) ? $data['brand_name'] : '' );
-		$this->concept_doi     = ( ! empty( $data['concept_doi'] ) ? $data['concept_doi'] : '' );
 		$this->description     = ( ! empty( $data['description'] ) ? $data['description'] : '' );
 		$this->short_statement = ( ! empty( $data['short_statement'] ) ? $data['short_statement'] : '' );
 		$this->url             = ( ! empty( $data['url'] ) ? $data['url'] : '' );
@@ -124,16 +123,6 @@ class Software_Item extends Item {
 	 */
 	public function get_brand_name() {
 		return $this->brand_name;
-	}
-
-	/**
-	 * Get the item concept DOI.
-	 *
-	 * @since 1.1.0
-	 * @return string
-	 */
-	public function get_concept_doi() {
-		return $this->concept_doi;
 	}
 
 	/**
