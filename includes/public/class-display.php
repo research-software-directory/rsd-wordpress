@@ -119,10 +119,10 @@ class Display {
 					<?php
 					if ( 'software' === Controller::get_section() ) {
 						// phpcs:ignore
-						echo self::display_software_filter();
+						echo self::display_software_filters();
 					} else {
 						// phpcs:ignore
-						echo self::display_project_filter();
+						echo self::display_project_filters();
 					}
 					?>
 				</form>
@@ -133,27 +133,52 @@ class Display {
 	}
 
 	/**
+	 * Render filter.
+	 *
+	 * @param Filter $filter The filter object to display.
+	 */
+	public static function display_filter( $filter ) {
+		ob_start();
+
+		$identifier = $filter->get_identifier( 'rsd-' );
+		$i = 1;
+		?>
+			<div class="rsd-filter">
+				<h3><label for="<?php echo esc_attr( $identifier ); ?>"><?php echo esc_html( $filter->get_title() ); ?></label></h3>
+				<?php if ( 'multicheckbox' === $filter->get_type() ) : ?>
+					<?php foreach ( $filter->get_items() as $item ) : ?>
+						<label for="<?php echo esc_attr( $identifier . '-' . $i ); ?>"><input type="checkbox" name="<?php echo esc_attr( $identifier . '[]' ); ?>" id="<?php echo esc_attr( $identifier . '-' . $i ); ?>" value="<?php echo esc_attr( $item['title'] ); ?>"> <?php echo esc_html( $item['title'] ); ?></label>
+						<?php $i++; ?>
+					<?php endforeach; ?>
+				<?php else : ?>
+					<select name="<?php echo esc_attr( $identifier ); ?>" id="<?php echo esc_attr( $identifier ); ?>">
+					<?php foreach ( $filter->get_items() as $item ) : ?>
+						<option value="<?php echo esc_attr( $item['title'] ); ?>"><?php echo esc_html( $item['title'] ); ?></option>
+					<?php endforeach; ?>
+					</select>
+				<?php endif; ?>
+			</div>
+		<?php
+
+		return ob_get_clean();
+	}
+
+	/**
 	 * Renders the software filter.
 	 */
-	public static function display_software_filter() {
+	public static function display_software_filters() {
 		// phpcs:ignore
 		// TODO: get the keywords and licenses from the API.
 		ob_start();
 		?>
-			<div class="software-filter">
+			<div class="rsd-filters rsd-filters-software">
 				<h2 class="show-for-sr"><?php esc_html_e( 'Filters', 'rsd-wordpress' ); ?></h2>
-				<h3><label for="rsd-keywords"><?php esc_html_e( 'Keywords', 'rsd-wordpress' ); ?></label></h3>
-				<select name="rsd-keywords" id="rsd-keywords">
-					<option value="1">Keyword 1</option>
-					<option value="2">Keyword 2</option>
-					<option value="3">Keyword 3</option>
-				</select>
-				<h3><label for="rsd-license"><?php esc_html_e( 'License', 'rsd-wordpress' ); ?></label></h3>
-				<select name="rsd-license" id="rsd-license">
-					<option value="1">License 1</option>
-					<option value="2">License 2</option>
-					<option value="3">License 3</option>
-				</select>
+				<?php
+				foreach ( Controller::get_filters() as $filter ) {
+					// phpcs:ignore
+					echo self::display_filter( $filter );
+				}
+				?>
 			</div>
 		<?php
 
@@ -163,47 +188,19 @@ class Display {
 	/**
 	 * Renders the project filter.
 	 */
-	public static function display_project_filter() {
+	public static function display_project_filters() {
 		// phpcs:ignore
 		// TODO: get the keywords, research domains and partners from the API.
 		ob_start();
 		?>
-			<div class="project-filter">
+			<div class="rsd-filters rsd-filters-projects">
 				<h2 class="show-for-sr"><?php esc_html_e( 'Filters', 'rsd-wordpress' ); ?></h2>
-				<div class="project-filter-status">
-					<h3><?php esc_html_e( 'Project status', 'rsd-wordpress' ); ?></h3>
-					<label for="rsd-status-1"><input type="checkbox" name="rsd-status[]" id="rsd-status-1" value="1"> <?php esc_html_e( 'Finished', 'rsd-wordpress' ); ?></label>
-					<label for="rsd-status-2"><input type="checkbox" name="rsd-status[]" id="rsd-status-2" value="2"> <?php esc_html_e( 'In progress', 'rsd-wordpress' ); ?></label>
-					<label for="rsd-status-3"><input type="checkbox" name="rsd-status[]" id="rsd-status-3" value="3"> <?php esc_html_e( 'Upcoming', 'rsd-wordpress' ); ?></label>
-				</div>
-				<div class="project-filter-keywords">
-					<h3><label for="rsd-keywords"><?php esc_html_e( 'Keywords', 'rsd-wordpress' ); ?></label></h3>
-					<select name="rsd-keywords" id="rsd-keywords">
-						<option value="" class="placeholder"><?php esc_html_e( 'Filter by keywords', 'rsd-wordpress' ); ?></option>
-						<option value="1">Keyword 1</option>
-						<option value="2">Keyword 2</option>
-						<option value="3">Keyword 3</option>
-					</select>
-				</div>
-				<div class="project-filter-researchdomain">
-					<h3><label for="rsd-researchdomain"><?php esc_html_e( 'Research domain', 'rsd-wordpress' ); ?></label></h3>
-					<div class="project-filter-researchdomain">
-						<h3><label for="rsd-researchdomain"><?php esc_html_e( 'Research domain', 'rsd-wordpress' ); ?></label></h3>
-						<label for="rsd-researchdomain-1"><input type="checkbox" name="rsd-researchdomain[]" id="rsd-researchdomain-1" value="1"> <?php esc_html_e( 'Environment and Sustainability', 'rsd-wordpress' ); ?></label>
-						<label for="rsd-researchdomain-2"><input type="checkbox" name="rsd-researchdomain[]" id="rsd-researchdomain-2" value="2"> <?php esc_html_e( 'Life Sciences', 'rsd-wordpress' ); ?></label>
-						<label for="rsd-researchdomain-3"><input type="checkbox" name="rsd-researchdomain[]" id="rsd-researchdomain-3" value="3"> <?php esc_html_e( 'Natural Sciences & Engineering', 'rsd-wordpress' ); ?></label>
-						<label for="rsd-researchdomain-4"><input type="checkbox" name="rsd-researchdomain[]" id="rsd-researchdomain-4" value="4"> <?php esc_html_e( 'Social Sciences & Humanities', 'rsd-wordpress' ); ?></label>
-					</div>
-				</div>
-				<div class="project-filter-partners">
-					<h3><label for="rsd-partners"><?php esc_html_e( 'Partners', 'rsd-wordpress' ); ?></label></h3>
-					<select name="rsd-partners" id="rsd-partners">
-						<option value="" class="placeholder"><?php esc_html_e( 'Filter by participating organisations', 'rsd-wordpress' ); ?></option>
-						<option value="1">Partner 1</option>
-						<option value="2">Partner 2</option>
-						<option value="3">Partner 3</option>
-					</select>
-				</div>
+				<?php
+				foreach ( Controller::get_filters() as $filter ) {
+					// phpcs:ignore
+					echo self::display_filter( $filter );
+				}
+				?>
 			</div>
 		<?php
 
