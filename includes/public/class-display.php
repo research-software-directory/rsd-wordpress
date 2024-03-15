@@ -225,7 +225,7 @@ class Display {
 				<h3 class="rsd-results-count">
 					<?php
 					// translators: Number of result items found.
-					printf( esc_html__( '%s items found', 'rsd-wordpress' ), count( $items ) );
+					printf( esc_html__( '%s items found', 'rsd-wordpress' ), Controller::get_result_total_count() );
 					?>
 				</h3>
 				<button class="button rsd-results-clear-filters"><?php esc_html_e( 'Clear filters', 'rsd-wordpress' ); ?></button>
