@@ -70,6 +70,13 @@ class Controller {
 	public static $offset = 0;
 
 	/**
+	 * The filters.
+	 *
+	 * @var array
+	 */
+	public static $filters = array();
+
+	/**
 	 * The result total items count.
 	 *
 	 * @var int The result total items count. False if result is not cached yet.
@@ -221,6 +228,23 @@ class Controller {
 		return self::$offset;
 	}
 
+	/**
+	 * Set the filters.
+	 *
+	 * @param array $filters The filters.
+	 */
+	public static function set_filters( $filters ) {
+		self::$filters = $filters;
+	}
+
+	/**
+	 * Get the filters.
+	 *
+	 * @return array
+	 */
+	public static function get_filters() {
+		return self::$filters;
+	}
 	/**
 	 * Set the total count of result items.
 	 *
