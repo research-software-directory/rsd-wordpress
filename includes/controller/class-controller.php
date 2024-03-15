@@ -235,9 +235,19 @@ class Controller {
 		} else {
 			$path_start = '/rpc/software_by_organisation';
 		}
-
 		$path = Api::build_path( $path_start, $params );
-		$data = Api::get_response( $path );
+
+		// Add `Prefer` header to also request total count of result items (may result in slower query).
+		$args = array(
+			'headers' => array(
+				'Prefer' => 'count=exact',
+			),
+		);
+
+		// Get the API response.
+		$response = Api::get_response( $path, $args, true );
+		$headers = $response['headers'];
+		$data = $response['data'];
 
 		// Process data.
 		$items = array();
