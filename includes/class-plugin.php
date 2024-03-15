@@ -39,9 +39,9 @@ class Plugin {
 	 * Initializes the plugin.
 	 */
 	public static function init() {
-		if ( ! shortcode_exists( 'research_software_directory_table' ) ) {
+		if ( ! shortcode_exists( 'research_software_directory' ) ) {
 			// Add shortcode to display the table.
-			add_shortcode( 'research_software_directory_table', array( __NAMESPACE__ . '\Plugin', 'process_shortcode' ) );
+			add_shortcode( 'research_software_directory', array( __NAMESPACE__ . '\Plugin', 'process_shortcode' ) );
 		}
 	}
 
@@ -80,7 +80,7 @@ class Plugin {
 				'limit'           => Controller::get_limit(),
 			),
 			$atts,
-			'research_software_directory_table'
+			'research_software_directory'
 		);
 
 		// Process attributes.

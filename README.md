@@ -4,9 +4,9 @@ This repo contains a WordPress integration of the Projects and Software overview
 
 ## How to use the plugin
 
-To display the overview table on your Wordpress site, use the following shortcode in any post or page:
+To display the overview (e.g. for the Software section for the Netherlands eScience Center organisation) on your Wordpress site, use the following shortcode in any post or page:
 ```shell
-[research_software_directory_table limit="4" organisation="35c17f17-6b5f-4385-aa8b-6b1d33a10157"]
+[research_software_directory section="software" limit="4" organisation="35c17f17-6b5f-4385-aa8b-6b1d33a10157"]
 ```
 
 ## Local development
