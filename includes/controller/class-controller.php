@@ -70,6 +70,22 @@ class Controller {
 	public static $offset = 0;
 
 	/**
+	 * The result total items count.
+	 *
+	 * @var int The result total items count. False if result is not cached yet.
+	 * @since 1.3.1
+	 */
+	private static $_result_total_count = false;
+
+	/**
+	 * The result items.
+	 *
+	 * @var bool|array The result items. False if result is not cached yet.
+	 * @since 1.3.1
+	 */
+	private static $_result_items = false;
+
+	/**
 	 * Constructor.
 	 *
 	 * @since 1.1.0
@@ -206,6 +222,42 @@ class Controller {
 	}
 
 	/**
+	 * Set the total count of result items.
+	 *
+	 * @param int $total_count The total count of items.
+	 */
+	public static function set_result_total_count( $total_count ) {
+		self::$_result_total_count = (int) $total_count;
+	}
+
+	/**
+	 * Get the total count of result items.
+	 *
+	 * @return int
+	 */
+	public static function get_result_total_count() {
+		return self::$_result_total_count;
+	}
+
+	/**
+	 * Store the result items.
+	 *
+	 * @param array $items The result items.
+	 */
+	private static function _set_result_items( $items ) {
+		self::$_result_items = $items;
+	}
+
+	/**
+	 * Get the stored result items.
+	 *
+	 * @return array
+	 */
+	public static function _get_result_items() {
+		return self::$_result_items;
+	}
+
+	/**
 	 * Get items from the API.
 	 *
 	 * @param array $args The arguments.
@@ -252,6 +304,13 @@ class Controller {
 		// Process data.
 		$items = array();
 
+		// If headers contain `content-range`, then save the total count of items.
+		if ( ! empty( $headers['content-range'] ) ) {
+			$content_range = explode( '/', $headers['content-range'] );
+			self::set_result_total_count( $content_range[1] );
+		}
+
+		// If data is not empty, then process the items.
 		if ( ! empty( $data ) ) {
 			if ( 'projects' === $section ) {
 				foreach ( $data as $item ) {
@@ -262,6 +321,9 @@ class Controller {
 					$items[] = new Software_Item( $item );
 				}
 			}
+
+			// Store the result items.
+			self::_set_result_items( $items );
 
 			return $items;
 		} else {
