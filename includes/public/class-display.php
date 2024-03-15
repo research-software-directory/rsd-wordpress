@@ -133,9 +133,10 @@ class Display {
 	}
 
 	/**
-	 * Render filter.
+	 * Render filter class to HTML.
 	 *
 	 * @param Filter $filter The filter object to display.
+	 * @return string The filter HTML.
 	 */
 	public static function display_filter( $filter ) {
 		ob_start();
@@ -226,6 +227,7 @@ class Display {
 	 * Display a Software result item.
 	 *
 	 * @param Software_Item $item The item to display.
+	 * @return string The item HTML.
 	 */
 	public static function display_software_item( $item ) {
 		$domain = __( 'Example', 'rsd-wordpress' );
@@ -270,6 +272,7 @@ class Display {
 	 * Display a Project result item.
 	 *
 	 * @param Project_Item $item The item to display.
+	 * @return string The item HTML.
 	 */
 	public static function display_project_item( $item ) {
 		$domain = __( 'Example', 'rsd-wordpress' );
