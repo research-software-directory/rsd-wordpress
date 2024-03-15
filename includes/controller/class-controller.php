@@ -245,6 +245,110 @@ class Controller {
 	public static function get_filters() {
 		return self::$filters;
 	}
+
+	/**
+	 * Load all filters from API.
+	 *
+	 * @param string $section The section to load filters for.
+	 * @return array|bool
+	 *
+	 * @since 0.3.2
+	 */
+	public static function load_filters( $section = false ) {
+		$section = ( $section ?: self::get_section() );
+
+		// Set the default API path parameters.
+		$default_params = array(
+			'organisation_id' => self::get_organisation_id(),
+		);
+
+		// Set the default filters.
+		$filters_default = array(
+			'projects' => array(
+				'project_status' => array(
+					'title'      => __( 'Project Status', 'rsd-wordpress' ),
+					'identifier' => 'project_status',
+					'args'       => array(
+						'type' => 'multicheckbox',
+					),
+					'path'       => '/rpc/org_project_status_filter',
+					'params'     => wp_parse_args( array(
+						'order' => 'project_status',
+					), $default_params ),
+				),
+				'keywords' => array(
+					'title'      => __( 'Keywords', 'rsd-wordpress' ),
+					'identifier' => 'keyword',
+					'path'       => '/rpc/org_project_keywords_filter',
+					'params' => wp_parse_args( array(
+						'order' => 'keyword',
+					), $default_params ),
+				),
+				'research_domains' => array(
+					'title'      => __( 'Research Domains', 'rsd-wordpress' ),
+					'identifier' => 'domain',
+					'path'       => '/rpc/org_project_domains_filter',
+					'params' => wp_parse_args( array(
+						'order' => 'domain',
+					), $default_params ),
+				),
+				'partners' => array(
+					'title' => __( 'Partners', 'rsd-wordpress' ),
+					'identifier' => 'organisation',
+					'path' => '/rpc/org_project_participating_organisations_filter',
+					'params' => wp_parse_args( array(
+						'order' => 'organisation',
+					), $default_params ),
+				),
+			),
+			'software' => array(
+				'keywords' => array(
+					'title' => __( 'Keywords', 'rsd-wordpress' ),
+					'identifier' => 'keyword',
+					'path' => '/rpc/org_software_keywords_filter',
+					'params' => wp_parse_args( array(
+						'order' => 'keyword',
+					), $default_params ),
+				),
+				'programming_languages' => array(
+					'title' => __( 'Programming Languages', 'rsd-wordpress' ),
+					'identifier' => 'prog_language',
+					'path' => '/rpc/org_software_languages_filter',
+					'params' => wp_parse_args( array(
+						'order' => 'prog_language',
+					), $default_params ),
+				),
+				'license' => array(
+					'title' => __( 'Licenses', 'rsd-wordpress' ),
+					'identifier' => 'license',
+					'path' => '/rpc/org_software_licenses_filter',
+					'params' => wp_parse_args( array(
+						'order' => 'license',
+					), $default_params ),
+				),
+			),
+		);
+
+		//
+		$filters = array();
+
+		// Set the API paths and parameters.
+		foreach ( $filters_default[ $section ] as $filter ) {
+			// Build the API path.
+			$path = Api::build_path( $filter['path'], $filter['params'] );
+
+			// Get the API response.
+			$response = Api::get_response( $path );
+
+			// Process data.
+			$args = ( ! empty( $filter['args'] ) ? $filter['args'] : array() );
+			$filters[ $filter['identifier'] ] = new Filter( $filter['title'], $filter['identifier'], $response['data'], $args );
+		}
+
+		// Set the filters.
+		self::set_filters( $filters );
+	}
+
 	/**
 	 * Set the total count of result items.
 	 *
@@ -290,6 +394,9 @@ class Controller {
 		// Set the default section.
 		$section = ( $section ?: self::get_section() );
 
+		// Load the filters from API.
+		self::load_filters( $section );
+
 		// Set the default API path parameters.
 		$defaults = array(
 			'organisation_id' => self::get_organisation_id(),
@@ -302,8 +409,6 @@ class Controller {
 			'offset'          => self::get_offset(),
 		);
 		$params = wp_parse_args( array(), $defaults );
-
-		// TODO: add support for dynamic filters.
 
 		// Set the API path and parameters.
 		if ( 'projects' === $section ) {
