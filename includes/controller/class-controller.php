@@ -26,36 +26,42 @@ class Controller {
 	 * @var string
 	 */
 	public static $section = 'software';
+
 	/**
 	 * The organisation ID.
 	 *
 	 * @var string
 	 */
 	public static $organisation_id = '35c17f17-6b5f-4385-aa8b-6b1d33a10157';
+
 	/**
 	 * The search term.
 	 *
 	 * @var string
 	 */
 	public static $search = '';
+
 	/**
 	 * The filter.
 	 *
 	 * @var string
 	 */
 	public static $orderby = 'impact';
+
 	/**
 	 * The order.
 	 *
 	 * @var string
 	 */
 	public static $order = 'desc';
+
 	/**
 	 * The limit.
 	 *
 	 * @var int
 	 */
 	public static $limit = 20;
+
 	/**
 	 * The offset.
 	 *
