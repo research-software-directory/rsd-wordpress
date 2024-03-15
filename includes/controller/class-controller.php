@@ -210,10 +210,12 @@ class Controller {
 	 *
 	 * @param array $args The arguments.
 	 */
-	public static function get_items() {
+	public static function get_items( $section = false ) {
+		// Set the default section.
+		$section = ( $section ?: self::get_section() );
+
 		// Set the default API path parameters.
 		$defaults = array(
-			// 'section'         => Controller::get_section(),
 			'organisation_id' => Controller::get_organisation_id(),
 			'status'          => 'eq.approved',
 			'is_published'    => 'eq.true',
@@ -227,8 +229,8 @@ class Controller {
 
 		// TODO: add support for dynamic filters.
 
-		// Call the API.
-		if ( 'projects' === self::get_section() ) {
+		// Set the API path and parameters.
+		if ( 'projects' === $section ) {
 			$path_start = '/rpc/projects_by_organisation';
 		} else {
 			$path_start = '/rpc/software_by_organisation';
@@ -241,11 +243,11 @@ class Controller {
 		$items = array();
 
 		if ( ! empty( $data ) ) {
-			if ( 'projects' === self::get_section() ) {
+			if ( 'projects' === $section ) {
 				foreach ( $data as $item ) {
 					$items[] = new Project_Item( $item );
 				}
-			} elseif ( 'software' === self::get_section() ){
+			} elseif ( 'software' === $section ) {
 				foreach ( $data as $item ) {
 					$items[] = new Software_Item( $item );
 				}
