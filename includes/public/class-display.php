@@ -298,21 +298,12 @@ class Display {
 					<?php endif; ?>
 				</div>
 				<div class="rsd-results-item-props">
-					<?php if ( 'software' === Controller::get_section() ) : ?>
-						<div class="rsd-results-item-contributors">
-							<?php esc_html_e( 'Contributors:', 'rsd-wordpress' ); ?> <?php echo esc_html( $item->get_contributor_cnt() ); ?>
-						</div>
-						<div class="rsd-results-item-mentions">
-							<?php esc_html_e( 'Mentions:', 'rsd-wordpress' ); ?> <?php echo esc_html( $item->get_mention_cnt() ); ?>
-						</div>
-					<?php elseif ( 'projects' === Controller::get_section() ) : ?>
-						<div class="rsd-results-item-progress">
-							<?php esc_html_e( 'Progress:', 'rsd-wordpress' ); ?> <?php echo esc_html( $item->get_progress() ); ?>
-						</div>
-						<div class="rsd-results-item-mentions">
-							<?php esc_html_e( 'Mentions:', 'rsd-wordpress' ); ?> <?php echo esc_html( $item->get_mention_cnt() ); ?>
-						</div>
-					<?php endif; ?>
+					<div class="rsd-results-item-contributors">
+						<?php esc_html_e( 'Contributors:', 'rsd-wordpress' ); ?> <?php echo esc_html( $item->get_contributor_cnt() ); ?>
+					</div>
+					<div class="rsd-results-item-mentions">
+						<?php esc_html_e( 'Mentions:', 'rsd-wordpress' ); ?> <?php echo esc_html( $item->get_mention_cnt() ); ?>
+					</div>
 				</div>
 			</div>
 		</div>
