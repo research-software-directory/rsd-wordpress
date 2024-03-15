@@ -75,8 +75,7 @@ class Plugin {
 		$atts = shortcode_atts(
 			array(
 				'section'         => Controller::get_section(),
-				// TODO: decide if the shortcode attribute should be either organization (US) or organisation (UK).
-				'organization-id' => Controller::get_organisation_id(),
+				'organisation-id' => Controller::get_organisation_id(),
 				'limit'           => Controller::get_limit(),
 			),
 			$atts,
@@ -85,7 +84,7 @@ class Plugin {
 
 		// Process attributes.
 		Controller::set_section( sanitize_text_field( $atts['section'] ) );
-		Controller::set_organisation_id( sanitize_text_field( $atts['organization-id'] ) );
+		Controller::set_organisation_id( sanitize_text_field( $atts['organisation-id'] ) );
 		Controller::set_limit( sanitize_text_field( $atts['limit'] ) );
 
 		// Get items from the API.

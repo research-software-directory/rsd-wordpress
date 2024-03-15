@@ -27,7 +27,7 @@ class Controller {
 	 */
 	public static $section = 'software';
 	/**
-	 * The organization ID.
+	 * The organisation ID.
 	 *
 	 * @var string
 	 */
@@ -101,7 +101,7 @@ class Controller {
 	}
 
 	/**
-	 * Get the organization ID.
+	 * Get the organisation ID.
 	 *
 	 * @return string
 	 */
