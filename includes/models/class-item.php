@@ -25,7 +25,7 @@ class Item {
 	 *
 	 * @var array
 	 */
-	private $data_raw = array();
+	private $_data_raw = array();
 
 	/**
 	 * The item ID.
@@ -67,8 +67,8 @@ class Item {
 	 *
 	 * @param array $data The item data.
 	 */
-	public function __construct( $data ) {
-		$this->data_raw = $data;
+	protected function __construct( $data ) {
+		$this->_data_raw = $data;
 
 		$this->id              = ( ! empty( $data['id'] ) ? $data['id'] : false );
 		$this->slug            = ( ! empty( $data['slug'] ) ? $data['slug'] : false );
