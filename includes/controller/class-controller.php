@@ -285,50 +285,50 @@ class Controller {
 					'title'      => __( 'Keywords', 'rsd-wordpress' ),
 					'identifier' => 'keyword',
 					'path'       => '/rpc/org_project_keywords_filter',
-					'params' => wp_parse_args( array(
-						'order' => 'keyword',
+					'params'     => wp_parse_args( array(
+						'order'  => 'keyword',
 					), $default_params ),
 				),
 				'research_domains' => array(
 					'title'      => __( 'Research Domains', 'rsd-wordpress' ),
 					'identifier' => 'domain',
 					'path'       => '/rpc/org_project_domains_filter',
-					'params' => wp_parse_args( array(
-						'order' => 'domain',
+					'params'     => wp_parse_args( array(
+						'order'  => 'domain',
 					), $default_params ),
 				),
 				'partners' => array(
-					'title' => __( 'Partners', 'rsd-wordpress' ),
+					'title'      => __( 'Partners', 'rsd-wordpress' ),
 					'identifier' => 'organisation',
-					'path' => '/rpc/org_project_participating_organisations_filter',
-					'params' => wp_parse_args( array(
-						'order' => 'organisation',
+					'path'       => '/rpc/org_project_participating_organisations_filter',
+					'params'     => wp_parse_args( array(
+						'order'  => 'organisation',
 					), $default_params ),
 				),
 			),
 			'software' => array(
-				'keywords' => array(
-					'title' => __( 'Keywords', 'rsd-wordpress' ),
+				'keywords'  => array(
+					'title'      => __( 'Keywords', 'rsd-wordpress' ),
 					'identifier' => 'keyword',
-					'path' => '/rpc/org_software_keywords_filter',
-					'params' => wp_parse_args( array(
-						'order' => 'keyword',
+					'path'       => '/rpc/org_software_keywords_filter',
+					'params'     => wp_parse_args( array(
+						'order'  => 'keyword',
 					), $default_params ),
 				),
 				'programming_languages' => array(
-					'title' => __( 'Programming Languages', 'rsd-wordpress' ),
+					'title'      => __( 'Programming Languages', 'rsd-wordpress' ),
 					'identifier' => 'prog_language',
-					'path' => '/rpc/org_software_languages_filter',
-					'params' => wp_parse_args( array(
-						'order' => 'prog_language',
+					'path'       => '/rpc/org_software_languages_filter',
+					'params'     => wp_parse_args( array(
+						'order'  => 'prog_language',
 					), $default_params ),
 				),
 				'license' => array(
-					'title' => __( 'Licenses', 'rsd-wordpress' ),
+					'title'      => __( 'Licenses', 'rsd-wordpress' ),
 					'identifier' => 'license',
-					'path' => '/rpc/org_software_licenses_filter',
-					'params' => wp_parse_args( array(
-						'order' => 'license',
+					'path'       => '/rpc/org_software_licenses_filter',
+					'params'     => wp_parse_args( array(
+						'order'  => 'license',
 					), $default_params ),
 				),
 			),
