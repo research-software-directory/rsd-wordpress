@@ -56,6 +56,13 @@ class Filter {
 	public $labels = array();
 
 	/**
+	 * The filter arguments.
+	 *
+	 * @var array
+	 */
+	public $args = array();
+
+	/**
 	 * Currently selected filter item.
 	 *
 	 * @var mixed
@@ -74,6 +81,7 @@ class Filter {
 		$this->title      = $title;
 		$this->identifier = $identifier;
 		$this->type	      =  ( ! empty( $args['type'] ) ? $args['type'] : 'select' );
+		$this->args       = $args;
 
 		if ( ! empty( $args['labels'] ) ) {
 			$this->set_labels( $args['labels'] );
@@ -159,10 +167,25 @@ class Filter {
 	/**
 	 * Get the filter items.
 	 *
+	 * @param bool $labeled_only Return only labeled items.
 	 * @return array
 	 */
-	public function get_items() {
-		return $this->items;
+	public function get_items( $labeled_only = null ) {
+		if ( ( isset( $labeled_only ) && $labeled_only ) || ( isset( $this->args['labeled_only'] ) && $this->args['labeled_only'] ) ) {
+			$items = array();
+			$labels = self::get_labels();
+
+			foreach ( $this->items as $item ) {
+				if ( isset( $labels[ $item['name'] ] ) ) {
+					$items[] = $item;
+				}
+			}
+
+			return $items;
+		} else {
+			return $this->items;
+		}
+	}
 
 	/**
 	 * Set the filter labels.
