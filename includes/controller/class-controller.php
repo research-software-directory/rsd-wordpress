@@ -348,6 +348,21 @@ class Controller {
 			// Process data.
 			$args = ( ! empty( $filter['args'] ) ? $filter['args'] : array() );
 			$filters[ $filter['identifier'] ] = new Filter( $filter['title'], $filter['identifier'], $response['data'], $args );
+
+			// Additionally retrieve and set labels for specific filter(s).
+			if ( 'domain' === $filter['identifier'] ) {
+				$path = Api::build_path( 'research_domain', array(
+					'select' => 'key,name',
+					'parent' => 'is.null',
+				) );
+				$response = Api::get_response( $path );
+
+				$labels = array();
+				foreach ( $response['data'] as $item ) {
+					$labels[ $item['key'] ] = $item['name'];
+				}
+				$filters[ $filter['identifier'] ]->set_labels( $labels );
+			}
 		}
 
 		// Set the filters.
