@@ -18,7 +18,7 @@ defined( 'ABSPATH' ) || exit;
  *
  * @since 1.1.0
  */
-class Item {
+abstract class Item {
 
 	/**
 	 * The item raw data.
