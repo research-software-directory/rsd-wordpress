@@ -120,7 +120,6 @@ class Display {
 					</select>
 					<label for="rsd-limit"><?php esc_html_e( 'Limit:', 'rsd-wordpress' ); ?></label>
 					<select name="rsd-limit" id="rsd-limit">
-						<option value="10">10</option>
 						<option value="20">20</option>
 						<option value="50">50</option>
 						<option value="100">100</option>
