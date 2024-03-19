@@ -49,6 +49,13 @@ class Filter {
 	public $items = array();
 
 	/**
+	 * The filter labels.
+	 *
+	 * @var array
+	 */
+	public $labels = array();
+
+	/**
 	 * Currently selected filter item.
 	 *
 	 * @var mixed
@@ -67,6 +74,10 @@ class Filter {
 		$this->title      = $title;
 		$this->identifier = $identifier;
 		$this->type	      =  ( ! empty( $args['type'] ) ? $args['type'] : 'select' );
+
+		if ( ! empty( $args['labels'] ) ) {
+			$this->set_labels( $args['labels'] );
+		}
 
 		if ( ! empty( $data ) ) {
 			$this->set_items( $data );
@@ -137,7 +148,7 @@ class Filter {
 
 		foreach ( $data as $item ) {
 			$items[] = array(
-				'title' => $item[ $this->get_identifier() ],
+				'name'  => $item[ $this->get_identifier() ],
 				'count' => $item[ $this->get_identifier() . '_cnt' ],
 			);
 		}
@@ -152,6 +163,48 @@ class Filter {
 	 */
 	public function get_items() {
 		return $this->items;
+
+	/**
+	 * Set the filter labels.
+	 *
+	 * @param array $labels The filter labels.
+	 */
+	public function set_labels( $labels ) {
+		$this->labels = $labels;
+	}
+
+	/**
+	 * Get the filter labels.
+	 *
+	 * @return array
+	 */
+	public function get_labels() {
+		if ( empty( $this->labels ) ) {
+			$labels = array();
+
+			foreach ( $this->items as $item ) {
+				$labels[ $item['title'] ] = $item['title'];
+			}
+
+			$this->labels = $labels;
+		}
+
+		return $this->labels;
+	}
+
+	/**
+	 * Get filter value label.
+	 *
+	 * @param string $name The filter value.
+	 */
+	public function get_label( $name ) {
+		$labels = $this->get_labels();
+
+		if ( ! empty( $labels[ $name ] ) ) {
+			return $labels[ $name ];
+		}
+
+		return $name;
 	}
 
 }
