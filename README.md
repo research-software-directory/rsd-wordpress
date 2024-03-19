@@ -11,7 +11,7 @@ To display the overview (e.g. for the Software section for the Netherlands eScie
 
 ## Local development
 
-This plugin can be used in a new or existing WordPress intallation in a local development environment, like with the application [Local](https://localwp.com/).
+This plugin can be used in a new or existing WordPress intallation in a local development environment. For a super quick testing environment, the bundled `docker-compose.yml` can be used with the application [Local](https://localwp.com/).
 
 First make sure your WordPress installation is functional, then move the plugin file to the `plugins` folder of your installation, which is usually something like `<wordpress_folder>/wp-content/plugins/`.
 
