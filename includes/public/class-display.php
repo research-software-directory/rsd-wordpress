@@ -148,13 +148,14 @@ class Display {
 				<h3><label for="<?php echo esc_attr( $identifier ); ?>"><?php echo esc_html( $filter->get_title() ); ?></label></h3>
 				<?php if ( 'multicheckbox' === $filter->get_type() ) : ?>
 					<?php foreach ( $filter->get_items() as $item ) : ?>
-						<label for="<?php echo esc_attr( $identifier . '-' . $i ); ?>"><input type="checkbox" name="<?php echo esc_attr( $identifier . '[]' ); ?>" id="<?php echo esc_attr( $identifier . '-' . $i ); ?>" value="<?php echo esc_attr( $item['title'] ); ?>"> <?php echo esc_html( $item['title'] ); ?></label>
+						<?php  ?>
+						<label for="<?php echo esc_attr( $identifier . '-' . $i ); ?>"><input type="checkbox" name="<?php echo esc_attr( $identifier . '[]' ); ?>" id="<?php echo esc_attr( $identifier . '-' . $i ); ?>" value="<?php echo esc_attr( $item['name'] ); ?>"> <?php echo esc_html( $filter->get_label( $item['name'] ) ); ?></label>
 						<?php $i++; ?>
 					<?php endforeach; ?>
 				<?php else : ?>
 					<select name="<?php echo esc_attr( $identifier ); ?>" id="<?php echo esc_attr( $identifier ); ?>">
 					<?php foreach ( $filter->get_items() as $item ) : ?>
-						<option value="<?php echo esc_attr( $item['title'] ); ?>"><?php echo esc_html( $item['title'] ); ?></option>
+						<option value="<?php echo esc_attr( $item['name'] ); ?>"><?php echo esc_html( $filter->get_label( $item['name'] ) ); ?></option>
 					<?php endforeach; ?>
 					</select>
 				<?php endif; ?>
