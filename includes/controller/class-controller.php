@@ -337,7 +337,7 @@ class Controller {
 		//
 		$filters = array();
 
-		// Set the API paths and parameters.
+		// Set the API paths and parameters for configured filters.
 		foreach ( $filters_default[ $section ] as $filter ) {
 			// Build the API path.
 			$path = Api::build_path( $filter['path'], $filter['params'] );
