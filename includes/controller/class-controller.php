@@ -292,6 +292,9 @@ class Controller {
 				'research_domains' => array(
 					'title'      => __( 'Research Domains', 'rsd-wordpress' ),
 					'identifier' => 'domain',
+					'args'       => array(
+						'labeled_only' => true,
+					),
 					'path'       => '/rpc/org_project_domains_filter',
 					'params'     => wp_parse_args( array(
 						'order'  => 'domain',
