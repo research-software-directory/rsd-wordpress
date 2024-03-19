@@ -15,6 +15,7 @@ defined( 'ABSPATH' ) || exit;
 // Load plugin components.
 require 'controller/class-api.php';
 require 'controller/class-controller.php';
+require 'models/class-filter.php';
 require 'models/class-item.php';
 require 'models/class-project-item.php';
 require 'models/class-software-item.php';
