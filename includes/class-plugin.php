@@ -28,6 +28,26 @@ require 'public/class-display.php';
  * @since   1.0.0
  */
 class Plugin {
+	/**
+	 * The single instance of the class.
+	 *
+	 * @var Plugin|null
+	 */
+	private static $_instance = null;
+
+	/**
+	 * Get the singleton instance of the class.
+	 *
+	 * @since 1.3.2
+	 * @return Plugin
+	 */
+	public static function get_instance() {
+		if ( null === self::$_instance ) {
+			self::$_instance = new self();
+		}
+
+		return self::$_instance;
+	}
 
 	/**
 	 * Constructor.
@@ -42,7 +62,7 @@ class Plugin {
 	public static function init() {
 		if ( ! shortcode_exists( 'research_software_directory' ) ) {
 			// Add shortcode to display the table.
-			add_shortcode( 'research_software_directory', array( __NAMESPACE__ . '\Plugin', 'process_shortcode' ) );
+			add_shortcode( 'research_software_directory', array( self::get_instance(), 'process_shortcode' ) );
 		}
 	}
 
