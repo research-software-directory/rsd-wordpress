@@ -19,7 +19,6 @@ defined( 'ABSPATH' ) || exit;
  * @since   0.1.0
  */
 class Controller {
-
 	/**
 	 * The section to display.
 	 *
@@ -269,11 +268,17 @@ class Controller {
 					'title'      => __( 'Project Status', 'rsd-wordpress' ),
 					'identifier' => 'project_status',
 					'args'       => array(
-						'type' => 'multicheckbox',
+						'type'   => 'multicheckbox',
+						'labels' => array(
+							'upcoming'    => __( 'Upcoming', 'rsd-wordpress' ),
+							'in_progress' => __( 'In progress', 'rsd-wordpress' ),
+							'finished'    => __( 'Finished', 'rsd-wordpress' ),
+							'unknown'     => __( 'Unknown', 'rsd-wordpress' ),
+						),
 					),
 					'path'       => '/rpc/org_project_status_filter',
 					'params'     => wp_parse_args( array(
-						'order' => 'project_status',
+						'order'  => 'project_status',
 					), $default_params ),
 				),
 				'keywords' => array(
