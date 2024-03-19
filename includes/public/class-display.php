@@ -21,6 +21,30 @@ defined( 'ABSPATH' ) || exit;
  * @since 0.1.0
  */
 class Display {
+	/**
+	 * The single instance of the class.
+	 *
+	 * @var Display|null
+	 */
+	private static $_instance = null;
+
+	/**
+	 * Get the singleton instance of the class.
+	 *
+	 * @since 0.3.2
+	 * @return Display
+	 */
+	public static function get_instance() {
+		if ( null === self::$_instance ) {
+			self::$_instance = new self();
+		}
+
+		return self::$_instance;
+	}
+
+	/**
+	 * Constructor.
+	 */
 	private function __construct() {
 	}
 

@@ -92,6 +92,27 @@ class Controller {
 	private static $_result_items = false;
 
 	/**
+	 * The instance of the Controller class.
+	 *
+	 * @var Controller|null
+	 */
+	private static $_instance = null;
+
+	/**
+	 * Get the instance of the Controller class.
+	 *
+	 * @since 0.3.2
+	 * @return Controller
+	 */
+	public static function get_instance() {
+		if ( null === self::$_instance ) {
+			self::$_instance = new self();
+		}
+
+		return self::$_instance;
+	}
+
+	/**
 	 * Constructor.
 	 *
 	 * @since 0.1.0
