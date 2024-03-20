@@ -12,15 +12,6 @@ namespace RSD;
 // Exit if accessed directly.
 defined( 'ABSPATH' ) || exit;
 
-// Load plugin components.
-require 'controller/class-api.php';
-require 'controller/class-controller.php';
-require 'models/class-filter.php';
-require 'models/class-item.php';
-require 'models/class-project-item.php';
-require 'models/class-software-item.php';
-require 'public/class-display.php';
-
 /**
  * Plugin main class.
  *
@@ -71,6 +62,7 @@ class Plugin {
 			self::$version = RSD_WP_VERSION;
 		}
 
+		$this->load_dependencies();
 		$this->add_admin_hooks();
 		$this->add_public_hooks();
 	}
@@ -122,6 +114,19 @@ class Plugin {
 	 */
 	public static function get_plugin_name() {
 		return self::$plugin_name;
+	}
+
+	/**
+	 * Load required dependencies for the plugin.
+	 */
+	private function load_dependencies() {
+		require RSD_WP__PLUGIN_DIR . 'includes/controller/class-api.php';
+		require RSD_WP__PLUGIN_DIR . 'includes/controller/class-controller.php';
+		require RSD_WP__PLUGIN_DIR . 'includes/models/class-filter.php';
+		require RSD_WP__PLUGIN_DIR . 'includes/models/class-item.php';
+		require RSD_WP__PLUGIN_DIR . 'includes/models/class-project-item.php';
+		require RSD_WP__PLUGIN_DIR . 'includes/models/class-software-item.php';
+		require RSD_WP__PLUGIN_DIR . 'includes/public/class-display.php';
 	}
 
 	/**
