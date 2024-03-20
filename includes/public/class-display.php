@@ -197,6 +197,24 @@ class Display {
 	public static function display_results( $items ) {
 		ob_start();
 
+		if ( 'projects' === Controller::get_section() ) {
+			$sort_fields = array(
+				'impact' => __( 'Impact', 'rsd-wordpress' ),
+				'name' => __( 'Name', 'rsd-wordpress' ),
+				'date_start' => __( 'Start date', 'rsd-wordpress' ),
+				'date_end' => __( 'End date', 'rsd-wordpress' ),
+				'output' => __( 'Output', 'rsd-wordpress' ),
+			);
+		} else {
+			$sort_fields = array(
+				'impact' => __( 'Impact', 'rsd-wordpress' ),
+				'name' => __( 'Name', 'rsd-wordpress' ),
+				'date_added' => __( 'Date added', 'rsd-wordpress' ),
+				'contributors' => __( 'Number of contributors', 'rsd-wordpress' ),
+				'mentions' => __( 'Number of mentions', 'rsd-wordpress' ),
+			);
+		}
+
 		?>
 		<div class="rsd-results">
 			<h2 class="show-for-sr"><?php esc_html_e( 'Results', 'rsd-wordpress' ); ?></h2>
@@ -211,11 +229,9 @@ class Display {
 				<div class="rsd-results-sort">
 					<label for="rsd-sortby"><?php esc_html_e( 'Sort by', 'rsd-wordpress' ); ?></label>
 					<select name="rsd-sortby" id="rsd-sortby">
-						<option value="impact"><?php esc_html_e( 'Impact', 'rsd-wordpress' ); ?></option>
-						<option value="name"><?php esc_html_e( 'Name', 'rsd-wordpress' ); ?></option>
-						<option value="date_added"><?php esc_html_e( 'Date added', 'rsd-wordpress' ); ?></option>
-						<option value="contributors"><?php esc_html_e( 'Number of contributors', 'rsd-wordpress' ); ?></option>
-						<option value="mentions"><?php esc_html_e( 'Number of mentions', 'rsd-wordpress' ); ?></option>
+					<?php foreach ( $sort_fields as $key => $value ) : ?>
+						<option value="<?php echo esc_attr( $key ); ?>"><?php echo esc_html( $value ); ?></option>
+					<?php endforeach; ?>
 					</select>
 				</div>
 			</div>
