@@ -125,7 +125,7 @@ jQuery(function($) {
 	function fetchFilters() {
 		let filters = {};
 
-		default_params = {
+		let defaultParams = {
 			'organisation_id': organisation_id,
 		};
 
@@ -137,7 +137,7 @@ jQuery(function($) {
 					path: '/rpc/org_project_status_filter',
 					params: $.extend({
 						'order': 'project_status',
-					}, default_params ),
+					}, defaultParams ),
 					labels: {
 						'upcoming'    : 'Upcoming',
 						'in_progress' : 'In progress',
@@ -151,7 +151,7 @@ jQuery(function($) {
 					path: '/rpc/org_project_keywords_filter',
 					params: $.extend({
 						'order': 'keyword',
-					}, default_params )
+					}, defaultParams )
 				},
 				'research_domains': {
 					title: 'Research domains',
@@ -159,7 +159,7 @@ jQuery(function($) {
 					path: '/rpc/org_research_domains_filter',
 					params: $.extend({
 						'order': 'domain',
-					}, default_params )
+					}, defaultParams )
 				},
 				'partners': {
 					title: 'Partners',
@@ -167,7 +167,7 @@ jQuery(function($) {
 					path: '/rpc/org_project_participating_organisations_filter',
 					params: $.extend({
 						'order': 'organisation',
-					}, default_params )
+					}, defaultParams )
 				}
 			},
 			'software': {
@@ -177,7 +177,7 @@ jQuery(function($) {
 					path: '/rpc/org_software_keywords_filter',
 					params: $.extend({
 						'order': 'keyword',
-					}, default_params )
+					}, defaultParams )
 				},
 				'programming_languages': {
 					title: 'Programming Languages',
@@ -185,7 +185,7 @@ jQuery(function($) {
 					path: '/rpc/org_software_languages_filter',
 					params: $.extend({
 						'order': 'prog_language',
-					}, default_params )
+					}, defaultParams )
 				},
 				'licenses': {
 					title: 'Licenses',
@@ -193,7 +193,7 @@ jQuery(function($) {
 					path: '/rpc/org_software_licenses_filter',
 					params: $.extend({
 						'order': 'license',
-					}, default_params )
+					}, defaultParams )
 				}
 			}
 		}
