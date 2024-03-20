@@ -59,7 +59,7 @@ class Display {
 		// Render the RSD components.
 		ob_start();
 		?>
-		<div class="rsd">
+		<div id="rsd-wordpress" class="rsd" data-section="<?php echo esc_attr( Controller::get_section() ); ?>">
 			<?php
 			// phpcs:ignore
 			echo self::display_search_bar();
