@@ -297,6 +297,7 @@ jQuery(function($) {
 		var searchTerm = $(this).val().toLowerCase();
 		delayTimer = setTimeout(function() {
 			console.log('🎹 searchTerm: ', searchTerm);
+			fetchFilters();
 			fetchResults(searchTerm);
 			showClearFiltersButton();
 		}, 500);
@@ -305,6 +306,7 @@ jQuery(function($) {
 	// Attach click event to 'Clear filters' button and get new results from API.
 	$('#rsd-wordpress .rsd-results-clear-filters').on('click', function() {
 		$('#rsd-search').val('');
+		fetchFilters();
 		fetchResults();
 		hideClearFiltersButton();
 	});
