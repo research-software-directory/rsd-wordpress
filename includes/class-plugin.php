@@ -70,6 +70,9 @@ class Plugin {
 		if ( defined( 'RSD_WP_VERSION' ) ) {
 			self::$version = RSD_WP_VERSION;
 		}
+
+		$this->add_admin_hooks();
+		$this->add_public_hooks();
 	}
 
 	/**
@@ -119,6 +122,30 @@ class Plugin {
 	 */
 	public static function get_plugin_name() {
 		return self::$plugin_name;
+	}
+
+	/**
+	 * Add the hooks used in the admin area.
+	 */
+	private function add_admin_hooks() {
+		// Do nothing (yet).
+	}
+
+	/**
+	 * Add the hooks used in the front end area.
+	 */
+	private function add_public_hooks() {
+		add_action( 'wp_enqueue_scripts', array( __NAMESPACE__ . '\Plugin', 'enqueue_public_scripts' ) );
+	}
+
+	/**
+	 * Enqueue plugin front end scripts and styles.
+	 */
+	public static function enqueue_public_scripts() {
+		// TODO: Add the CSS file.
+		// wp_enqueue_style( self::get_plugin_name(), RSD_WP__PLUGIN_DIR . 'src/css/rsd-wordpress.css', array(), self::get_version() );
+		// TODO: Change JavaScript file to optimized production version (instead of src/development version).
+		wp_enqueue_script( self::get_plugin_name() . '-public', RSD_WP__PLUGIN_URL . 'src/js/rsd-wordpress.js', array( 'jquery' ), self::get_version() );
 	}
 
 	/**
