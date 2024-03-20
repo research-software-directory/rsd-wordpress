@@ -204,11 +204,19 @@ jQuery(function($) {
 				type: 'GET',
 				url: apiGetUrl(data.path, data.params),
 				success: function(response) {
-					filters[filter].data = response;
-					console.log('🎹 filters[filter].data: ', filters[filter].data);
+					filters[filter] = {
+						title: data.title,
+						identifier: data.identifier,
+						labels: data.labels || {},
+						values: response,
+					};
 				},
 			});
 		});
+
+		console.log('🎹 filters: ', filters);
+
+		return filters;
 	}
 
 
