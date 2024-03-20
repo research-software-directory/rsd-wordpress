@@ -97,6 +97,13 @@ class Plugin {
 	}
 
 	/**
+	 * Plugin uninstall hook.
+	 */
+	public static function uninstall() {
+		// Do nothing (yet).
+	}
+
+	/**
 	 * Get the plugin version.
 	 *
 	 * @return string
