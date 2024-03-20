@@ -29,6 +29,20 @@ require 'public/class-display.php';
  */
 class Plugin {
 	/**
+	 * The version of the plugin.
+	 *
+	 * @var string
+	 */
+	private static $version = '0.3.2';
+
+	/**
+	 * The name of the plugin.
+	 *
+	 * @var string
+	 */
+	private static $plugin_name = 'rsd-wordpress';
+
+	/**
 	 * The single instance of the class.
 	 *
 	 * @var Plugin|null
@@ -53,7 +67,9 @@ class Plugin {
 	 * Constructor.
 	 */
 	private function __construct() {
-		// Do nothing (yet).
+		if ( defined( 'RSD_WP_VERSION' ) ) {
+			self::$version = RSD_WP_VERSION;
+		}
 	}
 
 	/**
@@ -78,6 +94,24 @@ class Plugin {
 	 */
 	public static function deactivate() {
 		// Do nothing (yet).
+	}
+
+	/**
+	 * Get the plugin version.
+	 *
+	 * @return string
+	 */
+	public static function get_version() {
+		return self::$version;
+	}
+
+	/**
+	 * Get the plugin name.
+	 *
+	 * @return string
+	 */
+	public static function get_plugin_name() {
+		return self::$plugin_name;
 	}
 
 	/**
