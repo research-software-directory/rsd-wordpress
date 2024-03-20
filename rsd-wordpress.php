@@ -31,6 +31,7 @@ if ( defined( 'RSD_WP_LOADED' ) ) {
 
 define( 'RSD_WP_LOADED', true );
 define( 'RSD_WP__PLUGIN_DIR', plugin_dir_path( __FILE__ ) );
+define( 'RSD_WP__PLUGIN_URL', plugin_dir_url( __FILE__ ) );
 
 register_activation_hook( __FILE__, array( __NAMESPACE__ . '\Plugin', 'activate' ) );
 register_deactivation_hook( __FILE__, array( __NAMESPACE__ . '\Plugin', 'deactivate' ) );
