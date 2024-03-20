@@ -29,7 +29,7 @@ jQuery(function($) {
 	hideSearchButton();
 
 	// Get container element and section.
-	let $container = $('#rsd-wordpress .rsd-results-items');
+	let $container = $('#rsd-wordpress');
 	let section = $container.data('section');
 
 	/*
@@ -316,7 +316,8 @@ jQuery(function($) {
 		// Update result count.
 		setResultsTotalCount(totalCount || '-');
 		// Display the results.
-		$container.html('');
+		let $itemsContainer = $container.find('.rsd-results-items');
+		$itemsContainer.empty();
 		$.each(items, function(index, item) {
 			let title, props;
 			if ('projects' === section) {
@@ -333,7 +334,7 @@ jQuery(function($) {
 				}
 			}
 
-			$container.append(
+			$itemsContainer.append(
 				`
 				<div class="rsd-results-item card">
 					<div class="card-section">
