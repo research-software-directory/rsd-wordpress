@@ -362,13 +362,15 @@ jQuery(function($) {
 	});
 
 	// Attach click event to 'Clear filters' button and get new results from API.
-	$('#rsd-wordpress .rsd-results-clear-filters').on('click', function() {
+	$('#rsd-wordpress .rsd-results-clear-filters').on('click', clearFilters);
+
+	function clearFilters() {
 		$container.find('#rsd-search').val('');
 		$container.find('.rsd-filters select').val('');
 		fetchFilters();
 		fetchResults();
 		hideClearFiltersButton();
-	});
+	}
 
 
 	/*
