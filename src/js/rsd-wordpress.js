@@ -140,10 +140,8 @@ jQuery(function($) {
 				'project_status': {
 					title: 'Project status',
 					identifier: 'project_status',
-					path: '/rpc/org_project_status_filter',
-					params: $.extend({
-						'order': 'project_status',
-					}, defaultParams ),
+					path: '/rpc/org_project_status_filter?order=project_status',
+					params: { ...defaultParams },
 					labels: {
 						'upcoming'    : 'Upcoming',
 						'in_progress' : 'In progress',
@@ -154,52 +152,40 @@ jQuery(function($) {
 				'keyword': {
 					title: 'Keywords',
 					identifier: 'keyword',
-					path: '/rpc/org_project_keywords_filter',
-					params: $.extend({
-						'order': 'keyword',
-					}, defaultParams )
+					path: '/rpc/org_project_keywords_filter?order=keyword',
+					params: { ...defaultParams }
 				},
 				'domain': {
 					title: 'Research domains',
 					identifier: 'domain',
-					path: '/rpc/org_research_domains_filter',
-					params: $.extend({
-						'order': 'domain',
-					}, defaultParams )
+					path: '/rpc/org_research_domains_filter?order=domain',
+					params: { ...defaultParams }
 				},
 				'partner': {
 					title: 'Partners',
 					identifier: 'partner',
-					path: '/rpc/org_project_participating_organisations_filter',
-					params: $.extend({
-						'order': 'organisation',
-					}, defaultParams )
+					path: '/rpc/org_project_participating_organisations_filter?order=organisation',
+					params: { ...defaultParams }
 				}
 			},
 			'software': {
 				'keyword': {
 					title: 'Keywords',
 					identifier: 'keyword',
-					path: '/rpc/org_software_keywords_filter',
-					params: $.extend({
-						'order': 'keyword',
-					}, defaultParams )
+					path: '/rpc/org_software_keywords_filter?order=keyword',
+					params: { ...defaultParams }
 				},
 				'prog_language': {
 					title: 'Programming Languages',
 					identifier: 'prog_language',
-					path: '/rpc/org_software_languages_filter',
-					params: $.extend({
-						'order': 'prog_language',
-					}, defaultParams )
+					path: '/rpc/org_software_languages_filter?order=prog_language',
+					params: { ...defaultParams }
 				},
 				'license': {
 					title: 'Licenses',
 					identifier: 'license',
-					path: '/rpc/org_software_licenses_filter',
-					params: $.extend({
-						'order': 'license',
-					}, defaultParams )
+					path: '/rpc/org_software_licenses_filter?order=license',
+					params: { ...defaultParams }
 				}
 			}
 		}
@@ -226,8 +212,11 @@ jQuery(function($) {
 		// Get filter data from the API for each filter.
 		$.each(filterReqs, function(filter, data) {
 			$.ajax({
-				type: 'GET',
-				url: apiGetUrl(data.path, data.params),
+				type: 'POST',
+				url: apiGetUrl(data.path),
+				data: JSON.stringify(data.params),
+				dataType: 'json',
+				contentType: 'application/json',
 				success: function(response) {
 					filters[filter] = {
 						title: data.title,
