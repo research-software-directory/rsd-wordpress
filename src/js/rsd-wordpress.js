@@ -11,7 +11,10 @@
 
 jQuery(function($) {
 
-	// Variables
+	/*
+	Variables
+	*/
+
 	let data = [];
 	let filteredData = [];
 	// API
@@ -19,9 +22,6 @@ jQuery(function($) {
 	let apiVersion = 'v1';
 	// Default parameters
 	let defaultLimit = 48;
-	let defaultView = 'card';
-	// TODO: set organisation_id server-side
-	let organisation_id = '35c17f17-6b5f-4385-aa8b-6b1d33a10157';
 
 	// Add a class to the body when the page is loaded.
 	$('body').addClass('rsd-wordpress');
@@ -31,6 +31,8 @@ jQuery(function($) {
 	// Get container element and section.
 	let $container = $('#rsd-wordpress');
 	let section = $container.data('section');
+	let organisation_id = $container.data('organisation_id');
+
 
 	/*
 	API functions
