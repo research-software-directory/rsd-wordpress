@@ -57,6 +57,11 @@ jQuery(function($) {
 		searchTerm = searchTerm ? searchTerm.toLowerCase().trim() : getSearchTerm();
 		filters = filters ? filters : getFilterValues();
 
+		// Hide the 'Clear filters' button if no search term or filters are set.
+		if (searchTerm || (filters && Object.keys(filters).length !== 0)) {
+			showClearFiltersButton();
+		}
+
 		// Build the API URL based on section.
 		let path = '';
 		let params = {
