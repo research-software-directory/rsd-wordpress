@@ -363,7 +363,8 @@ jQuery(function($) {
 
 	// Attach click event to 'Clear filters' button and get new results from API.
 	$('#rsd-wordpress .rsd-results-clear-filters').on('click', function() {
-		$('#rsd-search').val('');
+		$container.find('#rsd-search').val('');
+		$container.find('.rsd-filters select').val('');
 		fetchFilters();
 		fetchResults();
 		hideClearFiltersButton();
