@@ -97,7 +97,7 @@ class Display {
 				</form>
 				<?php
 				// phpcs:ignore
-				echo self::display_results_settings();
+				// echo self::display_results_settings();
 				?>
 			</div>
 		<?php
