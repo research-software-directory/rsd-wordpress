@@ -147,7 +147,7 @@ class Plugin {
 	 * Enqueue plugin front end scripts and styles.
 	 */
 	public static function enqueue_public_scripts() {
-		// TODO: Add the CSS file.
+		// TODO: Change CSS file to optimized production version (instead of src/development version).
 		wp_enqueue_style( self::get_plugin_name() . '-public', RSD_WP__PLUGIN_URL . 'src/css/rsd-wordpress.css', array(), self::get_version() );
 		// TODO: Change JavaScript file to optimized production version (instead of src/development version).
 		wp_enqueue_script( self::get_plugin_name() . '-public', RSD_WP__PLUGIN_URL . 'src/js/rsd-wordpress.js', array( 'jquery' ), self::get_version() );
