@@ -52,8 +52,10 @@ jQuery(function($) {
 	*/
 
 	// Get the results from the API.
-	function fetchResults(searchTerm = '', filters = {}) {
-		searchTerm = searchTerm.toLowerCase().trim() || '';
+	function fetchResults(searchTerm = false, filters = {}) {
+		// Get the search term and filter values.
+		searchTerm = searchTerm ? searchTerm.toLowerCase().trim() : getSearchTerm();
+		filters = filters ? filters : getFilterValues();
 
 		// Build the API URL based on section.
 		let path = '';
