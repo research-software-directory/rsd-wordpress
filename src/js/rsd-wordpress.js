@@ -101,10 +101,10 @@ jQuery(function($) {
 			}
 		}
 
-		console.log(apiGetUrl(path, params));
-		let url = apiGetUrl(path, params);
+		console.log('🎹 path with params: ', apiGetUrl(path, params));
 
 		// Get the data from the API.
+		let url = apiGetUrl(path, params);
 		let req = $.ajax({
 			type: 'GET',
 			url: url,
