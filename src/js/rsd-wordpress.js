@@ -228,8 +228,6 @@ jQuery(function($) {
 			});
 		});
 
-		console.log('🎹 filters: ', filters);
-
 		return filters;
 	}
 
