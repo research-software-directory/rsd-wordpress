@@ -43,7 +43,7 @@ jQuery(function($) {
 		if (params && typeof params === 'object' && Object.keys(params).length !== 0) {
 			path = path + '?' + $.param(params);
 		}
-		return apiEndpoint + '/' + apiVersion + '/' + path.trimStart('/');
+		return apiEndpoint + '/' + apiVersion + '/' + path.replace(/^\/+/, '');
 	}
 
 
