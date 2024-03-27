@@ -164,7 +164,7 @@ class Display {
 	public static function display_filter( $filter ) {
 		ob_start();
 
-		$identifier = $filter->get_identifier( 'rsd-' );
+		$identifier = $filter->get_identifier( 'rsd-filter-' );
 		$i = 1;
 		?>
 			<div class="rsd-filter">
@@ -176,7 +176,7 @@ class Display {
 						<?php $i++; ?>
 					<?php endforeach; ?>
 				<?php else : ?>
-					<select name="<?php echo esc_attr( $identifier ); ?>" id="<?php echo esc_attr( $identifier ); ?>">
+					<select name="<?php echo esc_attr( $identifier ); ?>" id="<?php echo esc_attr( $identifier ); ?>" data-filter="<?php echo esc_attr( $filter->get_identifier() ); ?>">
 					<?php foreach ( $filter->get_items() as $item ) : ?>
 						<option value="<?php echo esc_attr( $item['name'] ); ?>"><?php echo esc_html( $filter->get_label( $item['name'] ) ); ?></option>
 					<?php endforeach; ?>

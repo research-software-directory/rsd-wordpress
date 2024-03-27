@@ -79,19 +79,16 @@ jQuery(function($) {
 			}
 		}
 
-		// Use filters, if any were set.
+		// Add filter values to API URL params.
 		if (filters && typeof filters === 'object' && Object.keys(filters).length !== 0) {
-			// Keywords filter
-			if (filters.keywords && filters.keywords.length > 0) {
-				params.keywords = 'cs.{' + filters.keywords.map(value => `"${value}"`).join(',') + '}';
+			if (filters.keyword && filters.keyword.length > 0) {
+				params.keywords = 'cs.{' + filters.keyword.map(value => `"${value}"`).join(',') + '}';
 			}
-			// Program languages filter
-			if (filters.languages && filters.languages.length > 0) {
-				params.languages = 'cs.{' + filters.languages.map(value => `"${value}"`).join(',') + '}';
+			if (filters.prog_language && filters.prog_language.length > 0) {
+				params.languages = 'cs.{' + filters.prog_language.map(value => `"${value}"`).join(',') + '}';
 			}
-			// Licenses filter
-			if (filters.licenses && filters.licenses.length > 0) {
-				params.licenses = 'cs.{' + filters.licenses.map(value => `"${value}"`).join(',') + '}';
+			if (filters.license && filters.license.length > 0) {
+				params.licenses = 'cs.{' + filters.license.map(value => `"${value}"`).join(',') + '}';
 			}
 		}
 
@@ -145,7 +142,7 @@ jQuery(function($) {
 						'unknown'     : 'Unknown'
 					}
 				},
-				'keywords': {
+				'keyword': {
 					title: 'Keywords',
 					identifier: 'keyword',
 					path: '/rpc/org_project_keywords_filter',
@@ -153,7 +150,7 @@ jQuery(function($) {
 						'order': 'keyword',
 					}, defaultParams )
 				},
-				'research_domains': {
+				'domain': {
 					title: 'Research domains',
 					identifier: 'domain',
 					path: '/rpc/org_research_domains_filter',
@@ -161,7 +158,7 @@ jQuery(function($) {
 						'order': 'domain',
 					}, defaultParams )
 				},
-				'partners': {
+				'partner': {
 					title: 'Partners',
 					identifier: 'partner',
 					path: '/rpc/org_project_participating_organisations_filter',
@@ -171,7 +168,7 @@ jQuery(function($) {
 				}
 			},
 			'software': {
-				'keywords': {
+				'keyword': {
 					title: 'Keywords',
 					identifier: 'keyword',
 					path: '/rpc/org_software_keywords_filter',
@@ -179,7 +176,7 @@ jQuery(function($) {
 						'order': 'keyword',
 					}, defaultParams )
 				},
-				'programming_languages': {
+				'prog_language': {
 					title: 'Programming Languages',
 					identifier: 'prog_language',
 					path: '/rpc/org_software_languages_filter',
@@ -187,7 +184,7 @@ jQuery(function($) {
 						'order': 'prog_language',
 					}, defaultParams )
 				},
-				'licenses': {
+				'license': {
 					title: 'Licenses',
 					identifier: 'license',
 					path: '/rpc/org_software_licenses_filter',
@@ -198,8 +195,27 @@ jQuery(function($) {
 			}
 		}
 
+		// Build filters object for the current section, narrowed down by filter values.
+		let filterReqs = filtersDefault[section] || {};
+		let filterValues = getFilterValues();
+
+		$.each(filterValues, function(filter, data) {
+			// Keywords filter
+			if (filter === 'keyword' && filterValues.keyword && filterValues.keyword.length > 0) {
+				filterReqs.keyword.params.keyword_filter = data;
+			}
+			// Program languages filter
+			if (filter === 'prog_language' && filterValues.prog_language && filterValues.prog_language.length > 0) {
+				filterReqs.prog_language.params.prog_lang_filter = data;
+			}
+			// Licenses filter
+			if (filter === 'license' && filterValues.license && filterValues.license.length > 0) {
+				filterReqs.license.params.license_filter = data;
+			}
+		});
+
 		// Get filter data from the API for each filter.
-		$.each(filtersDefault[section], function(filter, data) {
+		$.each(filterReqs, function(filter, data) {
 			$.ajax({
 				type: 'GET',
 				url: apiGetUrl(data.path, data.params),
@@ -266,6 +282,28 @@ jQuery(function($) {
 
 
 	/*
+	Form functions
+	*/
+
+	function getSearchTerm() {
+		return $('#rsd-search').val().toLowerCase().trim();
+	}
+
+	function getFilterValues() {
+		let filters = {};
+		$container.find('.rsd-filters select').each(function() {
+			let $filter = $(this);
+			let filterIdentifier = $filter.data('filter');
+			let filterValue = $filter.val();
+			if (filterValue != '') {
+				filters[filterIdentifier] = [filterValue];
+			}
+		});
+		return filters;
+	}
+
+
+	/*
 	UI functions
 	*/
 
@@ -290,7 +328,8 @@ jQuery(function($) {
 	Event handlers
 	*/
 
-	// Attach search event to search field (executing with a slight delay after its entry was changed) and get new results from API.
+	// Search field - attach search event and get new results from API.
+	// (executing with a slight delay after entry changes, so that the search term is not sent with every character)
 	var delayTimer;
 	$('#rsd-search').on('input', function() {
 		clearTimeout(delayTimer);
@@ -301,6 +340,16 @@ jQuery(function($) {
 			fetchResults(searchTerm);
 			showClearFiltersButton();
 		}, 500);
+	});
+
+	// Attach set filters event and get new results from API.
+	$container.find('.rsd-filters').on('change', 'select', function() {
+		let $filter = $(this);
+		let filterIdentifier = $filter.data('filter');
+		let filterValue = $filter.val();
+		// Update results.
+		fetchFilters();
+		fetchResults();
 	});
 
 	// Attach click event to 'Clear filters' button and get new results from API.
