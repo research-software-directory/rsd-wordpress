@@ -283,10 +283,10 @@ class Display {
 			<div class="card-footer">
 				<div class="rsd-results-item-specs">
 					<?php if ( ! empty( $domain ) ) : ?>
-					<p class="rsd-result-item-domain"><strong class="label"><?php echo esc_html( $domain ); ?></strong></p>
+					<p class="rsd-result-item-spec-domain"><strong class="label"><?php echo esc_html( $domain ); ?></strong></p>
 					<?php endif; ?>
 					<?php if ( ! empty( $labels) && is_array( $labels ) && count( $labels ) > 0 ) : ?>
-					<ul class="rsd-results-item-labels">
+					<ul class="rsd-results-item-spec-labels">
 					<?php foreach ( $labels as $label ) : ?>
 						<li class="label"><?php echo esc_html( $label ); ?></li>
 					<?php endforeach; ?>
@@ -294,11 +294,13 @@ class Display {
 					<?php endif; ?>
 				</div>
 				<div class="rsd-results-item-props">
-					<div class="rsd-results-item-contributors">
-						<?php esc_html_e( 'Contributors:', 'rsd-wordpress' ); ?> <?php echo esc_html( $item->get_contributor_cnt() ); ?>
+					<div class="rsd-results-item-prop-contributors">
+						<span class="icon icon-contributors"></span>
+						<?php echo esc_html( sprintf( __( '%d contributors', 'rsd-wordpress' ), $item->get_contributor_cnt() ) ); ?>
 					</div>
-					<div class="rsd-results-item-mentions">
-						<?php esc_html_e( 'Mentions:', 'rsd-wordpress' ); ?> <?php echo esc_html( $item->get_mention_cnt() ); ?>
+					<div class="rsd-results-item-prop-mentions">
+						<span class="icon icon-mentions"></span>
+						<?php echo esc_html( sprintf( __( '%d mentions', 'rsd-wordpress' ), $item->get_mention_cnt() ) ); ?>
 					</div>
 				</div>
 			</div>
@@ -328,10 +330,10 @@ class Display {
 			<div class="card-footer">
 				<div class="rsd-results-item-specs">
 					<?php if ( ! empty( $domain ) ) : ?>
-					<p class="rsd-result-item-domain"><strong class="label"><?php echo esc_html( $domain ); ?></strong></p>
+					<p class="rsd-result-item-spec-domain"><strong class="label"><?php echo esc_html( $domain ); ?></strong></p>
 					<?php endif; ?>
 					<?php if ( ! empty( $labels ) && is_array( $labels ) && count( $labels ) > 0 ) : ?>
-					<ul class="rsd-results-item-labels">
+					<ul class="rsd-results-item-spec-labels">
 					<?php foreach ( $labels as $label ) : ?>
 						<li class="label"><?php echo esc_html( $label ); ?></li>
 					<?php endforeach; ?>
@@ -339,14 +341,14 @@ class Display {
 					<?php endif; ?>
 				</div>
 				<div class="rsd-results-item-props">
-					<div class="rsd-results-item-progress">
-						<?php esc_html_e( 'Progress:', 'rsd-wordpress' ); ?> <?php echo esc_html( $item->get_progress() ); ?>
+					<div class="rsd-results-item-prop-progress">
+						<span class="icon icon-progress"><?php esc_html_e( 'progress:', 'rsd-wordpress' ); ?></span> <?php echo esc_html( $item->get_progress() ); ?>
 					</div>
-					<div class="rsd-results-item-impact">
-						<?php esc_html_e( 'Impact:', 'rsd-wordpress' ); ?> <?php echo esc_html( $item->get_impact_cnt() ); ?>
+					<div class="rsd-results-item-prop-impact">
+						<span class="icon icon-impact"><?php esc_html_e( 'impact:', 'rsd-wordpress' ); ?></span> <?php echo esc_html( $item->get_impact_cnt() ); ?>
 					</div>
-					<div class="rsd-results-item-output">
-						<?php esc_html_e( 'Output:', 'rsd-wordpress' ); ?> <?php echo esc_html( $item->get_output_cnt() ); ?>
+					<div class="rsd-results-item-prop-output">
+						<span class="icon icon-output"><?php esc_html_e( 'output:', 'rsd-wordpress' ); ?></span> <?php echo esc_html( $item->get_output_cnt() ); ?>
 					</div>
 				</div>
 			</div>
