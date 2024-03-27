@@ -188,6 +188,20 @@ class Filter {
 	}
 
 	/**
+	 * Get filter placeholder title.
+	 *
+	 * @return string
+	 */
+	public function get_placeholder_title() {
+		if ( ! empty( $this->args['placeholder'] ) ) {
+			return $this->args['placeholder'];
+		} else {
+			// translators: %s is the filter placeholder title.
+			return sprintf( __( 'Filter by %s', 'rsd-wordpress' ), $this->get_title() );
+		}
+	}
+
+	/**
 	 * Set the filter labels.
 	 *
 	 * @param array $labels The filter labels.
