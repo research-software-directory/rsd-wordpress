@@ -379,7 +379,7 @@ jQuery(function($) {
 
 	// Update the result count.
 	function setResultsTotalCount(count) {
-		$('#rsd-wordpress .rsd-results-count').text(`${count} items found`);
+		$container.find('.rsd-results-count').text(`${count} items found`);
 	}
 
 	// Display the results.
