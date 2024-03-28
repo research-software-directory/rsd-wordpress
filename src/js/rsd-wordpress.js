@@ -399,6 +399,9 @@ jQuery(function($) {
 		hideClearFiltersButton();
 	}
 
+	// Attach click event to filters toggle button.
+	$container.find('.rsd-filter-button').on('click', toggleFiltersSidebar);
+
 
 	/*
 	Display functions
