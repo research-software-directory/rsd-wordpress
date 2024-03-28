@@ -115,7 +115,6 @@ jQuery(function($) {
 			headers: { 'Prefer': 'count=exact' },
 			success: function(response) {
 				data = response;
-				filteredData = response;
 				console.log('🎹 data: ', data);
 
 				// Get the total count of results from `content-range` response header.
@@ -127,7 +126,7 @@ jQuery(function($) {
 				}
 
 				// Display the results.
-				displayResults(filteredData, totalResults);
+				displayResults(data, totalResults);
 			},
 		});
 	}
