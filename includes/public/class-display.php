@@ -132,6 +132,20 @@ class Display {
 	}
 
 	/**
+	 * Renders the filter button.
+	 */
+	public static function display_filter_button() {
+		ob_start();
+		?>
+			<div class="rsd-filter-button">
+				<button class="button"><?php esc_html_e( 'Filters', 'rsd-wordpress' ); ?></button>
+			</div>
+		<?php
+
+		return ob_get_clean();
+	}
+
+	/**
 	 * Renders the filter sidebar.
 	 */
 	public static function display_filter_sidebar() {
