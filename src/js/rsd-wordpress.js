@@ -306,10 +306,6 @@ jQuery(function($) {
 	UI functions
 	*/
 
-	function showSearchButton() {
-		$('#rsd-wordpress .rsd-search-bar input[type="submit"]').show();
-	}
-
 	function hideSearchButton() {
 		$('#rsd-wordpress .rsd-search-bar input[type="submit"]').hide();
 	}
