@@ -216,19 +216,19 @@ class Display {
 
 		if ( 'projects' === Controller::get_section() ) {
 			$sort_fields = array(
-				'impact' => __( 'Impact', 'rsd-wordpress' ),
-				'name' => __( 'Name', 'rsd-wordpress' ),
+				'impact_cnt' => __( 'Impact', 'rsd-wordpress' ),
+				'output_cnt' => __( 'Output', 'rsd-wordpress' ),
+				'title' => __( 'Title', 'rsd-wordpress' ),
 				'date_start' => __( 'Start date', 'rsd-wordpress' ),
 				'date_end' => __( 'End date', 'rsd-wordpress' ),
-				'output' => __( 'Output', 'rsd-wordpress' ),
+				'updated_at' => __( 'Last updated', 'rsd-wordpress' ),
 			);
 		} else {
 			$sort_fields = array(
-				'impact' => __( 'Impact', 'rsd-wordpress' ),
-				'name' => __( 'Name', 'rsd-wordpress' ),
-				'date_added' => __( 'Date added', 'rsd-wordpress' ),
-				'contributors' => __( 'Number of contributors', 'rsd-wordpress' ),
-				'mentions' => __( 'Number of mentions', 'rsd-wordpress' ),
+				'brand_name' => __( 'Name', 'rsd-wordpress' ),
+				'mention_cnt' => __( 'Mentions', 'rsd-wordpress' ),
+				'contributor_cnt' => __( 'Contributors', 'rsd-wordpress' ),
+				'updated_at' => __( 'Last updated', 'rsd-wordpress' ),
 			);
 		}
 
