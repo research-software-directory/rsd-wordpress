@@ -51,10 +51,12 @@ jQuery(function($) {
 	*/
 
 	// Get the results from the API.
-	function fetchResults(searchTerm = false, filters = {}) {
+	function fetchResults(searchTerm = false, filters = false, sortby = false, order = false) {
 		// Get the search term and filter values.
 		searchTerm = searchTerm ? searchTerm.toLowerCase().trim() : getSearchTerm();
 		filters = filters ? filters : getFilterValues();
+		sortby = sortby ? sortby : getSortBy();
+		order = order ? order : getOrder();
 
 		// Hide the 'Clear filters' button if no search term or filters are set.
 		if (searchTerm || (filters && Object.keys(filters).length !== 0)) {
@@ -68,8 +70,11 @@ jQuery(function($) {
 			status: 'eq.approved',
 			is_published: 'eq.true',
 			limit: defaultLimit,
-			order: 'slug.asc'
 		};
+
+		if (sortby) {
+			params.order = apiGetOrder(sortby, order);
+		}
 
 		if (section === 'projects') {
 			if (searchTerm != '') {
