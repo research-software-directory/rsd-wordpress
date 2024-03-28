@@ -32,6 +32,12 @@ jQuery(function($) {
 	$('body').addClass('rsd-wordpress');
 	// Hide search button, since we're using the input event to trigger a search.
 	hideSearchButton();
+	// Hide filters sidebar by default.
+	hideFiltersSidebar();
+	enhanceFiltersSidebar();
+	// Hide the 'Show more' button (for now)
+	hideShowMoreButton();
+
 
 	/*
 	API functions
@@ -288,6 +294,16 @@ jQuery(function($) {
 		return $('#rsd-search').val().toLowerCase().trim();
 	}
 
+	function getSortBy() {
+		let sortby = $('#rsd-sortby').val().toLowerCase().trim();
+		// if sortby not empty, return it, otherwise return default
+		return sortby || false;
+	}
+
+	function getOrder() {
+		return 'asc';
+	}
+
 	function getFilterValues() {
 		let filters = {};
 		$container.find('.rsd-filters select').each(function() {
@@ -316,6 +332,26 @@ jQuery(function($) {
 
 	function hideClearFiltersButton() {
 		$('#rsd-wordpress .rsd-results-clear-filters').hide();
+	}
+
+	function hideFiltersSidebar() {
+		$container.find('.rsd-filter-sidebar').hide();
+	}
+
+	function toggleFiltersSidebar() {
+		let $sidebar = $container.find('.rsd-filter-sidebar');
+		let $button = $container.find('.rsd-filter-button button');
+		$sidebar.toggle();
+
+		if ($sidebar.is(':visible')) {
+			$button.addClass('active');
+		} else {
+			$button.removeClass('active');
+		}
+	}
+
+	function hideShowMoreButton() {
+		$container.find('.rsd-results-show-more').hide();
 	}
 
 
