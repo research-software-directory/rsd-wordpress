@@ -59,15 +59,7 @@ class Display {
 		// Render the RSD components.
 		ob_start();
 		?>
-		<div class="rsd">
-			<?php
-			// phpcs:ignore
-			echo self::display_search_bar();
-			?>
-			<?php
-			// phpcs:ignore
-			echo self::display_filter_sidebar();
-			?>
+		<div id="rsd-wordpress" class="rsd" data-section="<?php echo esc_attr( Controller::get_section() ); ?>" data-organisation_id="<?php echo esc_attr( Controller::get_organisation_id() ); ?>">
 			<?php
 			if ( ! $items ) {
 				esc_html_e( 'No data returned from API', 'rsd-wordpress' );
@@ -92,12 +84,12 @@ class Display {
 		?>
 			<div class="rsd-search-bar">
 				<form action="" method="get">
-					<input type="text" name="q" id="rsd-search" placeholder="<?php echo esc_html( $btn_placeholder ); ?>">
+					<input type="text" name="q" id="rsd-search" class="rsd-search-input" placeholder="<?php echo esc_html( $btn_placeholder ); ?>">
 					<input type="submit" value="<?php esc_html_e( 'Search', 'rsd-wordpress' ); ?>">
 				</form>
 				<?php
 				// phpcs:ignore
-				echo self::display_results_settings();
+				// echo self::display_results_settings();
 				?>
 			</div>
 		<?php
@@ -132,14 +124,28 @@ class Display {
 	}
 
 	/**
+	 * Renders the filter button.
+	 */
+	public static function display_filter_button() {
+		ob_start();
+		?>
+			<div class="rsd-filter-button">
+				<button class="button"><?php esc_html_e( 'Filters', 'rsd-wordpress' ); ?></button>
+			</div>
+		<?php
+
+		return ob_get_clean();
+	}
+
+	/**
 	 * Renders the filter sidebar.
 	 */
 	public static function display_filter_sidebar() {
 		ob_start();
 		?>
-			<div class="rsd-filter-sidebar">
+			<div class="rsd-filter-sidebar" style="display: none;">
 				<form action="" method="get">
-					<div class="rsd-filters rsd-filters-<?php echo esc_attr( Controller::get_section() ); ?>">
+					<div class="rsd-filters rsd-filters-<?php echo esc_attr( Controller::get_section() ); ?> row small-up-1 medium-up-3">
 						<h2 class="show-for-sr"><?php esc_html_e( 'Filters', 'rsd-wordpress' ); ?></h2>
 						<?php
 						foreach ( Controller::get_filters() as $filter ) {
@@ -164,10 +170,10 @@ class Display {
 	public static function display_filter( $filter ) {
 		ob_start();
 
-		$identifier = $filter->get_identifier( 'rsd-' );
+		$identifier = $filter->get_identifier( 'rsd-filter-' );
 		$i = 1;
 		?>
-			<div class="rsd-filter">
+			<div class="rsd-filter columns in-viewport">
 				<h3><label for="<?php echo esc_attr( $identifier ); ?>"><?php echo esc_html( $filter->get_title() ); ?></label></h3>
 				<?php if ( 'multicheckbox' === $filter->get_type() ) : ?>
 					<?php foreach ( $filter->get_items() as $item ) : ?>
@@ -176,7 +182,10 @@ class Display {
 						<?php $i++; ?>
 					<?php endforeach; ?>
 				<?php else : ?>
-					<select name="<?php echo esc_attr( $identifier ); ?>" id="<?php echo esc_attr( $identifier ); ?>">
+					<select name="<?php echo esc_attr( $identifier ); ?>" id="<?php echo esc_attr( $identifier ); ?>" data-filter="<?php echo esc_attr( $filter->get_identifier() ); ?>">
+					<?php if ( 'select' === $filter->get_type() ) : ?>
+						<option value="" class="placeholder"><?php echo esc_html( $filter->get_placeholder_title() ); ?></option>
+					<?php endif; ?>
 					<?php foreach ( $filter->get_items() as $item ) : ?>
 						<option value="<?php echo esc_attr( $item['name'] ); ?>"><?php echo esc_html( $filter->get_label( $item['name'] ) ); ?></option>
 					<?php endforeach; ?>
@@ -197,29 +206,59 @@ class Display {
 	public static function display_results( $items ) {
 		ob_start();
 
+		if ( 'projects' === Controller::get_section() ) {
+			$sort_fields = array(
+				'impact_cnt' => __( 'Impact', 'rsd-wordpress' ),
+				'output_cnt' => __( 'Output', 'rsd-wordpress' ),
+				'title' => __( 'Title', 'rsd-wordpress' ),
+				'date_start' => __( 'Start date', 'rsd-wordpress' ),
+				'date_end' => __( 'End date', 'rsd-wordpress' ),
+				'updated_at' => __( 'Last updated', 'rsd-wordpress' ),
+			);
+		} else {
+			$sort_fields = array(
+				'brand_name' => __( 'Name', 'rsd-wordpress' ),
+				'mention_cnt' => __( 'Mentions', 'rsd-wordpress' ),
+				'contributor_cnt' => __( 'Contributors', 'rsd-wordpress' ),
+				'updated_at' => __( 'Last updated', 'rsd-wordpress' ),
+			);
+		}
+
 		?>
 		<div class="rsd-results">
 			<h2 class="show-for-sr"><?php esc_html_e( 'Results', 'rsd-wordpress' ); ?></h2>
-			<div class="rsd-results-stats">
-				<h3 class="rsd-results-count">
+			<div class="rsd-results-stats row">
+				<div class="rsd-results-header columns shrink in-viewport">
+					<h3 class="rsd-results-count">
+						<?php
+						// translators: Number of result items found.
+						printf( esc_html__( '%s items found', 'rsd-wordpress' ), Controller::get_result_total_count() );
+						?>
+					</h3>
+					<button class="rsd-results-clear-filters button"<?php if ( Controller::has_search_or_filters() ) { echo ' style="display: none;"'; } ?>><?php esc_html_e( 'Clear filters', 'rsd-wordpress' ); ?></button>
+				</div>
+				<div class="rsd-results-controls columns in-viewport">
 					<?php
-					// translators: Number of result items found.
-					printf( esc_html__( '%s items found', 'rsd-wordpress' ), Controller::get_result_total_count() );
+					// phpcs:ignore
+					echo self::display_search_bar();
+					// phpcs:ignore
+					echo self::display_filter_button();
 					?>
-				</h3>
-				<button class="button rsd-results-clear-filters"><?php esc_html_e( 'Clear filters', 'rsd-wordpress' ); ?></button>
-				<div class="rsd-results-sort">
-					<label for="rsd-sortby"><?php esc_html_e( 'Sort by', 'rsd-wordpress' ); ?></label>
-					<select name="rsd-sortby" id="rsd-sortby">
-						<option value="impact"><?php esc_html_e( 'Impact', 'rsd-wordpress' ); ?></option>
-						<option value="name"><?php esc_html_e( 'Name', 'rsd-wordpress' ); ?></option>
-						<option value="date_added"><?php esc_html_e( 'Date added', 'rsd-wordpress' ); ?></option>
-						<option value="contributors"><?php esc_html_e( 'Number of contributors', 'rsd-wordpress' ); ?></option>
-						<option value="mentions"><?php esc_html_e( 'Number of mentions', 'rsd-wordpress' ); ?></option>
-					</select>
+					<div class="rsd-results-sort">
+						<label for="rsd-sortby"><?php esc_html_e( 'Sort by', 'rsd-wordpress' ); ?></label>
+						<select name="rsd-sortby" id="rsd-sortby">
+						<?php foreach ( $sort_fields as $key => $value ) : ?>
+							<option value="<?php echo esc_attr( $key ); ?>"><?php echo esc_html( $value ); ?></option>
+						<?php endforeach; ?>
+						</select>
+					</div>
 				</div>
 			</div>
-			<div class="rsd-results-items">
+			<?php
+			// phpcs:ignore
+			echo self::display_filter_sidebar();
+			?>
+			<div class="rsd-results-items row small-up-1 medium-up-2 large-up-3">
 			<?php
 			// Loop through the data and add each item as a card div.
 			foreach ( $items as $item ) {
@@ -259,7 +298,7 @@ class Display {
 
 		ob_start();
 		?>
-		<div class="rsd-results-item card">
+		<div class="rsd-results-item column card">
 			<div class="card-section">
 				<h3><a href="<?php printf( 'https://research-software-directory.org/software/%s', esc_attr( $item->get_slug() ) ); ?>" target="_blank" rel="external"><?php echo esc_html( $item->get_brand_name() ); ?></a></h3>
 				<p><?php echo esc_html( mb_strimwidth( $item->get_short_statement(), 0, 100, '...' ) ); ?></p>
@@ -267,10 +306,10 @@ class Display {
 			<div class="card-footer">
 				<div class="rsd-results-item-specs">
 					<?php if ( ! empty( $domain ) ) : ?>
-					<p class="rsd-result-item-domain"><strong class="label"><?php echo esc_html( $domain ); ?></strong></p>
+					<p class="rsd-result-item-spec-domain"><strong class="label"><?php echo esc_html( $domain ); ?></strong></p>
 					<?php endif; ?>
 					<?php if ( ! empty( $labels) && is_array( $labels ) && count( $labels ) > 0 ) : ?>
-					<ul class="rsd-results-item-labels">
+					<ul class="rsd-results-item-spec-labels">
 					<?php foreach ( $labels as $label ) : ?>
 						<li class="label"><?php echo esc_html( $label ); ?></li>
 					<?php endforeach; ?>
@@ -278,11 +317,13 @@ class Display {
 					<?php endif; ?>
 				</div>
 				<div class="rsd-results-item-props">
-					<div class="rsd-results-item-contributors">
-						<?php esc_html_e( 'Contributors:', 'rsd-wordpress' ); ?> <?php echo esc_html( $item->get_contributor_cnt() ); ?>
+					<div class="rsd-results-item-prop-contributors">
+						<span class="icon icon-contributors"></span>
+						<?php echo esc_html( sprintf( __( '%d contributors', 'rsd-wordpress' ), $item->get_contributor_cnt() ) ); ?>
 					</div>
-					<div class="rsd-results-item-mentions">
-						<?php esc_html_e( 'Mentions:', 'rsd-wordpress' ); ?> <?php echo esc_html( $item->get_mention_cnt() ); ?>
+					<div class="rsd-results-item-prop-mentions">
+						<span class="icon icon-mentions"></span>
+						<?php echo esc_html( sprintf( __( '%d mentions', 'rsd-wordpress' ), $item->get_mention_cnt() ) ); ?>
 					</div>
 				</div>
 			</div>
@@ -304,7 +345,7 @@ class Display {
 
 		ob_start();
 		?>
-		<div class="rsd-results-item card">
+		<div class="rsd-results-item column card">
 			<div class="card-section">
 				<h3><a href="<?php printf( 'https://research-software-directory.org/projects/%s', esc_attr( $item->get_slug() ) ); ?>" target="_blank" rel="external"><?php echo esc_html( $item->get_title() ); ?></a></h3>
 				<p><?php echo esc_html( mb_strimwidth( $item->get_subtitle(), 0, 100, '...' ) ); ?></p>
@@ -312,10 +353,10 @@ class Display {
 			<div class="card-footer">
 				<div class="rsd-results-item-specs">
 					<?php if ( ! empty( $domain ) ) : ?>
-					<p class="rsd-result-item-domain"><strong class="label"><?php echo esc_html( $domain ); ?></strong></p>
+					<p class="rsd-result-item-spec-domain"><strong class="label"><?php echo esc_html( $domain ); ?></strong></p>
 					<?php endif; ?>
 					<?php if ( ! empty( $labels ) && is_array( $labels ) && count( $labels ) > 0 ) : ?>
-					<ul class="rsd-results-item-labels">
+					<ul class="rsd-results-item-spec-labels">
 					<?php foreach ( $labels as $label ) : ?>
 						<li class="label"><?php echo esc_html( $label ); ?></li>
 					<?php endforeach; ?>
@@ -323,14 +364,14 @@ class Display {
 					<?php endif; ?>
 				</div>
 				<div class="rsd-results-item-props">
-					<div class="rsd-results-item-progress">
-						<?php esc_html_e( 'Progress:', 'rsd-wordpress' ); ?> <?php echo esc_html( $item->get_progress() ); ?>
+					<div class="rsd-results-item-prop-progress">
+						<span class="icon icon-progress"><?php esc_html_e( 'progress:', 'rsd-wordpress' ); ?></span> <?php echo esc_html( $item->get_progress() ); ?>
 					</div>
-					<div class="rsd-results-item-impact">
-						<?php esc_html_e( 'Impact:', 'rsd-wordpress' ); ?> <?php echo esc_html( $item->get_impact_cnt() ); ?>
+					<div class="rsd-results-item-prop-impact">
+						<span class="icon icon-impact"><?php esc_html_e( 'impact:', 'rsd-wordpress' ); ?></span> <?php echo esc_html( $item->get_impact_cnt() ); ?>
 					</div>
-					<div class="rsd-results-item-output">
-						<?php esc_html_e( 'Output:', 'rsd-wordpress' ); ?> <?php echo esc_html( $item->get_output_cnt() ); ?>
+					<div class="rsd-results-item-prop-output">
+						<span class="icon icon-output"><?php esc_html_e( 'output:', 'rsd-wordpress' ); ?></span> <?php echo esc_html( $item->get_output_cnt() ); ?>
 					</div>
 				</div>
 			</div>
