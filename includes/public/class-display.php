@@ -61,14 +61,6 @@ class Display {
 		?>
 		<div id="rsd-wordpress" class="rsd" data-section="<?php echo esc_attr( Controller::get_section() ); ?>" data-organisation_id="<?php echo esc_attr( Controller::get_organisation_id() ); ?>">
 			<?php
-			// phpcs:ignore
-			echo self::display_search_bar();
-			?>
-			<?php
-			// phpcs:ignore
-			echo self::display_filter_sidebar();
-			?>
-			<?php
 			if ( ! $items ) {
 				esc_html_e( 'No data returned from API', 'rsd-wordpress' );
 			} else {
@@ -235,24 +227,38 @@ class Display {
 		?>
 		<div class="rsd-results">
 			<h2 class="show-for-sr"><?php esc_html_e( 'Results', 'rsd-wordpress' ); ?></h2>
-			<div class="rsd-results-stats">
-				<h3 class="rsd-results-count">
+			<div class="rsd-results-stats row">
+				<div class="rsd-results-header columns shrink in-viewport">
+					<h3 class="rsd-results-count">
+						<?php
+						// translators: Number of result items found.
+						printf( esc_html__( '%s items found', 'rsd-wordpress' ), Controller::get_result_total_count() );
+						?>
+					</h3>
+					<button class="rsd-results-clear-filters button"<?php if ( Controller::has_search_or_filters() ) { echo ' style="display: none;"'; } ?>><?php esc_html_e( 'Clear filters', 'rsd-wordpress' ); ?></button>
+				</div>
+				<div class="rsd-results-controls columns in-viewport">
 					<?php
-					// translators: Number of result items found.
-					printf( esc_html__( '%s items found', 'rsd-wordpress' ), Controller::get_result_total_count() );
+					// phpcs:ignore
+					echo self::display_search_bar();
+					// phpcs:ignore
+					echo self::display_filter_button();
 					?>
-				</h3>
-				<button class="button rsd-results-clear-filters"><?php esc_html_e( 'Clear filters', 'rsd-wordpress' ); ?></button>
-				<div class="rsd-results-sort">
-					<label for="rsd-sortby"><?php esc_html_e( 'Sort by', 'rsd-wordpress' ); ?></label>
-					<select name="rsd-sortby" id="rsd-sortby">
-					<?php foreach ( $sort_fields as $key => $value ) : ?>
-						<option value="<?php echo esc_attr( $key ); ?>"><?php echo esc_html( $value ); ?></option>
-					<?php endforeach; ?>
-					</select>
+					<div class="rsd-results-sort">
+						<label for="rsd-sortby"><?php esc_html_e( 'Sort by', 'rsd-wordpress' ); ?></label>
+						<select name="rsd-sortby" id="rsd-sortby">
+						<?php foreach ( $sort_fields as $key => $value ) : ?>
+							<option value="<?php echo esc_attr( $key ); ?>"><?php echo esc_html( $value ); ?></option>
+						<?php endforeach; ?>
+						</select>
+					</div>
 				</div>
 			</div>
 			<div class="rsd-results-items">
+			<?php
+			// phpcs:ignore
+			echo self::display_filter_sidebar();
+			?>
 			<?php
 			// Loop through the data and add each item as a card div.
 			foreach ( $items as $item ) {
