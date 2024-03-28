@@ -434,14 +434,14 @@ jQuery(function($) {
 
 			$itemsContainer.append(
 				`
-				<div class="rsd-results-item card">
+				<div class="rsd-results-item column card in-viewport">
 					<div class="card-section">
 						<h3><a href="${getItemUrl(item)}" target="_blank" rel="external">${title}</a></h3>
 						<p>${item.short_statement}</p>
 					</div>
 					<div class="card-footer">
 						<div class="rsd-results-item-specs">
-							<p class="rsd-result-item-domain"><strong class="label">Example</strong></p>
+							<p class="rsd-result-item-spec-domain"><strong class="label">Example</strong></p>
 							${getItemLabels(item)}
 						</div>
 						<div class="rsd-results-item-props">
