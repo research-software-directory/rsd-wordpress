@@ -267,6 +267,15 @@ class Controller {
 	}
 
 	/**
+	 * Return if search query or filters are set.
+	 *
+	 * @return bool
+	 */
+	public static function has_search_or_filters() {
+		return ( ! empty( self::get_search_query() ) || ! empty( self::get_filters() ) );
+	}
+
+	/**
 	 * Load all filters from API.
 	 *
 	 * @param string $section The section to load filters for.
