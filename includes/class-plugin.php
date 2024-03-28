@@ -12,15 +12,6 @@ namespace RSD;
 // Exit if accessed directly.
 defined( 'ABSPATH' ) || exit;
 
-// Load plugin components.
-require 'controller/class-api.php';
-require 'controller/class-controller.php';
-require 'models/class-filter.php';
-require 'models/class-item.php';
-require 'models/class-project-item.php';
-require 'models/class-software-item.php';
-require 'public/class-display.php';
-
 /**
  * Plugin main class.
  *
@@ -28,6 +19,20 @@ require 'public/class-display.php';
  * @since   1.0.0
  */
 class Plugin {
+	/**
+	 * The version of the plugin.
+	 *
+	 * @var string
+	 */
+	private static $version = '1.3.2';
+
+	/**
+	 * The name of the plugin.
+	 *
+	 * @var string
+	 */
+	private static $plugin_name = 'rsd-wordpress';
+
 	/**
 	 * The single instance of the class.
 	 *
@@ -53,7 +58,13 @@ class Plugin {
 	 * Constructor.
 	 */
 	private function __construct() {
-		// Do nothing (yet).
+		if ( defined( 'RSD_WP_VERSION' ) ) {
+			self::$version = RSD_WP_VERSION;
+		}
+
+		$this->load_dependencies();
+		$this->add_admin_hooks();
+		$this->add_public_hooks();
 	}
 
 	/**
@@ -78,6 +89,68 @@ class Plugin {
 	 */
 	public static function deactivate() {
 		// Do nothing (yet).
+	}
+
+	/**
+	 * Plugin uninstall hook.
+	 */
+	public static function uninstall() {
+		// Do nothing (yet).
+	}
+
+	/**
+	 * Get the plugin version.
+	 *
+	 * @return string
+	 */
+	public static function get_version() {
+		return self::$version;
+	}
+
+	/**
+	 * Get the plugin name.
+	 *
+	 * @return string
+	 */
+	public static function get_plugin_name() {
+		return self::$plugin_name;
+	}
+
+	/**
+	 * Load required dependencies for the plugin.
+	 */
+	private function load_dependencies() {
+		require RSD_WP__PLUGIN_DIR . 'includes/controller/class-api.php';
+		require RSD_WP__PLUGIN_DIR . 'includes/controller/class-controller.php';
+		require RSD_WP__PLUGIN_DIR . 'includes/models/class-filter.php';
+		require RSD_WP__PLUGIN_DIR . 'includes/models/class-item.php';
+		require RSD_WP__PLUGIN_DIR . 'includes/models/class-project-item.php';
+		require RSD_WP__PLUGIN_DIR . 'includes/models/class-software-item.php';
+		require RSD_WP__PLUGIN_DIR . 'includes/public/class-display.php';
+	}
+
+	/**
+	 * Add the hooks used in the admin area.
+	 */
+	private function add_admin_hooks() {
+		// Do nothing (yet).
+	}
+
+	/**
+	 * Add the hooks used in the front end area.
+	 */
+	private function add_public_hooks() {
+		add_action( 'wp_enqueue_scripts', array( __NAMESPACE__ . '\Plugin', 'enqueue_public_scripts' ) );
+	}
+
+	/**
+	 * Enqueue plugin front end scripts and styles.
+	 */
+	public static function enqueue_public_scripts() {
+		// TODO: Change CSS file to optimized production version (instead of src/development version).
+		wp_enqueue_style( self::get_plugin_name() . '-public', RSD_WP__PLUGIN_URL . 'src/css/rsd-wordpress.css', array(), self::get_version() );
+		// TODO: Change JavaScript file to optimized production version (instead of src/development version).
+		wp_enqueue_script( self::get_plugin_name() . '-public', RSD_WP__PLUGIN_URL . 'src/js/rsd-wordpress.js', array( 'jquery' ), self::get_version() );
 	}
 
 	/**
