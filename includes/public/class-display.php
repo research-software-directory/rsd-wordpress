@@ -145,7 +145,7 @@ class Display {
 		?>
 			<div class="rsd-filter-sidebar" style="display: none;">
 				<form action="" method="get">
-					<div class="rsd-filters rsd-filters-<?php echo esc_attr( Controller::get_section() ); ?>">
+					<div class="rsd-filters rsd-filters-<?php echo esc_attr( Controller::get_section() ); ?> row small-up-1 medium-up-3">
 						<h2 class="show-for-sr"><?php esc_html_e( 'Filters', 'rsd-wordpress' ); ?></h2>
 						<?php
 						foreach ( Controller::get_filters() as $filter ) {
@@ -173,7 +173,7 @@ class Display {
 		$identifier = $filter->get_identifier( 'rsd-filter-' );
 		$i = 1;
 		?>
-			<div class="rsd-filter">
+			<div class="rsd-filter columns in-viewport">
 				<h3><label for="<?php echo esc_attr( $identifier ); ?>"><?php echo esc_html( $filter->get_title() ); ?></label></h3>
 				<?php if ( 'multicheckbox' === $filter->get_type() ) : ?>
 					<?php foreach ( $filter->get_items() as $item ) : ?>
@@ -254,11 +254,11 @@ class Display {
 					</div>
 				</div>
 			</div>
-			<div class="rsd-results-items">
 			<?php
 			// phpcs:ignore
 			echo self::display_filter_sidebar();
 			?>
+			<div class="rsd-results-items row small-up-1 medium-up-2 large-up-3">
 			<?php
 			// Loop through the data and add each item as a card div.
 			foreach ( $items as $item ) {
@@ -298,7 +298,7 @@ class Display {
 
 		ob_start();
 		?>
-		<div class="rsd-results-item card">
+		<div class="rsd-results-item column card">
 			<div class="card-section">
 				<h3><a href="<?php printf( 'https://research-software-directory.org/software/%s', esc_attr( $item->get_slug() ) ); ?>" target="_blank" rel="external"><?php echo esc_html( $item->get_brand_name() ); ?></a></h3>
 				<p><?php echo esc_html( mb_strimwidth( $item->get_short_statement(), 0, 100, '...' ) ); ?></p>
@@ -345,7 +345,7 @@ class Display {
 
 		ob_start();
 		?>
-		<div class="rsd-results-item card">
+		<div class="rsd-results-item column card">
 			<div class="card-section">
 				<h3><a href="<?php printf( 'https://research-software-directory.org/projects/%s', esc_attr( $item->get_slug() ) ); ?>" target="_blank" rel="external"><?php echo esc_html( $item->get_title() ); ?></a></h3>
 				<p><?php echo esc_html( mb_strimwidth( $item->get_subtitle(), 0, 100, '...' ) ); ?></p>
