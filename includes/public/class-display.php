@@ -151,7 +151,7 @@ class Display {
 	public static function display_filter_sidebar() {
 		ob_start();
 		?>
-			<div class="rsd-filter-sidebar">
+			<div class="rsd-filter-sidebar" style="display: none;">
 				<form action="" method="get">
 					<div class="rsd-filters rsd-filters-<?php echo esc_attr( Controller::get_section() ); ?>">
 						<h2 class="show-for-sr"><?php esc_html_e( 'Filters', 'rsd-wordpress' ); ?></h2>
