@@ -51,6 +51,11 @@ jQuery(function($) {
 		return apiEndpoint + '/' + apiVersion + '/' + path.replace(/^\/+/, '');
 	}
 
+	// Get the API order string.
+	function apiGetOrder(sortby, order) {
+		return `${sortby.toLowerCase()}.${order.toLowerCase()}`;
+	}
+
 
 	/*
 	Controller functions
