@@ -402,6 +402,21 @@ jQuery(function($) {
 	// Attach click event to filters toggle button.
 	$container.find('.rsd-filter-button').on('click', toggleFiltersSidebar);
 
+	// Enhance filters sidebar.
+	function enhanceFiltersSidebar(filters) {
+		let $sidebar = $container.find('.rsd-filter-sidebar');
+
+		// Add close button to filters sidebar.
+		$sidebar.prepend(
+			`
+			<button class="close-button" aria-label="Close alert" type="button"
+				<span aria-hidden="true">&times;</span>
+			</button>
+			`
+		);
+
+		$sidebar.find('.close-button').on('click', toggleFiltersSidebar);
+	}
 
 	/*
 	Display functions
