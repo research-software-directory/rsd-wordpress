@@ -6,3 +6,76 @@
  * @license Apache-2.0
  * @link https://research-software-directory.org
  */
+
+.rsd-filters {
+	padding: 1.5rem 1.5rem 1rem;
+}
+
+.rsd-results-count,
+.rsd-search-bar,
+.rsd-filter-button,
+.rsd-results-sort {
+	display: inline-block;
+	vertical-align: middle;
+}
+
+.rsd-results-stats {
+	display: flex;
+}
+
+.rsd-results-header,
+.rsd-results-controls {
+	flex: 1;
+	display: flex;
+	justify-content: left;
+	column-gap: 1rem;
+}
+
+.rsd-results-controls {
+	justify-content: flex-end;
+}
+
+.rsd-results-count {
+	margin-bottom: 1rem;
+	align-self: center;
+}
+
+.rsd-search-bar {
+	width: 40%;
+}
+
+.rsd-results-sort {
+	display: flex;
+	flex-wrap: nowrap;
+	column-gap: 0.5rem;
+}
+
+.rsd-results-sort label {
+	display: inline-block;
+	white-space: nowrap;
+}
+
+.rsd-results-sort label,
+.rsd-results-sort select {
+	align-self: baseline;
+}
+
+.rsd-filter-sidebar {
+	position: relative;
+}
+
+.rsd-results-items {
+	margin-top: 1rem;
+}
+
+.rsd-results-item-specs {
+	display: none;
+}
+
+.rsd-results-item .card-footer {
+	padding: 1rem;
+}
+
+.rsd-results-show-more {
+	text-align: center;
+}
