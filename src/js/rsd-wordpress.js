@@ -23,16 +23,15 @@ jQuery(function($) {
 	// Default parameters
 	let defaultLimit = 48;
 
-	// Add a class to the body when the page is loaded.
-	$('body').addClass('rsd-wordpress');
-	// Hide search button, since we're using the input event to trigger a search.
-	hideSearchButton();
-
 	// Get container element and section.
 	let $container = $('#rsd-wordpress');
 	let section = $container.data('section');
 	let organisation_id = $container.data('organisation_id');
 
+	// Add a class to the body when the page is loaded.
+	$('body').addClass('rsd-wordpress');
+	// Hide search button, since we're using the input event to trigger a search.
+	hideSearchButton();
 
 	/*
 	API functions
