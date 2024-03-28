@@ -418,6 +418,12 @@ jQuery(function($) {
 		$sidebar.find('.close-button').on('click', toggleFiltersSidebar);
 	}
 
+	// Attach change event to sort by select.
+	$container.find('#rsd-sortby').on('change', function() {
+		fetchResults();
+	});
+
+
 	/*
 	Display functions
 	*/
