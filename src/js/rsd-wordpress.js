@@ -367,7 +367,7 @@ jQuery(function($) {
 	// Search field - attach search event and get new results from API.
 	// (executing with a slight delay after entry changes, so that the search term is not sent with every character)
 	var delayTimer;
-	$('#rsd-search').on('input', function() {
+	$container.find('#rsd-search').on('input', function() {
 		clearTimeout(delayTimer);
 		var searchTerm = $(this).val().toLowerCase();
 		delayTimer = setTimeout(function() {
@@ -389,7 +389,7 @@ jQuery(function($) {
 	});
 
 	// Attach click event to 'Clear filters' button and get new results from API.
-	$('#rsd-wordpress .rsd-results-clear-filters').on('click', clearFilters);
+	$container.find('.rsd-results-clear-filters').on('click', clearFilters);
 
 	function clearFilters() {
 		$container.find('#rsd-search').val('');
