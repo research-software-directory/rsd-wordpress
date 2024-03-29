@@ -145,7 +145,7 @@ class Display {
 		?>
 			<div class="rsd-filter-sidebar" style="display: none;">
 				<form action="" method="get">
-					<div class="rsd-filters rsd-filters-<?php echo esc_attr( Controller::get_section() ); ?> row small-up-1 medium-up-3">
+					<div class="rsd-filters rsd-filters-<?php echo esc_attr( Controller::get_section() ); ?> row large-unstack">
 						<h2 class="show-for-sr"><?php esc_html_e( 'Filters', 'rsd-wordpress' ); ?></h2>
 						<?php
 						foreach ( Controller::get_filters() as $filter ) {
