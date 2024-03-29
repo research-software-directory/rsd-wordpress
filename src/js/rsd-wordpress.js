@@ -52,8 +52,8 @@ jQuery(function($) {
 	}
 
 	// Get the API order string.
-	function apiGetOrder(sortby, order) {
-		return `${sortby.toLowerCase()}.${order.toLowerCase()}`;
+	function apiGetOrder(orderBy, order) {
+		return `${orderBy.toLowerCase()}.${order.toLowerCase()}`;
 	}
 
 
@@ -62,12 +62,12 @@ jQuery(function($) {
 	*/
 
 	// Get the results from the API.
-	function fetchResults(searchTerm = false, filters = false, sortby = false, order = false) {
+	function fetchResults(searchTerm = false, filters = false, orderBy = false, order = false) {
 		// Get the search term and filter values.
 		searchTerm = searchTerm ? searchTerm.toLowerCase().trim() : getSearchTerm();
 		filters = filters ? filters : getFilterValues();
-		sortby = sortby ? sortby : getSortBy();
-		order = order ? order : getOrder();
+		orderBy = orderBy ? orderBy : getOrderBy();
+		order = order ? order : getOrder(orderBy);
 
 		// Hide the 'Clear filters' button if no search term or filters are set.
 		if (searchTerm || (filters && Object.keys(filters).length !== 0)) {
@@ -83,8 +83,8 @@ jQuery(function($) {
 			limit: defaultLimit,
 		};
 
-		if (sortby) {
-			params.order = apiGetOrder(sortby, order);
+		if (orderBy) {
+			params.order = apiGetOrder(orderBy, order);
 		}
 
 		if (section === 'projects') {
@@ -299,10 +299,9 @@ jQuery(function($) {
 		return $('#rsd-search').val().toLowerCase().trim();
 	}
 
-	function getSortBy() {
-		let sortby = $('#rsd-sortby').val().toLowerCase().trim();
-		// if sortby not empty, return it, otherwise return default
-		return sortby || false;
+	function getOrderBy() {
+		let orderBy = $container.find('#rsd-sortby').val().toLowerCase().trim();
+		return orderBy || false;
 	}
 
 	function getOrder() {
