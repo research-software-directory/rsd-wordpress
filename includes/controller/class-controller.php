@@ -276,14 +276,14 @@ class Controller {
 	}
 
 	/**
-	 * Load all filters from API.
+	 * Fetch all filters from API.
 	 *
-	 * @param string $section The section to load filters for.
+	 * @param string $section The section to fetch filters for (defaults to current section).
 	 * @return array|bool
 	 *
 	 * @since 1.3.2
 	 */
-	public static function load_filters( $section = false ) {
+	public static function fetch_filters( $section = false ) {
 		$section = ( $section ?: self::get_section() );
 
 		// Set the default API path parameters.
@@ -464,8 +464,8 @@ class Controller {
 		// Set the default section.
 		$section = ( $section ?: self::get_section() );
 
-		// Load the filters from API.
-		self::load_filters( $section );
+		// Fetch the filters from API.
+		self::fetch_filters( $section );
 
 		// Set the default API path parameters.
 		$defaults = array(
