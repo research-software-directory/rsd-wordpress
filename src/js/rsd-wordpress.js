@@ -378,10 +378,6 @@ jQuery(function($) {
 
 	// Attach set filters event and get new results from API.
 	$container.find('.rsd-filters').on('change', 'select', function() {
-		let $filter = $(this);
-		let filterIdentifier = $filter.data('filter');
-		let filterValue = $filter.val();
-		// Update results.
 		fetchFilters();
 		fetchResults();
 	});
