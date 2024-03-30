@@ -54,13 +54,6 @@ class Software_Item extends Item {
 	public $url = false;
 
 	/**
-	 * The item image ID.
-	 *
-	 * @var string
-	 */
-	public $image_id = false;
-
-	/**
 	 * The item contributor count.
 	 *
 	 * @var string
@@ -107,7 +100,6 @@ class Software_Item extends Item {
 		$this->description     = ( ! empty( $data['description'] ) ? $data['description'] : '' );
 		$this->short_statement = ( ! empty( $data['short_statement'] ) ? $data['short_statement'] : '' );
 		$this->url             = ( ! empty( $data['url'] ) ? $data['url'] : '' );
-		$this->image_id        = ( ! empty( $data['image_id'] ) ? $data['image_id'] : 0 );
 		$this->contributor_cnt = ( ! empty( $data['contributor_cnt'] ) ? $data['contributor_cnt'] : 0 );
 		$this->mention_cnt     = ( ! empty( $data['mention_cnt'] ) ? $data['mention_cnt'] : 0 );
 		$this->prog_lang       = ( ! empty( $data['prog_lang'] ) ? $data['prog_lang'] : array() );
@@ -153,16 +145,6 @@ class Software_Item extends Item {
 	 */
 	public function get_url() {
 		return $this->url;
-	}
-
-	/**
-	 * Get the item image ID.
-	 *
-	 * @since 0.1.0
-	 * @return string
-	 */
-	public function get_image_id() {
-		return $this->image_id;
 	}
 
 	/**
@@ -241,15 +223,5 @@ class Software_Item extends Item {
 		} else {
 			return array();
 		}
-	}
-
-	/**
-	 * Get the item image URL.
-	 *
-	 * @since 0.1.0
-	 * @return string
-	 */
-	public function get_image_url() {
-		return wp_get_attachment_image_url( $this->image_id, 'thumbnail' );
 	}
 }
