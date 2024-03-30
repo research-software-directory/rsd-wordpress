@@ -113,16 +113,6 @@ class Controller {
 	}
 
 	/**
-	 * Constructor.
-	 *
-	 * @since 0.1.0
-	 * @access private
-	 */
-	private function __construct() {
-		// Do nothing (yet).
-	}
-
-	/**
 	 * Set the section to display.
 	 *
 	 * @param string $section The section to display.
