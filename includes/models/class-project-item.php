@@ -49,7 +49,7 @@ class Project_Item extends Item {
 	public $date_end = false;
 
 	/**
-	 * The item image contain.
+	 * The item image contain flag, used for image ratio in CSS.
 	 *
 	 * @var string
 	 */
