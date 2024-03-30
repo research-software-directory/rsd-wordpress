@@ -109,6 +109,24 @@ class Api {
 	}
 
 	/**
+	 * Build order parameter.
+	 *
+	 * @since 1.4.1
+	 * @access public
+	 * @param string $orderby The order by parameter.
+	 * @param string $order The order parameter.
+	 * @return string
+	 */
+	public static function build_order_param( $orderby, $order ) {
+		$nullslast = array( 'mention_cnt', 'contributor_cnt', 'impact_cnt', 'output_cnt', 'date_start', 'date_end' );
+		if ( in_array( $orderby, $nullslast ) ) {
+			return strtolower( $orderby ) . '.' . strtolower( $order ) . '.nullslast';
+		} else {
+			return strtolower( $orderby ) . '.' . strtolower( $order );
+		}
+	}
+
+	/**
 	 * Get the API URL.
 	 *
 	 * @since 1.0.0
