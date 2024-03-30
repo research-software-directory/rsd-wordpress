@@ -68,6 +68,35 @@
 	margin-top: 1rem;
 }
 
+.rsd-results-item,
+.rsd-results-item.column.card {
+	padding: 0;
+}
+
+.rsd-results-item .card-image img {
+	width: 100%;
+	height: 250px;
+	max-width: 100%;
+	object-fit: cover;
+	border: none;
+}
+
+.rsd-results-item .card-image img.contain {
+	object-fit: contain;
+}
+
+.rsd-results-item .card-image img[src^="data:"] {
+	background-color: #eaeaea;
+}
+
+.rsd-results-item .card-section {
+	padding: 2rem;
+}
+
+.rsd-results-item .card-footer {
+	padding: 0 2rem 2rem;
+}
+
 .rsd-results-item-specs {
 	display: none;
 }
@@ -89,6 +118,28 @@
 
 [data-section="projects"] .rsd-results-item-props li .prop {
 	display: none;
+}
+
+.icon {
+	display: inline-block;
+	background-repeat: no-repeat;
+	background-position: left center;
+	width: 16px;
+	height: 16px;
+	vertical-align: text-top;
+}
+
+.icon-contributors {
+	background-image: url('../../assets/img/icon-contributors.svg');
+}
+.icon-mentions {
+	background-image: url('../../assets/img/icon-mentions.svg');
+}
+.icon-impact {
+	background-image: url('../../assets/img/icon-impact.svg');
+}
+.icon-output {
+	background-image: url('../../assets/img/icon-mentions.svg');
 }
 
 .rsd-results-item-prop-progress {

@@ -34,6 +34,27 @@ class Controller {
 	public static $organisation_id = '35c17f17-6b5f-4385-aa8b-6b1d33a10157';
 
 	/**
+	 * The link base URL.
+	 *
+	 * @var string
+	 */
+	public static $link_base_url = 'https://research-software-directory.org';
+
+	/**
+	 * The image base URL.
+	 *
+	 * @var string
+	 */
+	public static $img_base_url = 'https://research-software-directory.org';
+
+	/**
+	 * Image path.
+	 *
+	 * @var string
+	 */
+	public static $img_path = '/image/rpc/get_image';
+
+	/**
 	 * The search term.
 	 *
 	 * @var string
@@ -146,6 +167,60 @@ class Controller {
 	 */
 	public static function get_organisation_id() {
 		return self::$organisation_id;
+	}
+
+	/**
+	 * Set the link base URL.
+	 *
+	 * @param string $link_base_url The link base URL.
+	 */
+	public static function set_link_base_url( $url ) {
+		self::$link_base_url = $url;
+	}
+
+	/**
+	 * Get the link base URL.
+	 *
+	 * @return string
+	 */
+	public static function get_link_base_url() {
+		return self::$link_base_url;
+	}
+
+	/**
+	 * Set the image base URL.
+	 *
+	 * @param string $img_base_url The image base URL.
+	 */
+	public static function set_img_base_url( $url ) {
+		self::$img_base_url = $url;
+	}
+
+	/**
+	 * Get the image base URL.
+	 *
+	 * @return string
+	 */
+	public static function get_img_base_url() {
+		return self::$img_base_url;
+	}
+
+	/**
+	 * Set the image path.
+	 *
+	 * @param string $img_path The image path.
+	 */
+	public static function set_img_path( $path ) {
+		self::$img_path = $path;
+	}
+
+	/**
+	 * Get the image path.
+	 *
+	 * @return string
+	 */
+	public static function get_img_path() {
+		return self::$img_path;
 	}
 
 	/**

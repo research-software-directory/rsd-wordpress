@@ -49,18 +49,11 @@ class Project_Item extends Item {
 	public $date_end = false;
 
 	/**
-	 * The item image contain.
+	 * The item image contain flag, used for image ratio in CSS.
 	 *
 	 * @var string
 	 */
 	public $image_contain = false;
-
-	/**
-	 * The item image ID.
-	 *
-	 * @var string
-	 */
-	public $image_id = false;
 
 	/**
 	 * The item featured flag.
@@ -117,7 +110,6 @@ class Project_Item extends Item {
 		$this->date_start                  = ( ! empty( $data['date_start'] ) ? $data['date_start'] : '' );
 		$this->date_end                    = ( ! empty( $data['date_end'] ) ? $data['date_end'] : '' );
 		$this->image_contain               = ( ! empty( $data['image_contain'] ) ? $data['image_contain'] : '' );
-		$this->image_id                    = ( ! empty( $data['image_id'] ) ? $data['image_id'] : '' );
 		$this->is_featured                 = ( ! empty( $data['is_featured'] ) ? $data['is_featured'] : false );
 		$this->research_domains            = ( ! empty( $data['research_domains'] ) ? $data['research_domains'] : array() );
 		$this->participating_organisations = ( ! empty( $data['participating_organisations'] ) ? $data['participating_organisations'] : array() );
@@ -169,15 +161,6 @@ class Project_Item extends Item {
 	 */
 	public function get_image_contain() {
 		return $this->image_contain;
-	}
-
-	/**
-	 * Get the item image ID.
-	 *
-	 * @return string
-	 */
-	public function get_image_id() {
-		return $this->image_id;
 	}
 
 	/**
