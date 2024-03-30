@@ -287,7 +287,13 @@ jQuery(function($) {
 	function getItemProps(item, props) {
 		let html = '<ul class="rsd-results-item-props">';
 		$.each(props, function(prop, value) {
-			html += `	<li class="rsd-results-item-prop prop-${prop.toLowerCase()}"><span class="prop">${prop}:</span> ${value}</li>`;
+			html += `
+				<li class="rsd-results-item-prop-${prop.toLowerCase()}">
+					<span aria-hidden="true" class="icon icon-${prop.toLowerCase()}"></span>
+					<span class="value">${value}</span>
+					<span class="label">${prop.toLowerCase()}</span>
+				</li>
+			`;
 		});
 		html += '</ul>';
 

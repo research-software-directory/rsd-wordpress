@@ -72,8 +72,31 @@
 	display: none;
 }
 
-.rsd-results-item .card-footer {
-	padding: 1rem;
+.rsd-results-item-props,
+.rsd-results-item-props li {
+	list-style-type: none;
+	margin: 0;
+	padding: 0;
+	text-align: center;
+	background-color: transparent;
+	color: #666;
+}
+
+.rsd-results-item-props li {
+	display: inline-block;
+	margin-right: 1rem;
+}
+
+[data-section="projects"] .rsd-results-item-props li .prop {
+	display: none;
+}
+
+.rsd-results-item-prop-progress {
+	display: none !important;
+}
+
+.rsd-results-item-props li:last-child {
+	margin-right: 0;
 }
 
 .rsd-results-show-more {
