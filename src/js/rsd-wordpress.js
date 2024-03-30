@@ -52,7 +52,12 @@ jQuery(function($) {
 
 	// Get the API order string.
 	function apiGetOrder(orderBy, order) {
-		return `${orderBy.toLowerCase()}.${order.toLowerCase()}`;
+		let nullsLast = ['mention_cnt', 'contributor_cnt', 'impact_cnt', 'output_cnt', 'date_start', 'date_end'];
+		if (nullsLast.includes(orderBy)) {
+			return `${orderBy.toLowerCase()}.${order.toLowerCase()}.nullslast`;
+		} else {
+			return `${orderBy.toLowerCase()}.${order.toLowerCase()}`;
+		}
 	}
 
 
@@ -303,8 +308,13 @@ jQuery(function($) {
 		return orderBy || false;
 	}
 
-	function getOrder() {
-		return 'asc';
+	function getOrder(orderBy = false) {
+		let sortDesc = ['mention_cnt', 'contributor_cnt', 'impact_cnt', 'output_cnt', 'updated_at', 'date_end'];
+		if (orderBy && sortDesc.includes(orderBy)) {
+			return 'desc';
+		} else {
+			return 'asc';
+		}
 	}
 
 	function getFilterValues() {
