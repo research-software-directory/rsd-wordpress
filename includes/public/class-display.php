@@ -312,16 +312,18 @@ class Display {
 					</ul>
 					<?php endif; ?>
 				</div>
-				<div class="rsd-results-item-props">
-					<div class="rsd-results-item-prop-contributors">
-						<span class="icon icon-contributors"></span>
-						<?php echo esc_html( sprintf( __( '%d contributors', 'rsd-wordpress' ), $item->get_contributor_cnt() ) ); ?>
-					</div>
-					<div class="rsd-results-item-prop-mentions">
-						<span class="icon icon-mentions"></span>
-						<?php echo esc_html( sprintf( __( '%d mentions', 'rsd-wordpress' ), $item->get_mention_cnt() ) ); ?>
-					</div>
-				</div>
+				<ul class="rsd-results-item-props">
+					<li class="rsd-results-item-prop-contributors">
+						<span aria-hidden="true" class="icon icon-contributors" title="<?php esc_attr_e( 'Contributors', 'rsd-wordpress' ); ?>"></span>
+						<span class="value"><?php echo esc_html( $item->get_contributor_cnt() ); ?></span>
+						<span class="prop"><?php esc_html_e( 'contributors', 'rsd-wordpress' ); ?></span>
+					</li>
+					<li class="rsd-results-item-prop-mentions">
+						<span aria-hidden="true" class="icon icon-mentions" title="<?php esc_attr_e( 'Mentions', 'rsd-wordpress' ); ?>"></span>
+						<span class="value"><?php echo esc_html( $item->get_mention_cnt() ); ?></span>
+						<span class="prop"><?php esc_html_e( 'mentions', 'rsd-wordpress' ); ?></span>
+					</li>
+				</ul>
 			</div>
 		</div>
 		<?php
@@ -355,17 +357,21 @@ class Display {
 					</ul>
 					<?php endif; ?>
 				</div>
-				<div class="rsd-results-item-props">
-					<div class="rsd-results-item-prop-progress">
-						<span class="icon icon-progress"><?php esc_html_e( 'progress:', 'rsd-wordpress' ); ?></span> <?php echo esc_html( $item->get_progress() ); ?>
-					</div>
-					<div class="rsd-results-item-prop-impact">
-						<span class="icon icon-impact"><?php esc_html_e( 'impact:', 'rsd-wordpress' ); ?></span> <?php echo esc_html( $item->get_impact_cnt() ); ?>
-					</div>
-					<div class="rsd-results-item-prop-output">
-						<span class="icon icon-output"><?php esc_html_e( 'output:', 'rsd-wordpress' ); ?></span> <?php echo esc_html( $item->get_output_cnt() ); ?>
-					</div>
-				</div>
+				<ul class="rsd-results-item-props">
+					<li class="rsd-results-item-prop-progress">
+						<span class="prop"><?php esc_html_e( 'progress:', 'rsd-wordpress' ); ?></span> <?php echo esc_html( $item->get_progress() ); ?>
+					</li>
+					<li class="rsd-results-item-prop-impact">
+						<span aria-hidden="true" class="icon icon-impact" title="<?php esc_html_e( 'Impact', 'rsd-wordpress' ); ?>"></span>
+						<span class="value"><?php echo esc_html( $item->get_impact_cnt() ); ?></span>
+						<span class="prop"><?php esc_html_e( 'impact', 'rsd-wordpress' ); ?></span>
+					</li>
+					<li class="rsd-results-item-prop-output">
+						<span aria-hidden="true" class="icon icon-output" title="<?php esc_html_e( 'Output', 'rsd-wordpress' ); ?>"></span>
+						<span class="value"><?php echo esc_html( $item->get_output_cnt() ); ?></span>
+						<span class="prop"><?php esc_html_e( 'output', 'rsd-wordpress' ); ?></span>
+					</li>
+				</ul>
 			</div>
 		</div>
 		<?php
