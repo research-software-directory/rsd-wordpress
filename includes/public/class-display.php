@@ -293,7 +293,6 @@ class Display {
 	 * @return string The item HTML.
 	 */
 	public static function display_software_item( $item ) {
-		$domain = __( 'Example', 'rsd-wordpress' );
 		$labels = $item->get_keywords();
 
 		ob_start();
@@ -305,9 +304,6 @@ class Display {
 			</div>
 			<div class="card-footer">
 				<div class="rsd-results-item-specs">
-					<?php if ( ! empty( $domain ) ) : ?>
-					<p class="rsd-result-item-spec-domain"><strong class="label"><?php echo esc_html( $domain ); ?></strong></p>
-					<?php endif; ?>
 					<?php if ( ! empty( $labels) && is_array( $labels ) && count( $labels ) > 0 ) : ?>
 					<ul class="rsd-results-item-spec-labels">
 					<?php foreach ( $labels as $label ) : ?>
@@ -340,7 +336,6 @@ class Display {
 	 * @return string The item HTML.
 	 */
 	public static function display_project_item( $item ) {
-		$domain = __( 'Example', 'rsd-wordpress' );
 		$labels = $item->get_keywords();
 
 		ob_start();
@@ -352,9 +347,6 @@ class Display {
 			</div>
 			<div class="card-footer">
 				<div class="rsd-results-item-specs">
-					<?php if ( ! empty( $domain ) ) : ?>
-					<p class="rsd-result-item-spec-domain"><strong class="label"><?php echo esc_html( $domain ); ?></strong></p>
-					<?php endif; ?>
 					<?php if ( ! empty( $labels ) && is_array( $labels ) && count( $labels ) > 0 ) : ?>
 					<ul class="rsd-results-item-spec-labels">
 					<?php foreach ( $labels as $label ) : ?>
