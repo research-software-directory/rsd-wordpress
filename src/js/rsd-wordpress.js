@@ -15,8 +15,7 @@ jQuery(function($) {
 	Variables
 	*/
 
-	let data = [];
-	let filteredData = [];
+	let items = [];
 	// API
 	let apiEndpoint = 'https://research-software-directory.org/api';
 	let apiVersion = 'v1';
@@ -125,8 +124,8 @@ jQuery(function($) {
 			url: url,
 			headers: { 'Prefer': 'count=exact' },
 			success: function(response) {
-				data = response;
-				console.log('🎹 data: ', data);
+				items = response;
+				console.log('🎹 items: ', items);
 
 				// Get the total count of results from `content-range` response header.
 				let totalResults = false;
@@ -137,7 +136,7 @@ jQuery(function($) {
 				}
 
 				// Display the results.
-				displayResults(data, totalResults);
+				displayResults(items, totalResults);
 			},
 		});
 	}
