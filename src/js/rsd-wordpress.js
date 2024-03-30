@@ -270,7 +270,7 @@ jQuery(function($) {
 		return item.impact_cnt || 0;
 	}
 
-	function getItemOutputsCount(item) {
+	function getItemOutputCount(item) {
 		return item.output_cnt || 0;
 	}
 
@@ -451,15 +451,17 @@ jQuery(function($) {
 		let $itemsContainer = $container.find('.rsd-results-items');
 		$itemsContainer.empty();
 		$.each(items, function(index, item) {
-			let title, props;
+			let title, description, props;
 			if ('projects' === section) {
-				title = item.name;
+				title = item.title;
+				description = item.subtitle;
 				props = {
-					'Contributors': getItemContributorsCount(item),
-					'Mentions': getItemMentionsCount(item),
+					'Impact': getItemImpactCount(item),
+					'Output': getItemOutputCount(item),
 				}
 			} else {
 				title = item.brand_name;
+				description = item.short_statement;
 				props = {
 					'Contributors': getItemContributorsCount(item),
 					'Mentions': getItemMentionsCount(item),
@@ -471,7 +473,7 @@ jQuery(function($) {
 				<div class="rsd-results-item column card in-viewport">
 					<div class="card-section">
 						<h3><a href="${getItemUrl(item)}" target="_blank" rel="external">${title}</a></h3>
-						<p>${item.short_statement}</p>
+						<p>${description}</p>
 					</div>
 					<div class="card-footer">
 						<div class="rsd-results-item-specs">
