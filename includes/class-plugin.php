@@ -58,10 +58,6 @@ class Plugin {
 	 * Constructor.
 	 */
 	private function __construct() {
-		if ( defined( 'RSD_WP_VERSION' ) ) {
-			self::$version = RSD_WP_VERSION;
-		}
-
 		$this->load_dependencies();
 		$this->add_admin_hooks();
 		$this->add_public_hooks();
