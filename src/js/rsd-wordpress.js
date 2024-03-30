@@ -469,7 +469,6 @@ jQuery(function($) {
 					</div>
 					<div class="card-footer">
 						<div class="rsd-results-item-specs">
-							<p class="rsd-result-item-spec-domain"><strong class="label">Example</strong></p>
 							${getItemLabels(item)}
 						</div>
 						<div class="rsd-results-item-props">
