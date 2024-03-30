@@ -45,14 +45,14 @@ class Controller {
 	 *
 	 * @var string
 	 */
-	public static $orderby = 'impact';
+	public static $orderby = '';
 
 	/**
 	 * The order.
 	 *
 	 * @var string
 	 */
-	public static $order = 'desc';
+	public static $order = '';
 
 	/**
 	 * The limit.
@@ -472,13 +472,26 @@ class Controller {
 			'organisation_id' => self::get_organisation_id(),
 			'status'          => 'eq.approved',
 			'is_published'    => 'eq.true',
-			// 'search'          => self::get_search_query(),
-			// 'orderby'         => self::get_orderby(),
-			// 'order'           => self::get_order(),
 			'limit'           => self::get_limit(),
 			'offset'          => self::get_offset(),
 		);
 		$params = wp_parse_args( array(), $defaults );
+
+		// Add search query to parameters.
+		if ( ! empty( self::get_search_query() ) ) {
+			$params['search'] = self::get_search_query();
+		}
+
+		// Set order by and order parameters.
+		$orderby = ( 'software' === $section ? 'brand_name' : 'title' );
+		$order = 'asc';
+		if ( ! empty( self::get_orderby() ) ) {
+			$orderby = self::get_orderby();
+		}
+		if ( ! empty( self::get_order() ) ) {
+			$order = self::get_order();
+		}
+		$params['order'] = Api::build_order_param( $orderby, $order );
 
 		// Set the API path and parameters.
 		if ( 'projects' === $section ) {
