@@ -258,6 +258,21 @@ jQuery(function($) {
 		return `https://research-software-directory.org/${section}/${item.slug}`;
 	}
 
+	function getItemImgUrl(item) {
+		if (item.image_id) {
+			return `https://research-software-directory.org/image/rpc/get_image?uid=${item.image_id}`;
+		} else {
+			return 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7';
+		}
+	}
+
+	function getItemImageContain(item) {
+		if (item.image_contain) {
+			return item.image_contain;
+		}
+		return false;
+	}
+
 	function getItemContributorsCount(item) {
 		return item.contributor_cnt || 0;
 	}
@@ -289,9 +304,9 @@ jQuery(function($) {
 		$.each(props, function(prop, value) {
 			html += `
 				<li class="rsd-results-item-prop-${prop.toLowerCase()}">
-					<span aria-hidden="true" class="icon icon-${prop.toLowerCase()}"></span>
+					<span aria-hidden="true" class="icon icon-${prop.toLowerCase()}" title="${prop}"></span>
 					<span class="value">${value}</span>
-					<span class="label">${prop.toLowerCase()}</span>
+					<span class="prop">${prop.toLowerCase()}</span>
 				</li>
 			`;
 		});
@@ -468,9 +483,18 @@ jQuery(function($) {
 				}
 			}
 
+			let imageContainAttr = '';
+			if (getItemImageContain(item)) {
+				imageContainAttr = ` class="contain"`;
+			}
+
 			$itemsContainer.append(
 				`
 				<div class="rsd-results-item column card in-viewport">
+					<div class="card-image">
+						<a href="${getItemUrl(item)}" target="_blank" rel="external"><img src="${getItemImgUrl(item)}"
+							 alt="" title="${title}" aria-label="${title}"${imageContainAttr}></a>
+					</div>
 					<div class="card-section">
 						<h3><a href="${getItemUrl(item)}" target="_blank" rel="external">${title}</a></h3>
 						<p>${description}</p>
