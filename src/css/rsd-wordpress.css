@@ -85,6 +85,10 @@
 	object-fit: contain;
 }
 
+.rsd-results-item .card-image img[src^="data:"] {
+	background-color: #eaeaea;
+}
+
 .rsd-results-item .card-section {
 	padding: 2rem;
 }
