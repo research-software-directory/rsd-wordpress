@@ -140,4 +140,17 @@ abstract class Item {
 		return $this->is_published;
 	}
 
+	/**
+	 * Get the image URL.
+	 *
+	 * @return string The image URL.
+	 */
+	function get_image_url() {
+		if ( empty( $this->get_image_id() ) ) {
+			return false;
+		}
+
+		return Controller::get_img_base_url() . Controller::get_img_path() . '?uid=' . urlencode( $this->get_image_id() );
+	}
+
 }
