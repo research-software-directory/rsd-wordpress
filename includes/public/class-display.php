@@ -22,6 +22,13 @@ defined( 'ABSPATH' ) || exit;
  */
 class Display {
 	/**
+	 * Default image URL.
+	 *
+	 * @var string
+	 */
+	private static $default_img_url = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7';
+
+	/**
 	 * The single instance of the class.
 	 *
 	 * @var Display|null
@@ -43,9 +50,12 @@ class Display {
 	}
 
 	/**
-	 * Constructor.
+	 * Get the default image URL.
+	 *
+	 * @return string
 	 */
-	private function __construct() {
+	public static function get_default_image_url() {
+		return self::$default_img_url;
 	}
 
 	/**
