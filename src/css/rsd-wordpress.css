@@ -116,6 +116,28 @@
 	display: none;
 }
 
+.icon {
+	display: inline-block;
+	background-repeat: no-repeat;
+	background-position: left center;
+	width: 16px;
+	height: 16px;
+	vertical-align: text-top;
+}
+
+.icon-contributors {
+	background-image: url('../../assets/img/icon-contributors.svg');
+}
+.icon-mentions {
+	background-image: url('../../assets/img/icon-mentions.svg');
+}
+.icon-impact {
+	background-image: url('../../assets/img/icon-impact.svg');
+}
+.icon-output {
+	background-image: url('../../assets/img/icon-mentions.svg');
+}
+
 .rsd-results-item-prop-progress {
 	display: none !important;
 }
