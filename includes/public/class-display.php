@@ -304,10 +304,20 @@ class Display {
 	 */
 	public static function display_software_item( $item ) {
 		$labels = $item->get_keywords();
+		$title = $item->get_brand_name();
+		$aria_label = sprintf( __( "Logo for '%s'", 'rsd-wordpress' ), $title );
+		$image_url = $item->get_image_url();
+
+		if ( empty( $image_url ) ) {
+			$image_url = self::get_default_image_url();
+		}
 
 		ob_start();
 		?>
 		<div class="rsd-results-item column card">
+			<div class="card-image">
+				<img src="<?php echo $image_url; ?>" alt="" title="<?php echo esc_attr( $title ); ?>" aria-label="<?php echo esc_attr( $aria_label ); ?>">
+			</div>
 			<div class="card-section">
 				<h3><a href="<?php printf( 'https://research-software-directory.org/software/%s', esc_attr( $item->get_slug() ) ); ?>" target="_blank" rel="external"><?php echo esc_html( $item->get_brand_name() ); ?></a></h3>
 				<p><?php echo esc_html( mb_strimwidth( $item->get_short_statement(), 0, 100, '...' ) ); ?></p>
@@ -349,10 +359,21 @@ class Display {
 	 */
 	public static function display_project_item( $item ) {
 		$labels = $item->get_keywords();
+		$title = $item->get_title();
+		$aria_label = sprintf( __( "Logo for '%s'", 'rsd-wordpress' ), $title );
+		$image_url = $item->get_image_url();
+		$image_contain_attr = ( $item->get_image_contain() ? ' class="contain"' : '' );
+
+		if ( empty( $image_url ) ) {
+			$image_url = self::get_default_image_url();
+		}
 
 		ob_start();
 		?>
 		<div class="rsd-results-item column card">
+			<div class="card-image">
+				<img src="<?php echo $image_url; ?>" alt="" title="<?php echo esc_attr( $title ); ?>" aria-label="<?php echo esc_attr( $aria_label ); ?>"<?php echo $image_contain_attr; ?>>
+			</div>
 			<div class="card-section">
 				<h3><a href="<?php printf( 'https://research-software-directory.org/projects/%s', esc_attr( $item->get_slug() ) ); ?>" target="_blank" rel="external"><?php echo esc_html( $item->get_title() ); ?></a></h3>
 				<p><?php echo esc_html( mb_strimwidth( $item->get_subtitle(), 0, 100, '...' ) ); ?></p>
