@@ -95,6 +95,28 @@
 
 .rsd-results-item .card-footer {
 	padding: 0 2rem 2rem;
+	font-size: 0.9rem;
+}
+
+.rsd-results-item .card-section h3 {
+	font-size: 1.5rem;
+}
+
+.rsd-results-item .card-section h3 a:link,
+.rsd-results-item .card-section h3 a:visited,
+.rsd-results-item .card-section h3 a:active,
+.rsd-results-item .card-section h3 a:hover {
+	text-decoration: none;
+}
+
+.rsd-results-item .card-section a[rel="external"] {
+	display: block;
+	padding-right: 20px;
+	background-image: url('../../assets/img/icon-external.svg');
+	background-position: top right;
+	background-position-y: 0.4rem;
+	background-repeat: no-repeat;
+	background-size: 16px;
 }
 
 .rsd-results-item-specs {
