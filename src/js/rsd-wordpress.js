@@ -176,7 +176,7 @@ jQuery(function($) {
 				'domain': {
 					title: 'Research domains',
 					identifier: 'domain',
-					path: '/rpc/org_research_domains_filter?order=domain',
+					path: '/rpc/org_project_domains_filter?order=domain',
 					params: { ...defaultParams }
 				},
 				'partner': {
