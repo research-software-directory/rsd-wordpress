@@ -181,7 +181,7 @@ jQuery(function($) {
 				},
 				'partner': {
 					title: 'Partners',
-					identifier: 'partner',
+					identifier: 'organisation',
 					path: '/rpc/org_project_participating_organisations_filter?order=organisation',
 					params: { ...defaultParams }
 				}
