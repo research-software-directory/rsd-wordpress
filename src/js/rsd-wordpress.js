@@ -107,18 +107,29 @@ jQuery(function($) {
 			}
 		}
 
-		// Add filter values to API URL params.
-		if (filters && typeof filters === 'object' && Object.keys(filters).length !== 0) {
-			if (filters.keyword && filters.keyword.length > 0) {
-				params.keywords = 'cs.{' + filters.keyword.map(value => `"${value}"`).join(',') + '}';
+		// Map filter field to its API parameter, then add its values to API URL params.
+		const filterParamMap = {
+			keyword: 'keywords',
+			prog_language: 'prog_lang',
+			license: 'licenses',
+			project_status: 'project_status',
+			domain: 'research_domain',
+			organisation: 'participating_organisations',
+		};
+
+		Object.keys(filterParamMap).forEach(filterKey => {
+			const paramKey = filterParamMap[filterKey];
+			const filterValue = filters[filterKey];
+			if (paramKey === 'project_status') {
+				if (filterValue && filterValue.length > 0) {
+					params[paramKey] = `eq.${filterValue.flat().map(value => value.toLowerCase())}`;
+				}
+			} else {
+				if (filterValue && filterValue.length > 0) {
+					params[paramKey] = 'cs.{' + filterValue.map(value => `"${value}"`).join(',') + '}';
+				}
 			}
-			if (filters.prog_language && filters.prog_language.length > 0) {
-				params.languages = 'cs.{' + filters.prog_language.map(value => `"${value}"`).join(',') + '}';
-			}
-			if (filters.license && filters.license.length > 0) {
-				params.licenses = 'cs.{' + filters.license.map(value => `"${value}"`).join(',') + '}';
-			}
-		}
+		});
 
 		console.log('🎹 path with params: ', apiGetUrl(path, params));
 
