@@ -265,6 +265,10 @@ jQuery(function($) {
 	Item functions
 	*/
 
+	function getItemId(item) {
+		return item.id;
+	}
+
 	function getItemUrl(item) {
 		return `https://research-software-directory.org/${section}/${item.slug}`;
 	}
@@ -501,7 +505,7 @@ jQuery(function($) {
 
 			$itemsContainer.append(
 				`
-				<div class="rsd-results-item column card in-viewport">
+				<div class="rsd-results-item column card in-viewport" data-id="${getItemId(item)}">
 					<div class="card-image">
 						<a href="${getItemUrl(item)}" target="_blank" rel="external"><img src="${getItemImgUrl(item)}"
 							 alt="" title="${title}" aria-label="${title}"${imageContainAttr}></a>
