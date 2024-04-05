@@ -166,7 +166,8 @@ jQuery(function($) {
 		});
 	}
 
-	function fetchFilters() {
+	// Get the filters from the API.
+	async function fetchFilters() {
 		let filters = {};
 
 		let defaultParams = {
@@ -231,6 +232,7 @@ jQuery(function($) {
 		// Build filters object for the current section, narrowed down by filter values.
 		let filterReqs = filtersDefault[section] || {};
 		let filterValues = getFilterValues();
+		let ajaxCalls = [];
 
 		$.each(filterValues, function(filter, data) {
 			// Keywords filter
@@ -249,7 +251,7 @@ jQuery(function($) {
 
 		// Get filter data from the API for each filter.
 		$.each(filterReqs, function(filter, data) {
-			$.ajax({
+			ajaxCalls.push($.ajax({
 				type: 'POST',
 				url: apiGetUrl(data.path),
 				data: JSON.stringify(data.params),
@@ -263,10 +265,12 @@ jQuery(function($) {
 						values: response,
 					};
 				},
-			});
+			}));
 		});
 
-		return filters;
+		return $.when.apply($, ajaxCalls).then(function() {
+			return filters;
+		});
 	}
 
 
