@@ -26,6 +26,14 @@ jQuery(function($) {
 	const apiVersion = 'v1';
 	// Default parameters
 	const defaultLimit = 48;
+	const defaultFilterLabels = {
+		'project_status': {
+			'upcoming'    : 'Upcoming',
+			'in_progress' : 'In progress',
+			'finished'    : 'Finished',
+			'unknown'     : 'Unknown'
+		}
+	};
 
 	// Get container element and section.
 	const $container = $('#rsd-wordpress');
@@ -182,12 +190,7 @@ jQuery(function($) {
 					identifier: 'project_status',
 					path: '/rpc/org_project_status_filter?order=project_status',
 					params: { ...defaultParams },
-					labels: {
-						'upcoming'    : 'Upcoming',
-						'in_progress' : 'In progress',
-						'finished'    : 'Finished',
-						'unknown'     : 'Unknown'
-					}
+					labels: { ...defaultFilterLabels.project_status }
 				},
 				'keyword': {
 					title: 'Keywords',
@@ -409,8 +412,9 @@ jQuery(function($) {
 	*/
 
 	function getFilterLabel(filter, value) {
-		if (filter.labels && filter.labels[value]) {
-			return filter.labels[value];
+		let labels = defaultFilterLabels[filter] || {};
+		if (labels && labels[value]) {
+			return labels[value];
 		} else {
 			return value;
 		}
