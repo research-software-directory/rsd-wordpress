@@ -2,7 +2,7 @@
  * RSD WordPress plugin JavaScript
  *
  * @package RSD_WP
- * @since 2.0.0
+ * @since 0.4.0
  * @license Apache-2.0
  * @link https://research-software-directory.org
  */
@@ -15,12 +15,25 @@ jQuery(function($) {
 	Variables
 	*/
 
+	// Control variables
 	let items = [];
+	let itemsTotal = 0;
+	let currentOffset = 0;
+	let scrollObserver = null;
+	let currentFilters = {};
 	// API
 	const apiEndpoint = 'https://research-software-directory.org/api';
 	const apiVersion = 'v1';
 	// Default parameters
 	const defaultLimit = 48;
+	const defaultFilterLabels = {
+		'project_status': {
+			'upcoming'    : 'Upcoming',
+			'in_progress' : 'In progress',
+			'finished'    : 'Finished',
+			'unknown'     : 'Unknown'
+		}
+	};
 
 	// Get container element and section.
 	const $container = $('#rsd-wordpress');
@@ -34,8 +47,6 @@ jQuery(function($) {
 	// Hide filters sidebar by default.
 	hideFiltersSidebar();
 	enhanceFiltersSidebar();
-	// Hide the 'Show more' button (for now)
-	hideShowMoreButton();
 
 
 	/*
@@ -65,13 +76,14 @@ jQuery(function($) {
 	Controller functions
 	*/
 
-	// Get the results from the API.
-	function fetchResults(searchTerm = false, filters = false, orderBy = false, order = false) {
+	// Get the result items from the API.
+	async function fetchItems(searchTerm = false, filters = false, orderBy = false, order = false, offset = 0) {
 		// Get the search term and filter values.
 		searchTerm = searchTerm ? searchTerm.toLowerCase().trim() : getSearchTerm();
 		filters = filters ? filters : getFilterValues();
 		orderBy = orderBy ? orderBy : getOrderBy();
 		order = order ? order : getOrder(orderBy);
+		offset = offset ? offset : 0;
 
 		// Hide the 'Clear filters' button if no search term or filters are set.
 		if (searchTerm || (filters && Object.keys(filters).length !== 0)) {
@@ -85,6 +97,7 @@ jQuery(function($) {
 			status: 'eq.approved',
 			is_published: 'eq.true',
 			limit: defaultLimit,
+			offset: offset,
 		};
 
 		if (orderBy) {
@@ -134,30 +147,36 @@ jQuery(function($) {
 		console.log('🎹 path with params: ', apiGetUrl(path, params));
 
 		// Get the data from the API.
-		let url = apiGetUrl(path, params);
-		let req = $.ajax({
-			type: 'GET',
-			url: url,
-			headers: { 'Prefer': 'count=exact' },
-			success: function(response) {
-				items = response;
-				console.log('🎹 items: ', items);
+		return new Promise((resolve, reject) => {
+			let url = apiGetUrl(path, params);
+			let req = $.ajax({
+				type: 'GET',
+				url: url,
+				headers: { 'Prefer': 'count=exact' },
+				success: function(response) {
+					let resultItems = response;
+					console.log('🎹 result items: ', resultItems);
 
-				// Get the total count of results from `content-range` response header.
-				let totalResults = false;
-				let contentRange = req.getResponseHeader('content-range');
-				if (contentRange) {
-					let total = contentRange.split('/');
-					totalResults = total[1];
-				}
+					// Get the total count of results from `content-range` response header.
+					let totalResults = false;
+					let contentRange = req.getResponseHeader('content-range');
+					if (contentRange) {
+						let total = contentRange.split('/');
+						totalResults = total[1];
+						itemsTotal = parseInt(totalResults);
+					}
 
-				// Display the results.
-				displayResults(items, totalResults);
-			},
+					resolve(resultItems);
+				},
+				error: function(jqXHR, textStatus, errorThrown) {
+					reject(errorThrown);
+				},
+			});
 		});
 	}
 
-	function fetchFilters() {
+	// Get the filters from the API.
+	async function fetchFilters() {
 		let filters = {};
 
 		let defaultParams = {
@@ -171,12 +190,7 @@ jQuery(function($) {
 					identifier: 'project_status',
 					path: '/rpc/org_project_status_filter?order=project_status',
 					params: { ...defaultParams },
-					labels: {
-						'upcoming'    : 'Upcoming',
-						'in_progress' : 'In progress',
-						'finished'    : 'Finished',
-						'unknown'     : 'Unknown'
-					}
+					labels: { ...defaultFilterLabels.project_status }
 				},
 				'keyword': {
 					title: 'Keywords',
@@ -222,6 +236,7 @@ jQuery(function($) {
 		// Build filters object for the current section, narrowed down by filter values.
 		let filterReqs = filtersDefault[section] || {};
 		let filterValues = getFilterValues();
+		let ajaxCalls = [];
 
 		$.each(filterValues, function(filter, data) {
 			// Keywords filter
@@ -240,7 +255,7 @@ jQuery(function($) {
 
 		// Get filter data from the API for each filter.
 		$.each(filterReqs, function(filter, data) {
-			$.ajax({
+			ajaxCalls.push($.ajax({
 				type: 'POST',
 				url: apiGetUrl(data.path),
 				data: JSON.stringify(data.params),
@@ -254,16 +269,81 @@ jQuery(function($) {
 						values: response,
 					};
 				},
-			});
+			}));
 		});
 
-		return filters;
+		return $.when.apply($, ajaxCalls).then(function() {
+			return filters;
+		});
+	}
+
+
+	/*
+	Wrappers
+	*/
+
+	// Load items.
+	async function loadItems() {
+		try {
+			// Fetch the items from the API.
+			let offset = 0;
+			items = await fetchItems(getSearchTerm(), getFilterValues(), getOrderBy(), getOrder(), offset);
+			currentOffset = offset;
+
+			// Display the results.
+			displayResults(items, itemsTotal);
+			// Re-attach infinite scroll event.
+			enhanceResultsInfiniteScroll();
+		} catch (error) {
+			console.error('🎹 Error fetching items: ', error);
+		}
+	}
+
+	// Load more items.
+	async function loadMoreItems() {
+		if (!hasMoreItems()) {
+			return;
+		}
+
+		try {
+			// Fetch more items from the API.
+			let offset = currentOffset + defaultLimit;
+			let newItems = await fetchItems(getSearchTerm(), getFilterValues(), getOrderBy(), getOrder(), offset);
+			items = items.concat(newItems);
+			currentOffset = offset;
+
+			// Append the results.
+			let appendItems = true;
+			displayResults(newItems, itemsTotal, appendItems);
+		} catch (error) {
+			console.error('🎹 Error fetching more items: ', error);
+		}
+	}
+
+	// Check if there are more items.
+	function hasMoreItems() {
+		return itemsTotal === 0 || items.length < itemsTotal;
+	}
+
+	// Load filters
+	async function loadFilters() {
+		try {
+			let filters = await fetchFilters();
+			displayUpdateFilterValues(filters);
+			return filters;
+		} catch (error) {
+			console.error('🎹 Error fetching filters: ', error);
+		}
 	}
 
 
 	/*
 	Item functions
 	*/
+
+	function getItemId(item) {
+		return item.id;
+	}
 
 	function getItemUrl(item) {
 		return `https://research-software-directory.org/${section}/${item.slug}`;
@@ -273,7 +353,7 @@ jQuery(function($) {
 		if (item.image_id) {
 			return `https://research-software-directory.org/image/rpc/get_image?uid=${item.image_id}`;
 		} else {
-			return 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7';
+			return 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7'; // Transparent 1x1 GIF
 		}
 	}
 
@@ -324,6 +404,28 @@ jQuery(function($) {
 		html += '</ul>';
 
 		return html;
+	}
+
+
+	/*
+	Filter functions
+	*/
+
+	function getFilterLabel(filter, value) {
+		let labels = defaultFilterLabels[filter] || {};
+		if (labels && labels[value]) {
+			return labels[value];
+		} else {
+			return value;
+		}
+	}
+
+	function setCurrentFilters(filter, value) {
+		currentFilters[filter] = value;
+	}
+
+	function clearCurrentFilters() {
+		currentFilters = {};
 	}
 
 
@@ -396,7 +498,7 @@ jQuery(function($) {
 	}
 
 	function hideShowMoreButton() {
-		$container.find('.rsd-results-show-more').hide();
+		$container.find('.rsd-results-show-more .button').hide();
 	}
 
 
@@ -412,16 +514,17 @@ jQuery(function($) {
 		var searchTerm = $(this).val().toLowerCase();
 		delayTimer = setTimeout(function() {
 			console.log('🎹 searchTerm: ', searchTerm);
-			fetchFilters();
-			fetchResults(searchTerm);
+			loadFilters();
+			loadItems(searchTerm);
 			showClearFiltersButton();
 		}, 500);
 	});
 
 	// Attach set filters event and get new results from API.
 	$container.find('.rsd-filters').on('change', 'select', function() {
-		fetchFilters();
-		fetchResults();
+		setCurrentFilters($(this).data('filter'), $(this).val());
+		loadFilters();
+		loadItems();
 	});
 
 	// Attach click event to 'Clear filters' button and get new results from API.
@@ -430,8 +533,9 @@ jQuery(function($) {
 	function clearFilters() {
 		$container.find('#rsd-search').val('');
 		$container.find('.rsd-filters select').val('');
-		fetchFilters();
-		fetchResults();
+		clearCurrentFilters();
+		loadFilters();
+		loadItems();
 		hideClearFiltersButton();
 	}
 
@@ -456,8 +560,37 @@ jQuery(function($) {
 
 	// Attach change event to sort by select.
 	$container.find('#rsd-sortby').on('change', function() {
-		fetchResults();
+		loadItems();
 	});
+
+	// Attach infinite scroll event that automatically loads more results (if any).
+	function enhanceResultsInfiniteScroll() {
+		let targetElement = $('.rsd-results-show-more')[0];
+
+		if (scrollObserver) {
+			// Continue observing the target element.
+			if (hasMoreItems()) {
+				scrollObserver.observe(targetElement);
+			}
+		} else {
+			// Start observing the target element.
+			scrollObserver = new IntersectionObserver(async (entries, observer) => {
+				if (entries[0].isIntersecting) {
+					if (hasMoreItems()) {
+						loadMoreItems();
+					} else {
+						observer.unobserve(entries[0].target);
+					}
+
+				}
+			});
+
+			scrollObserver.observe(targetElement);
+		}
+	}
+
+	enhanceResultsInfiniteScroll();
+	hideShowMoreButton();
 
 
 	/*
@@ -465,17 +598,49 @@ jQuery(function($) {
 	*/
 
 	// Update the result count.
-	function setResultsTotalCount(count) {
+	function displaySetResultsTotalCount(count) {
 		$container.find('.rsd-results-count').text(`${count} items found`);
 	}
 
+	// Update filters.
+	function displayUpdateFilterValues(filters) {
+		$.each(filters, function(filter, data) {
+			let $filter = $container.find(`.rsd-filters select[data-filter="${filter}"]`);
+			// Get first placeholder item.
+			let $placeholder = $filter.find('.placeholder');
+			// Clear the filter.
+			$filter.empty();
+			// Add the placeholder item back and add the new filter values.
+			$filter.append($placeholder);
+			$.each(data.values, function(index, obj) {
+				let value = obj[data.identifier];
+				let label = getFilterLabel(filter, value);
+				let selected = (currentFilters[filter] === value) ? ' selected' : '';
+				$filter.append(`<option value="${value}"${selected}>${label}</option>`);
+			});
+		});
+	}
+
 	// Display the results.
-	function displayResults(items = [], totalCount = null) {
-		// Update result count.
-		setResultsTotalCount(totalCount || '-');
-		// Display the results.
+	function displayResults(items = [], totalCount = null, appendItems = false) {
+		// Get the results container.
 		let $itemsContainer = $container.find('.rsd-results-items');
-		$itemsContainer.empty();
+
+		// Empty results container if no items are provided.
+		if (!items || !Array.isArray(items) || items.length === 0) {
+			$container.find('.rsd-results-items').empty();
+			displaySetResultsTotalCount('-');
+			return false;
+		}
+
+		// Update result count.
+		displaySetResultsTotalCount(totalCount || '-');
+
+		// Clear the results container.
+		if (!appendItems) {
+			$itemsContainer.empty();
+		}
+
 		$.each(items, function(index, item) {
 			let title, description, props;
 			if ('projects' === section) {
@@ -501,7 +666,7 @@ jQuery(function($) {
 
 			$itemsContainer.append(
 				`
-				<div class="rsd-results-item column card in-viewport">
+				<div class="rsd-results-item column card in-viewport" data-id="${getItemId(item)}">
 					<div class="card-image">
 						<a href="${getItemUrl(item)}" target="_blank" rel="external"><img src="${getItemImgUrl(item)}"
 							 alt="" title="${title}" aria-label="${title}"${imageContainAttr}></a>
@@ -522,5 +687,8 @@ jQuery(function($) {
 				`
 			);
 		});
+
+		return true;
 	}
+
 });
