@@ -323,8 +323,12 @@ jQuery(function($) {
 
 	// Load filters
 	async function loadFilters() {
-		let filters = await fetchFilters();
-		return filters;
+		try {
+			let filters = await fetchFilters();
+			return filters;
+		} catch (error) {
+			console.error('🎹 Error fetching filters: ', error);
+		}
 	}
 
 
