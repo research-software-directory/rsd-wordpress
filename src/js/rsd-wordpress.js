@@ -540,7 +540,7 @@ jQuery(function($) {
 	}
 
 	// Attach click event to filters toggle button.
-	$container.find('.rsd-filter-button').on('click', toggleFiltersSidebar);
+	$container.find('.rsd-filter-button button').on('click', toggleFiltersSidebar);
 
 	// Enhance filters sidebar.
 	function enhanceFiltersSidebar(filters) {
