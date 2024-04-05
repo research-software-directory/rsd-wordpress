@@ -325,6 +325,7 @@ jQuery(function($) {
 	async function loadFilters() {
 		try {
 			let filters = await fetchFilters();
+			displayUpdateFilterValues(filters);
 			return filters;
 		} catch (error) {
 			console.error('🎹 Error fetching filters: ', error);
@@ -399,6 +400,19 @@ jQuery(function($) {
 		html += '</ul>';
 
 		return html;
+	}
+
+
+	/*
+	Filter functions
+	*/
+
+	function getFilterLabel(filter, value) {
+		if (filter.labels && filter.labels[value]) {
+			return filter.labels[value];
+		} else {
+			return value;
+		}
 	}
 
 
@@ -572,6 +586,24 @@ jQuery(function($) {
 	// Update the result count.
 	function displaySetResultsTotalCount(count) {
 		$container.find('.rsd-results-count').text(`${count} items found`);
+	}
+
+	// Update filters.
+	function displayUpdateFilterValues(filters) {
+		$.each(filters, function(filter, data) {
+			let $filter = $container.find(`.rsd-filters select[data-filter="${filter}"]`);
+			// Get first placeholder item.
+			let $placeholder = $filter.find('.placeholder');
+			// Clear the filter.
+			$filter.empty();
+			// Add the placeholder item back and add the new filter values.
+			$filter.append($placeholder);
+			$.each(data.values, function(index, obj) {
+				let value = obj[data.identifier];
+				let label = getFilterLabel(filter, value);
+				$filter.append(`<option value="${value}">${label}</option>`);
+			});
+		});
 	}
 
 	// Display the results.
