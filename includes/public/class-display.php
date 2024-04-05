@@ -94,7 +94,7 @@ class Display {
 		?>
 			<div class="rsd-search-bar">
 				<form action="" method="get">
-					<input type="text" name="q" id="rsd-search" class="rsd-search-input" placeholder="<?php echo esc_html( $btn_placeholder ); ?>">
+					<input type="search" name="q" id="rsd-search" class="rsd-search-input" placeholder="<?php echo esc_html( $btn_placeholder ); ?>">
 					<input type="submit" value="<?php esc_html_e( 'Search', 'rsd-wordpress' ); ?>">
 				</form>
 				<?php
