@@ -572,7 +572,6 @@ jQuery(function($) {
 			// Start observing the target element.
 			scrollObserver = new IntersectionObserver(async (entries, observer) => {
 				if (entries[0].isIntersecting) {
-					console.log('🎹 Trying to load more items ...');
 					if (hasMoreItems()) {
 						loadMoreItems();
 					} else {
