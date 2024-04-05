@@ -341,7 +341,7 @@ jQuery(function($) {
 		if (item.image_id) {
 			return `https://research-software-directory.org/image/rpc/get_image?uid=${item.image_id}`;
 		} else {
-			return 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7';
+			return 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7'; // Transparent 1x1 GIF
 		}
 	}
 
