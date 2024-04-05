@@ -565,6 +565,10 @@ jQuery(function($) {
 
 	// Attach infinite scroll event that automatically loads more results (if any).
 	function enhanceResultsInfiniteScroll() {
+		if (IntersectionObserver === undefined) {
+			return false;
+		}
+
 		let targetElement = $('.rsd-results-show-more')[0];
 
 		if (scrollObserver) {
@@ -587,10 +591,16 @@ jQuery(function($) {
 
 			scrollObserver.observe(targetElement);
 		}
+
+		return true;
 	}
 
-	enhanceResultsInfiniteScroll();
-	hideShowMoreButton();
+	if (enhanceResultsInfiniteScroll()) {
+		hideShowMoreButton();
+	}
+
+	// Attach click event to 'Show more' button.
+	$container.find('.rsd-results-show-more .button').on('click', loadMoreItems);
 
 
 	/*
