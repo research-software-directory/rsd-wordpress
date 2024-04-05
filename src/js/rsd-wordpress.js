@@ -272,6 +272,60 @@ jQuery(function($) {
 
 
 	/*
+	Wrappers
+	*/
+
+	// Load items.
+	async function loadItems() {
+		try {
+			// Fetch the items from the API.
+			let offset = 0;
+			items = await fetchItems(getSearchTerm(), getFilterValues(), getOrderBy(), getOrder(), offset);
+			currentOffset = offset;
+
+			// Display the results.
+			displayResults(items, itemsTotal);
+			// Re-attach infinite scroll event.
+			enhanceResultsInfiniteScroll();
+		} catch (error) {
+			console.error('🎹 Error fetching items: ', error);
+		}
+	}
+
+	// Load more items.
+	async function loadMoreItems() {
+		if (!hasMoreItems()) {
+			return;
+		}
+
+		try {
+			// Fetch more items from the API.
+			let offset = currentOffset + defaultLimit;
+			let newItems = await fetchItems(getSearchTerm(), getFilterValues(), getOrderBy(), getOrder(), offset);
+			items = items.concat(newItems);
+			currentOffset = offset;
+
+			// Append the results.
+			let appendItems = true;
+			displayResults(newItems, itemsTotal, appendItems);
+		} catch (error) {
+			console.error('🎹 Error fetching more items: ', error);
+		}
+	}
+
+	// Check if there are more items.
+	function hasMoreItems() {
+		return itemsTotal === 0 || items.length < itemsTotal;
+	}
+
+	// Load filters
+	async function loadFilters() {
+		let filters = await fetchFilters();
+		return filters;
+	}
+
+
+	/*
 	Item functions
 	*/
 
