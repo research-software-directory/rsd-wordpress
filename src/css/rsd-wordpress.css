@@ -79,6 +79,28 @@
 	}
 }
 
+input[type="search"].rsd-search-input {
+	background-image: url('../../assets/img/icon-search.svg');
+	background-repeat: no-repeat;
+	background-position: 1.5rem center;
+	background-size: 16px;
+	padding-left: 3rem;
+}
+
+.rsd-filter-button .button {
+	background-image: url('../../assets/img/icon-filter_alt.svg');
+	background-repeat: no-repeat;
+	background-position: 1.2rem center;
+	background-size: 16px;
+	padding-left: 2.7rem;
+}
+
+.rsd-filter-button .button.active,
+.rsd-filter-button .button:hover,
+.rsd-filter-button .button:focus {
+	background-image: url('../../assets/img/icon-filter_alt-white.svg');
+}
+
 .rsd-results-sort {
 	display: flex;
 	flex-wrap: nowrap;
