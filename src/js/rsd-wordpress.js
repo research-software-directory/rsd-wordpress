@@ -20,6 +20,7 @@ jQuery(function($) {
 	let itemsTotal = 0;
 	let currentOffset = 0;
 	let scrollObserver = null;
+	let currentFilters = {};
 	// API
 	const apiEndpoint = 'https://research-software-directory.org/api';
 	const apiVersion = 'v1';
@@ -415,6 +416,14 @@ jQuery(function($) {
 		}
 	}
 
+	function setCurrentFilters(filter, value) {
+		currentFilters[filter] = value;
+	}
+
+	function clearCurrentFilters() {
+		currentFilters = {};
+	}
+
 
 	/*
 	Form functions
@@ -509,6 +518,7 @@ jQuery(function($) {
 
 	// Attach set filters event and get new results from API.
 	$container.find('.rsd-filters').on('change', 'select', function() {
+		setCurrentFilters($(this).data('filter'), $(this).val());
 		loadFilters();
 		loadItems();
 	});
@@ -519,6 +529,7 @@ jQuery(function($) {
 	function clearFilters() {
 		$container.find('#rsd-search').val('');
 		$container.find('.rsd-filters select').val('');
+		clearCurrentFilters();
 		loadFilters();
 		loadItems();
 		hideClearFiltersButton();
@@ -601,7 +612,8 @@ jQuery(function($) {
 			$.each(data.values, function(index, obj) {
 				let value = obj[data.identifier];
 				let label = getFilterLabel(filter, value);
-				$filter.append(`<option value="${value}">${label}</option>`);
+				let selected = (currentFilters[filter] === value) ? ' selected' : '';
+				$filter.append(`<option value="${value}"${selected}>${label}</option>`);
 			});
 		});
 	}
