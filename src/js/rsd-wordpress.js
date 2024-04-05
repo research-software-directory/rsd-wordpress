@@ -15,7 +15,10 @@ jQuery(function($) {
 	Variables
 	*/
 
+	// Control variables
 	let items = [];
+	let itemsTotal = 0;
+	let currentOffset = 0;
 	// API
 	const apiEndpoint = 'https://research-software-directory.org/api';
 	const apiVersion = 'v1';
@@ -65,13 +68,14 @@ jQuery(function($) {
 	Controller functions
 	*/
 
-	// Get the results from the API.
-	function fetchResults(searchTerm = false, filters = false, orderBy = false, order = false) {
+	// Get the result items from the API.
+	async function fetchItems(searchTerm = false, filters = false, orderBy = false, order = false, offset = 0) {
 		// Get the search term and filter values.
 		searchTerm = searchTerm ? searchTerm.toLowerCase().trim() : getSearchTerm();
 		filters = filters ? filters : getFilterValues();
 		orderBy = orderBy ? orderBy : getOrderBy();
 		order = order ? order : getOrder(orderBy);
+		offset = offset ? offset : 0;
 
 		// Hide the 'Clear filters' button if no search term or filters are set.
 		if (searchTerm || (filters && Object.keys(filters).length !== 0)) {
@@ -85,6 +89,7 @@ jQuery(function($) {
 			status: 'eq.approved',
 			is_published: 'eq.true',
 			limit: defaultLimit,
+			offset: offset,
 		};
 
 		if (orderBy) {
