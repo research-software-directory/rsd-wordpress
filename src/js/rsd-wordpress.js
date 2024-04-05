@@ -2,7 +2,7 @@
  * RSD WordPress plugin JavaScript
  *
  * @package RSD_WP
- * @since 2.0.0
+ * @since 0.4.0
  * @license Apache-2.0
  * @link https://research-software-directory.org
  */
