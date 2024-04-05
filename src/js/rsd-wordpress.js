@@ -139,26 +139,31 @@ jQuery(function($) {
 		console.log('🎹 path with params: ', apiGetUrl(path, params));
 
 		// Get the data from the API.
-		let url = apiGetUrl(path, params);
-		let req = $.ajax({
-			type: 'GET',
-			url: url,
-			headers: { 'Prefer': 'count=exact' },
-			success: function(response) {
-				items = response;
-				console.log('🎹 items: ', items);
+		return new Promise((resolve, reject) => {
+			let url = apiGetUrl(path, params);
+			let req = $.ajax({
+				type: 'GET',
+				url: url,
+				headers: { 'Prefer': 'count=exact' },
+				success: function(response) {
+					let resultItems = response;
+					console.log('🎹 result items: ', resultItems);
 
-				// Get the total count of results from `content-range` response header.
-				let totalResults = false;
-				let contentRange = req.getResponseHeader('content-range');
-				if (contentRange) {
-					let total = contentRange.split('/');
-					totalResults = total[1];
-				}
+					// Get the total count of results from `content-range` response header.
+					let totalResults = false;
+					let contentRange = req.getResponseHeader('content-range');
+					if (contentRange) {
+						let total = contentRange.split('/');
+						totalResults = total[1];
+						itemsTotal = parseInt(totalResults);
+					}
 
-				// Display the results.
-				displayResults(items, totalResults);
-			},
+					resolve(resultItems);
+				},
+				error: function(jqXHR, textStatus, errorThrown) {
+					reject(errorThrown);
+				},
+			});
 		});
 	}
 
