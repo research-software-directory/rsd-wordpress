@@ -19,6 +19,7 @@ jQuery(function($) {
 	let items = [];
 	let itemsTotal = 0;
 	let currentOffset = 0;
+	let scrollObserver = null;
 	// API
 	const apiEndpoint = 'https://research-software-directory.org/api';
 	const apiVersion = 'v1';
@@ -37,8 +38,6 @@ jQuery(function($) {
 	// Hide filters sidebar by default.
 	hideFiltersSidebar();
 	enhanceFiltersSidebar();
-	// Hide the 'Show more' button (for now)
-	hideShowMoreButton();
 
 
 	/*
@@ -530,6 +529,36 @@ jQuery(function($) {
 	$container.find('#rsd-sortby').on('change', function() {
 		loadItems();
 	});
+
+	// Attach infinite scroll event that automatically loads more results (if any).
+	function enhanceResultsInfiniteScroll() {
+		let targetElement = $('.rsd-results-show-more')[0];
+
+		if (scrollObserver) {
+			// Continue observing the target element.
+			if (hasMoreItems()) {
+				scrollObserver.observe(targetElement);
+			}
+		} else {
+			// Start observing the target element.
+			scrollObserver = new IntersectionObserver(async (entries, observer) => {
+				if (entries[0].isIntersecting) {
+					console.log('🎹 Trying to load more items ...');
+					if (hasMoreItems()) {
+						loadMoreItems();
+					} else {
+						observer.unobserve(entries[0].target);
+					}
+
+				}
+			});
+
+			scrollObserver.observe(targetElement);
+		}
+	}
+
+	enhanceResultsInfiniteScroll();
+	hideShowMoreButton();
 
 
 	/*
