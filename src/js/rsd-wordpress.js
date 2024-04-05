@@ -484,16 +484,16 @@ jQuery(function($) {
 		var searchTerm = $(this).val().toLowerCase();
 		delayTimer = setTimeout(function() {
 			console.log('🎹 searchTerm: ', searchTerm);
-			fetchFilters();
-			fetchResults(searchTerm);
+			loadFilters();
+			loadItems(searchTerm);
 			showClearFiltersButton();
 		}, 500);
 	});
 
 	// Attach set filters event and get new results from API.
 	$container.find('.rsd-filters').on('change', 'select', function() {
-		fetchFilters();
-		fetchResults();
+		loadFilters();
+		loadItems();
 	});
 
 	// Attach click event to 'Clear filters' button and get new results from API.
@@ -502,8 +502,8 @@ jQuery(function($) {
 	function clearFilters() {
 		$container.find('#rsd-search').val('');
 		$container.find('.rsd-filters select').val('');
-		fetchFilters();
-		fetchResults();
+		loadFilters();
+		loadItems();
 		hideClearFiltersButton();
 	}
 
@@ -528,7 +528,7 @@ jQuery(function($) {
 
 	// Attach change event to sort by select.
 	$container.find('#rsd-sortby').on('change', function() {
-		fetchResults();
+		loadItems();
 	});
 
 
