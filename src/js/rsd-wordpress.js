@@ -470,10 +470,6 @@ jQuery(function($) {
 		}
 	}
 
-	function showShowMoreButton() {
-		$container.find('.rsd-results-show-more .button').show();
-	}
-
 	function hideShowMoreButton() {
 		$container.find('.rsd-results-show-more .button').hide();
 	}
