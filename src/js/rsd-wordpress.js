@@ -570,7 +570,7 @@ jQuery(function($) {
 	*/
 
 	// Update the result count.
-	function setResultsTotalCount(count) {
+	function displaySetResultsTotalCount(count) {
 		$container.find('.rsd-results-count').text(`${count} items found`);
 	}
 
@@ -582,12 +582,12 @@ jQuery(function($) {
 		// Empty results container if no items are provided.
 		if (!items || !Array.isArray(items) || items.length === 0) {
 			$container.find('.rsd-results-items').empty();
-			setResultsTotalCount('-');
+			displaySetResultsTotalCount('-');
 			return false;
 		}
 
 		// Update result count.
-		setResultsTotalCount(totalCount || '-');
+		displaySetResultsTotalCount(totalCount || '-');
 
 		// Clear the results container.
 		if (!appendItems) {
