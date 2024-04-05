@@ -479,12 +479,25 @@ jQuery(function($) {
 	}
 
 	// Display the results.
-	function displayResults(items = [], totalCount = null) {
+	function displayResults(items = [], totalCount = null, appendItems = false) {
+		// Get the results container.
+		let $itemsContainer = $container.find('.rsd-results-items');
+
+		// Empty results container if no items are provided.
+		if (!items || !Array.isArray(items) || items.length === 0) {
+			$container.find('.rsd-results-items').empty();
+			setResultsTotalCount('-');
+			return false;
+		}
+
 		// Update result count.
 		setResultsTotalCount(totalCount || '-');
-		// Display the results.
-		let $itemsContainer = $container.find('.rsd-results-items');
-		$itemsContainer.empty();
+
+		// Clear the results container.
+		if (!appendItems) {
+			$itemsContainer.empty();
+		}
+
 		$.each(items, function(index, item) {
 			let title, description, props;
 			if ('projects' === section) {
@@ -531,5 +544,8 @@ jQuery(function($) {
 				`
 			);
 		});
+
+		return true;
 	}
+
 });
