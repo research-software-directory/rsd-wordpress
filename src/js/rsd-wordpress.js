@@ -639,7 +639,7 @@ jQuery(function($) {
 		// Empty results container if no items are provided.
 		if (!items || !Array.isArray(items) || items.length === 0) {
 			$container.find('.rsd-results-items').empty();
-			displaySetResultsTotalCount('-');
+			displaySetResultsTotalCount(0);
 			return false;
 		}
 
