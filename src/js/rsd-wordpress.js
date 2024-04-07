@@ -533,6 +533,9 @@ jQuery(function($) {
 		setCurrentFilters($(this).data('filter'), $(this).val());
 		loadFilters();
 		loadItems();
+		if (Object.keys(getFilterValues()).length === 0) {
+			hideClearFiltersButton();
+		}
 	});
 
 	// Attach click event to 'Clear filters' button and get new results from API.
