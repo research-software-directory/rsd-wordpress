@@ -58,6 +58,107 @@ jQuery(function($) {
 
 
 	/*
+	Classes
+	*/
+
+	// Filter class
+	class Filter {
+		constructor(title, identifier, data = [], args = {}) {
+			const defaultArgs = {
+				placeholder: '',
+				showCount: true,
+				labeled_only: false,
+				labels: {},
+			};
+			this.title = title;
+			this.identifier = identifier;
+			this.type = args.type || 'select';
+			this.args = { ...defaultArgs, ...args };
+
+			this.labels = [];
+			if (args.labels && Object.keys(args.labels).length !== 0) {
+				this.setLabels(args.labels);
+			}
+
+			this.setItems(data);
+		}
+
+		getTitle() {
+			return this.title;
+		}
+
+		getIdentifier(prefix = '') {
+			return prefix + this.identifier;
+		}
+
+		getItems(labeled_only = false) {
+			if (labeled_only || (this.args.hasOwnProperty('labeled_only') && this.args.labeled_only)) {
+				return this.items.filter(item => this.getLabel(item.name));
+			} else {
+				return this.items;
+			}
+		}
+
+		setItems(data) {
+			this.items = [];
+
+			// Check if data is an array and not empty.
+			if (data && Array.isArray(data) && data.length !== 0) {
+				// Convert data to items.
+				this.items = data.map(item => {
+					let label = item[this.getIdentifier()];
+					let count = item[this.getIdentifier() + '_cnt'] || 0;
+					return { name: label, count: count };
+				});
+			}
+		}
+
+		getPlaceholder() {
+			let defaultPlaceholder = 'Filter by ' + this.getTitle().toLowerCase(); // TODO: i18n
+			return this.args.placeholder || defaultPlaceholder;
+		}
+
+		setLabels(labels) {
+			this.labels = labels;
+		}
+
+		getLabels() {
+			return this.labels;
+		}
+
+		getLabel(name) {
+			let label = name;
+
+			if (this.args.labels && this.args.labels[name]) {
+				label = this.args.labels[name];
+			}
+
+			if (this.args.showCount) {
+				label += ' (' + this.getItemCount( name ) + ')';
+			}
+
+			return label;
+		}
+
+		getItemCount(name) {
+			let count = 0;
+			// Find the item by name and return its count.
+			$.each(this.items, function(index, item) {
+				if (name === item.name) {
+					count = item.count;
+					return false; // exit the loop
+				}
+			});
+			return count;
+		}
+
+		getValues() {
+			return this.items.map(item => item.name);
+		}
+	}
+
+
+	/*
 	API functions
 	*/
 
