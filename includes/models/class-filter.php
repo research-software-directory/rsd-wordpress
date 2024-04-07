@@ -78,10 +78,16 @@ class Filter {
 	 * @param array $args The filter arguments.
 	 */
 	public function __construct( $title, $identifier, $data = array(), $args = array() ) {
+		$default_args = array(
+			'placeholder'  => '',
+			'show_count'   => true,
+			'labeled_only' => false,
+		);
+
 		$this->title      = $title;
 		$this->identifier = $identifier;
 		$this->type	      =  ( ! empty( $args['type'] ) ? $args['type'] : 'select' );
-		$this->args       = $args;
+		$this->args       = wp_parse_args( $args, $default_args );
 
 		if ( ! empty( $args['labels'] ) ) {
 			$this->set_labels( $args['labels'] );
