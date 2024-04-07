@@ -24,7 +24,7 @@ class Plugin {
 	 *
 	 * @var string
 	 */
-	private static $version = '0.6.2';
+	private static $version = '0.7.0';
 
 	/**
 	 * The name of the plugin.
