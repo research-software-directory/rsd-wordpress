@@ -44,8 +44,16 @@ jQuery(function($) {
 	$('body').addClass('rsd-wordpress');
 	// Hide search button, since we're using the input event to trigger a search.
 	hideSearchButton();
-	// Hide filters sidebar by default.
-	hideFiltersSidebar();
+	// Check if any filters are set and show the 'Clear filters' button.
+	if (getSearchTerm() || Object.keys(getFilterValues()).length !== 0) {
+		showClearFiltersButton();
+		// (Re)load items.
+		loadItems();
+	} else {
+		// Hide filters sidebar by default.
+		hideFiltersSidebar();
+	}
+	// Attach filters sidebar event handlers.
 	enhanceFiltersSidebar();
 
 
