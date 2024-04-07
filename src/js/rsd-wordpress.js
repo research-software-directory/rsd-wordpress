@@ -371,12 +371,9 @@ jQuery(function($) {
 				dataType: 'json',
 				contentType: 'application/json',
 				success: function(response) {
-					filters[filter] = {
-						title: data.title,
-						identifier: data.identifier,
+					filters[filter] = new Filter(data.title, data.identifier, response, {
 						labels: data.labels || {},
-						values: response,
-					};
+					});
 				},
 			}));
 		});
@@ -519,15 +516,6 @@ jQuery(function($) {
 	/*
 	Filter functions
 	*/
-
-	function getFilterLabel(filter, value) {
-		let labels = defaultFilterLabels[filter] || {};
-		if (labels && labels[value]) {
-			return labels[value];
-		} else {
-			return value;
-		}
-	}
 
 	function setCurrentFilters(filter, value) {
 		currentFilters[filter] = value;
@@ -726,18 +714,19 @@ jQuery(function($) {
 
 	// Update filters.
 	function displayUpdateFilterValues(filters) {
-		$.each(filters, function(filter, data) {
-			let $filter = $container.find(`.rsd-filters select[data-filter="${filter}"]`);
+		$.each(filters, function(identifier, filter) {
+			let $filter = $container.find(`.rsd-filters select[data-filter="${identifier}"]`);
 			// Get first placeholder item.
 			let $placeholder = $filter.find('.placeholder');
 			// Clear the filter.
 			$filter.empty();
 			// Add the placeholder item back and add the new filter values.
 			$filter.append($placeholder);
-			$.each(data.values, function(index, obj) {
-				let value = obj[data.identifier];
-				let label = getFilterLabel(filter, value);
-				let selected = (currentFilters[filter] === value) ? ' selected' : '';
+			// Add the new filter values.
+			$.each(filter.getItems(), function(index, item) {
+				let value = item.name;
+				let label = filter.getLabel(value);
+				let selected = (currentFilters[identifier] === value) ? ' selected' : '';
 				$filter.append(`<option value="${value}"${selected}>${label}</option>`);
 			});
 		});
