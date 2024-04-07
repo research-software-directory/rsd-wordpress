@@ -153,6 +153,24 @@ class Filter {
 	}
 
 	/**
+	 * Get item count.
+	 *
+	 * @return int
+	 */
+	public function get_item_count( $name ) {
+		$count = 0;
+
+		foreach ( $this->items as $item ) {
+			if ( $name === $item['name'] ) {
+				$count = (int) $item['count'];
+				break;
+			}
+		}
+
+		return $count;
+	}
+
+	/**
 	 * Set the filter items.
 	 *
 	 * @param array $data The filter items API data.
@@ -244,10 +262,16 @@ class Filter {
 		$labels = $this->get_labels();
 
 		if ( ! empty( $labels[ $name ] ) ) {
-			return $labels[ $name ];
+			$label = $labels[ $name ];
+		} else {
+			$label = $name;
 		}
 
-		return $name;
+		if ( ! empty( $this->args['show_count'] ) ) {
+			$label .= ' (' . $this->get_item_count( $name ) . ')';
+		}
+
+		return $label;
 	}
 
 }
