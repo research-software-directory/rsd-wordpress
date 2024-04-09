@@ -292,6 +292,10 @@ jQuery(function($) {
 			'organisation_id': organisation_id,
 		};
 
+		if (getSearchTerm() !== '') {
+			defaultParams.search_filter = getSearchTerm();
+		}
+
 		let filtersDefault = {
 			'projects': {
 				'project_status': {
