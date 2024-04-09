@@ -324,18 +324,21 @@ jQuery(function($) {
 				'keyword': {
 					title: 'Keywords',
 					identifier: 'keyword',
+					filter_as_param: 'keyword_filter',
 					path: '/rpc/org_software_keywords_filter?order=keyword',
 					params: { ...defaultParams }
 				},
 				'prog_language': {
 					title: 'Programming Languages',
 					identifier: 'prog_language',
+					filter_as_param: 'prog_lang_filter',
 					path: '/rpc/org_software_languages_filter?order=prog_language',
 					params: { ...defaultParams }
 				},
 				'license': {
 					title: 'Licenses',
 					identifier: 'license',
+					filter_as_param: 'license_filter',
 					path: '/rpc/org_software_licenses_filter?order=license',
 					params: { ...defaultParams }
 				}
@@ -347,19 +350,14 @@ jQuery(function($) {
 		let filterValues = getFilterValues();
 		let ajaxCalls = [];
 
-		$.each(filterValues, function(filter, data) {
-			// Keywords filter
-			if (filter === 'keyword' && filterValues.keyword && filterValues.keyword.length > 0) {
-				filterReqs.keyword.params.keyword_filter = data;
-			}
-			// Program languages filter
-			if (filter === 'prog_language' && filterValues.prog_language && filterValues.prog_language.length > 0) {
-				filterReqs.prog_language.params.prog_lang_filter = data;
-			}
-			// Licenses filter
-			if (filter === 'license' && filterValues.license && filterValues.license.length > 0) {
-				filterReqs.license.params.license_filter = data;
-			}
+		// Add filter values to the filter requests.
+		Object.keys(filterReqs).forEach(filter => {
+			$.each(filterValues, function(filterId, data) {
+				let param = filterReqs[filterId].filter_as_param || false;
+				if (param) {
+					filterReqs[filter].params[param] = data;
+				}
+			});
 		});
 
 		// Get filter data from the API for each filter.
