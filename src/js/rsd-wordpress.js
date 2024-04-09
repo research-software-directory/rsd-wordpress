@@ -358,7 +358,7 @@ jQuery(function($) {
 		let filterValues = getFilterValues();
 		let ajaxCalls = [];
 
-		// Add filter values to the filter requests.
+		// Add any filter values to the filter requests.
 		Object.keys(filterReqs).forEach(filter => {
 			$.each(filterValues, function(filterId, data) {
 				let param = filterReqs[filterId].filter_as_param || false;
