@@ -52,6 +52,8 @@ jQuery(function($) {
 	} else {
 		// Hide filters sidebar by default.
 		hideFiltersSidebar();
+		// Load items from DOM.
+		items = getItemsFromDOM();
 	}
 	// Attach filters sidebar event handlers.
 	enhanceFiltersSidebar();
@@ -462,6 +464,10 @@ jQuery(function($) {
 		return item.id;
 	}
 
+	function getItemSlugFromURL(url) {
+		return url.split('/').pop();
+	}
+
 	function getItemUrl(item) {
 		return `https://research-software-directory.org/${section}/${item.slug}`;
 	}
@@ -521,6 +527,32 @@ jQuery(function($) {
 		html += '</ul>';
 
 		return html;
+	}
+
+	function getItemsFromDOM() {
+		let items = [];
+		let validProps = ['contributor_cnt', 'mention_cnt', 'impact_cnt', 'output_cnt'];
+
+		$container.find('.rsd-results-item').each(function() {
+			let $item = $(this);
+			let item = {
+				id: $item.data('id'),
+				title: $item.find('h3').text(),
+				description: $item.find('.card-section p').text(),
+				slug: getItemSlugFromURL($item.find('h3 a').attr('href')),
+				labels: [],
+			};
+			$item.find('.rsd-results-item-props li').each(function() {
+				let prop = $(this).attr('class').replace('rsd-results-item-prop-', '').trim() + '_cnt';
+				let value = parseInt($(this).find('.value').text());
+				if (validProps.includes(prop)) {
+					item[prop] = value;
+				}
+			});
+
+			items.push(item);
+		});
+		return items;
 	}
 
 
