@@ -301,6 +301,7 @@ jQuery(function($) {
 				'project_status': {
 					title: 'Project status',
 					identifier: 'project_status',
+					filter_as_param: 'status_filter',
 					path: '/rpc/org_project_status_filter?order=project_status',
 					params: { ...defaultParams },
 					labels: { ...defaultFilterLabels.project_status }
@@ -308,18 +309,21 @@ jQuery(function($) {
 				'keyword': {
 					title: 'Keywords',
 					identifier: 'keyword',
+					filter_as_param: 'keyword_filter',
 					path: '/rpc/org_project_keywords_filter?order=keyword',
 					params: { ...defaultParams }
 				},
 				'domain': {
 					title: 'Research domains',
 					identifier: 'domain',
+					filter_as_param: 'research_domain_filter',
 					path: '/rpc/org_project_domains_filter?order=domain',
 					params: { ...defaultParams }
 				},
 				'partner': {
 					title: 'Partners',
 					identifier: 'organisation',
+					filter_as_param: 'organisation_filter',
 					path: '/rpc/org_project_participating_organisations_filter?order=organisation',
 					params: { ...defaultParams }
 				}
