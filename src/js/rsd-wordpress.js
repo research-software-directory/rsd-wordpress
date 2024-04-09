@@ -361,6 +361,11 @@ jQuery(function($) {
 		// Add any filter values to the filter requests.
 		Object.keys(filterReqs).forEach(filter => {
 			$.each(filterValues, function(filterId, data) {
+				if (filterId === 'project_status' && filter === 'project_status') {
+					// Skip the project_status filter if it's set to project_status.
+					return;
+				}
+
 				let param = filterReqs[filterId].filter_as_param || false;
 				if (param) {
 					filterReqs[filter].params[param] = data;
