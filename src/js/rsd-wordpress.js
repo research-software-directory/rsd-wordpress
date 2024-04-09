@@ -613,7 +613,11 @@ jQuery(function($) {
 			console.log('🎹 searchTerm: ', searchTerm);
 			loadFilters();
 			loadItems(searchTerm);
-			showClearFiltersButton();
+			if (searchTerm.trim() === '') {
+				hideClearFiltersButton();
+			} else {
+				showClearFiltersButton();
+			}
 		}, 500);
 	});
 
