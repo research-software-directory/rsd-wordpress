@@ -71,14 +71,14 @@ jQuery(function($) {
 				placeholder: '',
 				showCount: true,
 				labeled_only: false,
-				labels: {},
+				labels: [],
 			};
 			this.title = title;
 			this.identifier = identifier;
 			this.type = args.type || 'select';
 			this.args = { ...defaultArgs, ...args };
 
-			this.labels = [];
+			this.labels = {};
 			if (args.labels && Object.keys(args.labels).length !== 0) {
 				this.setLabels(args.labels);
 			}
@@ -95,8 +95,15 @@ jQuery(function($) {
 		}
 
 		getItems(labeled_only = false) {
-			if (labeled_only || (this.args.hasOwnProperty('labeled_only') && this.args.labeled_only)) {
-				return this.items.filter(item => this.getLabel(item.name));
+			if (labeled_only || this.args.labeled_only) {
+				let items = [];
+				let labels = this.getLabels();
+				$.each(this.items, function(index, item) {
+					if (labels[item.name]) {
+						items.push(item);
+					}
+				});
+				return items;
 			} else {
 				return this.items;
 			}
