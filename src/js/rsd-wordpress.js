@@ -54,6 +54,7 @@ jQuery(function($) {
 		hideFiltersSidebar();
 		// Load items from DOM.
 		items = getItemsFromDOM();
+		itemsTotal = getItemsTotalFromDOM();
 	}
 	// Attach filters sidebar event handlers.
 	enhanceFiltersSidebar();
@@ -553,6 +554,11 @@ jQuery(function($) {
 			items.push(item);
 		});
 		return items;
+	}
+
+	function getItemsTotalFromDOM() {
+		let count = $container.find('.rsd-results-count').data('items-total');
+		return parseInt(count);
 	}
 
 

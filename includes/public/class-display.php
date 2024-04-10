@@ -239,7 +239,7 @@ class Display {
 			<h2 class="show-for-sr"><?php esc_html_e( 'Results', 'rsd-wordpress' ); ?></h2>
 			<div class="rsd-results-stats row">
 				<div class="rsd-results-header columns shrink in-viewport">
-					<h3 class="rsd-results-count">
+					<h3 class="rsd-results-count" data-items-total="<?php echo esc_attr( Controller::get_result_total_count() ); ?>">
 						<?php
 						// translators: Number of result items found.
 						printf( esc_html__( '%s items found', 'rsd-wordpress' ), Controller::get_result_total_count() );
