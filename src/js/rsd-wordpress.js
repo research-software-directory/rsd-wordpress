@@ -580,11 +580,11 @@ jQuery(function($) {
 	*/
 
 	function getSearchTerm() {
-		return $('#rsd-search').val().toLowerCase().trim();
+		return $container.find('.rsd-search-input').val().toLowerCase().trim();
 	}
 
 	function getOrderBy() {
-		let orderBy = $container.find('#rsd-sortby').val().toLowerCase().trim();
+		let orderBy = $container.find('.rsd-sortby-input').val().toLowerCase().trim();
 		return orderBy || false;
 	}
 
@@ -616,15 +616,15 @@ jQuery(function($) {
 	*/
 
 	function hideSearchButton() {
-		$('#rsd-wordpress .rsd-search-bar input[type="submit"]').hide();
+		$container.find('.rsd-search-bar input[type="submit"]').hide();
 	}
 
 	function showClearFiltersButton() {
-		$('#rsd-wordpress .rsd-results-clear-filters').show();
+		$container.find('.rsd-results-clear-filters').show();
 	}
 
 	function hideClearFiltersButton() {
-		$('#rsd-wordpress .rsd-results-clear-filters').hide();
+		$container.find('.rsd-results-clear-filters').hide();
 	}
 
 	function hideFiltersSidebar() {
@@ -655,7 +655,7 @@ jQuery(function($) {
 	// Search field - attach search event and get new results from API.
 	// (executing with a slight delay after entry changes, so that the search term is not sent with every character)
 	var delayTimer;
-	$container.find('#rsd-search').on('input', function() {
+	$container.find('.rsd-search-input').on('input', function() {
 		clearTimeout(delayTimer);
 		var searchTerm = $(this).val().toLowerCase();
 		delayTimer = setTimeout(function() {
@@ -684,7 +684,7 @@ jQuery(function($) {
 	$container.find('.rsd-results-clear-filters').on('click', clearFilters);
 
 	function clearFilters() {
-		$container.find('#rsd-search').val('');
+		$container.find('.rsd-search-input').val('');
 		$container.find('.rsd-filters select').val('');
 		clearCurrentFilters();
 		loadFilters();
@@ -712,7 +712,7 @@ jQuery(function($) {
 	}
 
 	// Attach change event to sort by select.
-	$container.find('#rsd-sortby').on('change', function() {
+	$container.find('.rsd-sortby-input').on('change', function() {
 		loadItems();
 	});
 

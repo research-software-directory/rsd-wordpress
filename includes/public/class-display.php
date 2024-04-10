@@ -256,7 +256,7 @@ class Display {
 					?>
 					<div class="rsd-results-sort">
 						<label for="rsd-sortby"><?php esc_html_e( 'Sort by', 'rsd-wordpress' ); ?></label>
-						<select name="rsd-sortby" id="rsd-sortby">
+						<select name="rsd-sortby" id="rsd-sortby" class="rsd-sortby-input">
 						<?php foreach ( $sort_fields as $key => $value ) : ?>
 							<option value="<?php echo esc_attr( $key ); ?>"><?php echo esc_html( $value ); ?></option>
 						<?php endforeach; ?>
