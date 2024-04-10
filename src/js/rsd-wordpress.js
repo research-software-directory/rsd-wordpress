@@ -290,7 +290,7 @@ jQuery(function($) {
 	// Get the filters from the API.
 	async function fetchFilters() {
 		let filters = {};
-
+		let defaultArgs = {};
 		let defaultParams = {
 			'organisation_id': organisation_id,
 		};
@@ -304,6 +304,7 @@ jQuery(function($) {
 				'project_status': {
 					title: 'Project status',
 					identifier: 'project_status',
+					args: { ...defaultArgs },
 					filter_as_param: 'status_filter',
 					path: '/rpc/org_project_status_filter?order=project_status',
 					params: { ...defaultParams },
@@ -312,6 +313,7 @@ jQuery(function($) {
 				'keyword': {
 					title: 'Keywords',
 					identifier: 'keyword',
+					args: { ...defaultArgs },
 					filter_as_param: 'keyword_filter',
 					path: '/rpc/org_project_keywords_filter?order=keyword',
 					params: { ...defaultParams }
@@ -319,6 +321,7 @@ jQuery(function($) {
 				'domain': {
 					title: 'Research domains',
 					identifier: 'domain',
+					args: { ...defaultArgs, labeled_only: true },
 					filter_as_param: 'research_domain_filter',
 					path: '/rpc/org_project_domains_filter?order=domain',
 					params: { ...defaultParams }
@@ -326,6 +329,7 @@ jQuery(function($) {
 				'partner': {
 					title: 'Partners',
 					identifier: 'organisation',
+					args: { ...defaultArgs },
 					filter_as_param: 'organisation_filter',
 					path: '/rpc/org_project_participating_organisations_filter?order=organisation',
 					params: { ...defaultParams }
@@ -335,6 +339,7 @@ jQuery(function($) {
 				'keyword': {
 					title: 'Keywords',
 					identifier: 'keyword',
+					args: { ...defaultArgs },
 					filter_as_param: 'keyword_filter',
 					path: '/rpc/org_software_keywords_filter?order=keyword',
 					params: { ...defaultParams }
@@ -342,6 +347,7 @@ jQuery(function($) {
 				'prog_language': {
 					title: 'Programming Languages',
 					identifier: 'prog_language',
+					args: { ...defaultArgs },
 					filter_as_param: 'prog_lang_filter',
 					path: '/rpc/org_software_languages_filter?order=prog_language',
 					params: { ...defaultParams }
@@ -349,6 +355,7 @@ jQuery(function($) {
 				'license': {
 					title: 'Licenses',
 					identifier: 'license',
+					args: { ...defaultArgs },
 					filter_as_param: 'license_filter',
 					path: '/rpc/org_software_licenses_filter?order=license',
 					params: { ...defaultParams }
