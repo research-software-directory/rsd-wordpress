@@ -374,7 +374,7 @@ jQuery(function($) {
 		// Build filters object for the current section, narrowed down by filter values.
 		let filterReqs = filtersDefault[section] || {};
 		let filterValues = getFilterValues();
-		let ajaxCalls = [];
+		let requests = [];
 
 		// Add any filter values to the filter requests.
 		Object.keys(filterReqs).forEach(filter => {
@@ -392,22 +392,28 @@ jQuery(function($) {
 		});
 
 		// Get filter data from the API for each filter.
-		$.each(filterReqs, function(filter, data) {
-			ajaxCalls.push($.ajax({
-				type: 'POST',
-				url: apiGetUrl(data.path),
-				data: JSON.stringify(data.params),
-				dataType: 'json',
-				contentType: 'application/json',
-				success: function(response) {
-					filters[filter] = new Filter(data.title, data.identifier, response, {
-						labels: data.labels || {},
-					});
-				},
-			}));
+		Object.entries(filterReqs).forEach(([filter, data]) => {
+			let promise = new Promise((resolve, reject) => {
+				$.ajax({
+					type: 'POST',
+					url: apiGetUrl(data.path),
+					data: JSON.stringify(data.params),
+					dataType: 'json',
+					contentType: 'application/json',
+					success: function(response) {
+						filters[filter] = new Filter(data.title, data.identifier, response, data.args);
+						resolve();
+					},
+					error: function(jqXHR, textStatus, errorThrown) {
+						reject(errorThrown);
+					},
+				});
+			});
+
+			requests.push(promise);
 		});
 
-		return $.when.apply($, ajaxCalls).then(function() {
+		return Promise.all(requests).then(() => {
 			return filters;
 		});
 	}
@@ -462,13 +468,14 @@ jQuery(function($) {
 
 	// Load filters
 	async function loadFilters() {
-		try {
-			let filters = await fetchFilters();
-			displayUpdateFilterValues(filters);
-			return filters;
-		} catch (error) {
-			console.error('🎹 Error fetching filters: ', error);
-		}
+		fetchFilters()
+			.then(filters => {
+				displayUpdateFilterValues(filters);
+				return filters;
+			})
+			.catch(error => {
+				console.error('🎹 Error fetching filters: ', error);
+			});
 	}
 
 
