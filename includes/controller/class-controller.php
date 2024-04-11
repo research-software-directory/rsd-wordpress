@@ -489,6 +489,22 @@ class Controller {
 	}
 
 	/**
+	 * Get the filter labels.
+	 *
+	 * @return array
+	 */
+	public static function get_filter_labels( $identifier = false ) {
+		$labels = array();
+
+		$filters = self::get_filters( $identifier );
+		foreach ( $filters as $filter ) {
+			$labels[ $filter->get_identifier() ] = $filter->get_labels();
+		}
+
+		return $labels;
+	}
+
+	/**
 	 * Set the total count of result items.
 	 *
 	 * @param int $total_count The total count of items.
