@@ -311,11 +311,10 @@ jQuery(function($) {
 				'project_status': {
 					title: 'Project status',
 					identifier: 'project_status',
-					args: { ...defaultArgs },
+					args: { ...defaultArgs, labels: { ...defaultFilterLabels.project_status } },
 					filter_as_param: 'status_filter',
 					path: '/rpc/org_project_status_filter?order=project_status',
-					params: { ...defaultParams },
-					labels: { ...defaultFilterLabels.project_status }
+					params: { ...defaultParams }
 				},
 				'keyword': {
 					title: 'Keywords',
@@ -328,11 +327,10 @@ jQuery(function($) {
 				'domain': {
 					title: 'Research domains',
 					identifier: 'domain',
-					args: { ...defaultArgs, labeled_only: true },
+					args: { ...defaultArgs, labeled_only: true, labels: { ...defaultFilterLabels.domain } },
 					filter_as_param: 'research_domain_filter',
 					path: '/rpc/org_project_domains_filter?order=domain',
-					params: { ...defaultParams },
-					labels: { ...defaultFilterLabels.domain }
+					params: { ...defaultParams }
 				},
 				'partner': {
 					title: 'Partners',
