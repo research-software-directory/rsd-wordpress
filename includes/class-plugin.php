@@ -177,6 +177,9 @@ class Plugin {
 		Controller::set_organisation_id( sanitize_text_field( $atts['organisation-id'] ) );
 		Controller::set_limit( sanitize_text_field( $atts['limit'] ) );
 
+		// Fetch the filters from API.
+		Controller::fetch_filters();
+
 		// Get items from the API.
 		$items = Controller::get_items();
 

@@ -529,9 +529,6 @@ class Controller {
 		// Set the default section.
 		$section = ( $section ?: self::get_section() );
 
-		// Fetch the filters from API.
-		self::fetch_filters( $section );
-
 		// Set the default API path parameters.
 		$defaults = array(
 			'organisation_id' => self::get_organisation_id(),
