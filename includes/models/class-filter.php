@@ -240,16 +240,6 @@ class Filter {
 	 * @return array
 	 */
 	public function get_labels() {
-		if ( empty( $this->labels ) ) {
-			$labels = array();
-
-			foreach ( $this->items as $item ) {
-				$labels[ $item['title'] ] = $item['title'];
-			}
-
-			$this->labels = $labels;
-		}
-
 		return $this->labels;
 	}
 
