@@ -327,8 +327,12 @@ class Controller {
 	 *
 	 * @return array
 	 */
-	public static function get_filters() {
-		return self::$filters;
+	public static function get_filters( $identifier = false ) {
+		if ( ! empty( $identifier ) ) {
+			return array( self::$filters[ $identifier ] );
+		} else {
+			return self::$filters;
+		}
 	}
 
 	/**
