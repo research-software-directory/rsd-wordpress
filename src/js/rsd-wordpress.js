@@ -376,15 +376,19 @@ jQuery(function($) {
 
 		// Add any filter values to the filter requests.
 		Object.keys(filterReqs).forEach(filter => {
-			$.each(filterValues, function(filterId, data) {
-				if (filterId === 'project_status' && filter === 'project_status') {
+			Object.keys(filterValues).forEach(valueId => {
+				if (valueId === 'project_status' && filter === 'project_status') {
 					// Skip the project_status filter if it's set to project_status.
 					return;
 				}
 
-				let param = filterReqs[filterId].filter_as_param || false;
+				let param = filterReqs[valueId].filter_as_param || false;
 				if (param) {
-					filterReqs[filter].params[param] = data;
+					if (valueId === 'project_status') {
+						filterReqs[filter].params[param] = filterValues[valueId][0] || '';
+					} else {
+						filterReqs[filter].params[param] = filterValues[valueId];
+					}
 				}
 			});
 		});
@@ -587,7 +591,11 @@ jQuery(function($) {
 	*/
 
 	function setCurrentFilters(filter, value) {
-		currentFilters[filter] = value;
+		if (!Array.isArray(value)) {
+			currentFilters[filter] = [value];
+		} else {
+			currentFilters[filter] = value;
+		}
 	}
 
 	function clearCurrentFilters() {
@@ -621,10 +629,10 @@ jQuery(function($) {
 		let filters = {};
 		$container.find('.rsd-filters select').each(function() {
 			let $filter = $(this);
-			let filterIdentifier = $filter.data('filter');
-			let filterValue = $filter.val();
-			if (filterValue != '') {
-				filters[filterIdentifier] = [filterValue];
+			let identifier = $filter.data('filter');
+			let value = $filter.val();
+			if (value != '') {
+				filters[identifier] = [value];
 			}
 		});
 		return filters;
@@ -796,10 +804,13 @@ jQuery(function($) {
 			// Add the placeholder item back and add the new filter values.
 			$filter.append($placeholder);
 			// Add the new filter values.
-			$.each(filter.getItems(), function(index, item) {
+			filter.getItems().forEach(function(item) {
 				let value = item.name;
 				let label = filter.getLabel(value);
-				let selected = (currentFilters[identifier] === value) ? ' selected' : '';
+				let selected = '';
+				if (currentFilters[identifier] && currentFilters[identifier].includes(value)) {
+					selected = ' selected';
+				}
 				$filter.append(`<option value="${value}"${selected}>${label}</option>`);
 			});
 		});
