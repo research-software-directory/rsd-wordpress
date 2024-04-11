@@ -46,9 +46,11 @@ jQuery(function($) {
 	hideSearchButton();
 	// Check if any filters are set and show the 'Clear filters' button.
 	if (getSearchTerm() || Object.keys(getFilterValues()).length !== 0) {
-		showClearFiltersButton();
-		// (Re)load items.
+		currentFilters = getFilterValues();
+		// (Re)load filters and items.
+		loadFilters();
 		loadItems();
+		showClearFiltersButton();
 	} else {
 		// Hide filters sidebar by default.
 		hideFiltersSidebar();
