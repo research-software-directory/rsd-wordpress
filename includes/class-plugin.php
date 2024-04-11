@@ -146,7 +146,7 @@ class Plugin {
 		// TODO: Change CSS file to optimized production version (instead of src/development version).
 		wp_enqueue_style( self::get_plugin_name() . '-public', RSD_WP__PLUGIN_URL . 'src/css/rsd-wordpress.css', array(), self::get_version() );
 		// TODO: Change JavaScript file to optimized production version (instead of src/development version).
-		wp_enqueue_script( self::get_plugin_name() . '-public', RSD_WP__PLUGIN_URL . 'src/js/rsd-wordpress.js', array( 'jquery' ), self::get_version() );
+		wp_enqueue_script( self::get_plugin_name() . '-public', RSD_WP__PLUGIN_URL . 'src/js/rsd-wordpress.js', array( 'jquery' ), self::get_version(), true );
 	}
 
 	/**
@@ -179,6 +179,13 @@ class Plugin {
 
 		// Fetch the filters from API.
 		Controller::fetch_filters();
+
+		// Make filter labels available in JS.
+		$labels = Controller::get_filter_labels();
+		$localize_arr = array(
+			'defaultFilterLabels' => $labels,
+		);
+		wp_localize_script( self::get_plugin_name() . '-public', 'rsd_wordpress_vars', $localize_arr );
 
 		// Get items from the API.
 		$items = Controller::get_items();

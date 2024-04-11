@@ -26,7 +26,7 @@ jQuery(function($) {
 	const apiVersion = 'v1';
 	// Default parameters
 	const defaultLimit = 48;
-	const defaultFilterLabels = {
+	const defaultFilterLabels = rsd_wordpress_vars.defaultFilterLabels || {
 		'project_status': {
 			'upcoming'    : 'Upcoming',
 			'in_progress' : 'In progress',
@@ -331,7 +331,8 @@ jQuery(function($) {
 					args: { ...defaultArgs, labeled_only: true },
 					filter_as_param: 'research_domain_filter',
 					path: '/rpc/org_project_domains_filter?order=domain',
-					params: { ...defaultParams }
+					params: { ...defaultParams },
+					labels: { ...defaultFilterLabels.domain }
 				},
 				'partner': {
 					title: 'Partners',
