@@ -332,7 +332,7 @@ jQuery(function($) {
 					path: '/rpc/org_project_domains_filter?order=domain',
 					params: { ...defaultParams }
 				},
-				'partner': {
+				'organisation': {
 					title: 'Partners',
 					identifier: 'organisation',
 					args: { ...defaultArgs },
