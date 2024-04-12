@@ -39,7 +39,7 @@ export default defineConfig({
 	plugins: [
 		{
 			name: 'rename-output',
-			writeBundle(options, bundle) {
+			writeBundle() {
 				renameSync(resolve(__dirname, 'dist', 'index.min.js'), resolve(__dirname, 'dist', 'rsd-wordpress.min.js'));
 				renameSync(resolve(__dirname, 'dist', 'style.min.css'), resolve(__dirname, 'dist', 'rsd-wordpress.min.css'));
 			},
