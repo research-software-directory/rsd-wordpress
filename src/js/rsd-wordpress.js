@@ -56,6 +56,7 @@ jQuery(function($) {
 		hideFiltersSidebar();
 		// Load items from DOM.
 		items = getItemsFromDOM();
+		currentOffset = items.length;
 		itemsTotal = getItemsTotalFromDOM();
 	}
 	// Attach filters sidebar event handlers.
@@ -433,7 +434,7 @@ jQuery(function($) {
 			// Fetch the items from the API.
 			let offset = 0;
 			items = await fetchItems(getSearchTerm(), getFilterValues(), getOrderBy(), getOrder(), offset);
-			currentOffset = offset;
+			currentOffset = offset + items.length;
 
 			// Display the results.
 			displayResults(items, itemsTotal);
@@ -452,10 +453,10 @@ jQuery(function($) {
 
 		try {
 			// Fetch more items from the API.
-			let offset = currentOffset + defaultLimit;
+			let offset = currentOffset;
 			let newItems = await fetchItems(getSearchTerm(), getFilterValues(), getOrderBy(), getOrder(), offset);
 			items = items.concat(newItems);
-			currentOffset = offset;
+			currentOffset = offset + newItems.length;
 
 			// Append the results.
 			let appendItems = true;
