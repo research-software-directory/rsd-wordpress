@@ -1,0 +1,8 @@
+// Babel configuration file
+{
+  "presets": [
+    ["@babel/preset-env", {
+      "targets": "defaults"
+    }]
+  ]
+}
