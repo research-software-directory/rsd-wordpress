@@ -32,5 +32,9 @@ db_data
 .idea
 .history
 
-# ignore VS Code settings
+# ignore OS generated files
+.DS_Store
+Thumbs.db
+
+# ignore IDE configuration files
 .vscode/
