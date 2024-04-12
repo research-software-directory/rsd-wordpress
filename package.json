@@ -26,12 +26,13 @@
   ],
   "packageManager": "pnpm@8.1.1+sha256.81fa42eae93570f569460def1cc0ad8bb7601a25304be6f61742a69a22d6645c",
   "devDependencies": {
+    "autoprefixer": "^10.4.19",
     "browserslist": "^4.23.0",
     "fs": "0.0.1-security",
     "lightningcss": "^1.24.1",
     "path": "^0.12.7",
+    "postcss": "^8.4.38",
     "sass": "^1.75.0",
-    "vite": "^5.2.8",
-    "vite-plugin-css": "^1.0.4"
+    "vite": "^5.2.8"
   }
 }
