@@ -1,4 +1,16 @@
-*** Changelog ***
+=== RSD for WordPress ===
+Contributors: research-software-directory, mezzomedia, ctwhome
+Tags: RSD, Research Software Directory, wordpress, api, overview
+Requires at least: 6.0
+Tested up to: 6.5
+Requires PHP: 7.0
+Stable tag: 1.0.0
+License: Apache-2.0
+License URI: https://www.apache.org/licenses/LICENSE-2.0
+
+WordPress plugin that displays projects and software information using the Research Software Directory API.
+
+== Changelog ==
 
 = 0.3.2 - 2024-03-15 =
 * Retrieve API response headers to show total result item count (instead of item count defined by the limit parameter).
