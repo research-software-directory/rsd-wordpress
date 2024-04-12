@@ -40,5 +40,8 @@ Thumbs.db
 /build/
 /dist/
 
+# ignore Composer dependencies
+vendor/
+
 # ignore IDE configuration files
 .vscode/
