@@ -29,7 +29,6 @@ yarn.lock
 *.sqlite
 wp_data
 db_data
-.idea
 .history
 
 # ignore OS generated files
@@ -45,3 +44,7 @@ vendor/
 
 # ignore IDE configuration files
 .vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+.nova/
