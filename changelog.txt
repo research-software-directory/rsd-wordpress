@@ -12,6 +12,49 @@ WordPress plugin that displays projects and software information using the Resea
 
 == Changelog ==
 
+= 0.8.0 - 2024-04-12 =
+* Fix search term and filters selection behavior in JS.
+* Provide default filter labels (Project status and Research domain) from PHP to JS.
+* Load existing items that were rendered server-side from DOM at page load.
+* Fix items offset calculation for retrieving (more) items from API in JS.
+
+= 0.7.0 - 2024-04-07 =
+* Fix Clear filters button behaviour.
+* Add `Filter` class in JS.
+
+= 0.6.2 - 2024-04-05 =
+* Add filter item count (in parentheses) after filter title/label. (enabled by default)
+
+= 0.6.1 - 2024-04-05 =
+* Add icons to search field and Filters button.
+
+= 0.6.0 - 2024-04-05 =
+* Implement infinite scrolling for result items.
+* Use Promise object to wait for filters fetching.
+* Update filters according to selected values, and automatically set filters on page load (if set previously).
+
+= 0.5.1 - 2024-04-04 =
+* Optimisations for building filter API requests in JS.
+* Improve responsive behaviour for results controls.
+
+= 0.5.0 - 2024-03-30 =
+* Add images to software and project result items.
+* Style result items.
+
+= 0.4.2 - 2024-03-30 =
+* Fix ordering and sorting of items.
+* Cleaning up and bug fixes.
+
+= 0.4.1 - 2024-03-30 =
+* Cleaning up and bug fix release.
+
+= 0.4.0 - 2024-03-28 =
+* First JS implementation: Add hooks for admin and public areas, enqueue public scripts and load public CSS/JS files.
+* Refactor - Use Singleton pattern for Plugin, API, Controller and Display classes.
+* Set labels for Project status and Research domain filters.
+* Add filter button, sidebar, and filters placeholders.
+* Use POST requests for filters fetching from API.
+
 = 0.3.2 - 2024-03-15 =
 * Retrieve API response headers to show total result item count (instead of item count defined by the limit parameter).
 
