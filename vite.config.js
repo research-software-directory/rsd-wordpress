@@ -50,7 +50,6 @@ const devConfig = {
 	build: {
 		...baseConfig.build,
 		minify: false,
-		sourcemap: true,
 		rollupOptions: {
 			...baseConfig.build.rollupOptions,
 			output: {
@@ -72,6 +71,7 @@ const prodConfig = {
 	build: {
 		...baseConfig.build,
 		minify: true,
+		sourcemap: true,
 		rollupOptions: {
 			...baseConfig.build.rollupOptions,
 			output: {
