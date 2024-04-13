@@ -9,10 +9,11 @@
  */
 
 import { defineConfig } from 'vite';
-import postcss from 'postcss';
+import postcss, { plugin } from 'postcss';
 import browserslist from 'browserslist';
 import { browserslistToTargets } from 'lightningcss';
 import autoprefixer from 'autoprefixer';
+import { babel } from '@rollup/plugin-babel';
 
 const isProduction = process.env.NODE_ENV === 'production';
 
@@ -74,6 +75,12 @@ const prodConfig = {
 		sourcemap: true,
 		rollupOptions: {
 			...baseConfig.build.rollupOptions,
+			plugins: [
+				babel({
+					exclude: 'node_modules/**',
+					babelHelpers: 'bundled',
+				}),
+			],
 			output: {
 				...baseConfig.build.rollupOptions.output,
 				entryFileNames: `${baseConfig.build.lib.fileName}.min.js`,
