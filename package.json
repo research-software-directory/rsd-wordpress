@@ -8,8 +8,8 @@
   "main": "src/index.js",
   "type": "module",
   "scripts": {
-    "dev": "vite",
-    "build": "vite build && npx babel dist/rsd-wordpress.min.js -o dist/rsd-wordpress.js && npx terser -c -m -o dist/rsd-wordpress.min.js -- dist/rsd-wordpress.js",
+    "dev": "NODE_ENV=development vite build --watch",
+    "build": "NODE_ENV=production vite build",
     "serve": "vite preview",
     "test": "echo \"Error: no test specified\" && exit 1"
   },

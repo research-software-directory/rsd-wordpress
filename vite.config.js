@@ -8,41 +8,84 @@
  * @link https://research-software-directory.org
  */
 
-import { defineConfig } from 'vite'
+import { defineConfig } from 'vite';
+import postcss from 'postcss';
 import browserslist from 'browserslist';
-import {browserslistToTargets} from 'lightningcss';
-import { renameSync } from 'fs';
-import { resolve } from 'path';
+import { browserslistToTargets } from 'lightningcss';
+import autoprefixer from 'autoprefixer';
 
-export default defineConfig({
+const isProduction = process.env.NODE_ENV === 'production';
+
+const baseConfig = {
 	build: {
 		lib: {
 			entry: 'src/index.js',
 			name: 'rsd-wordpress',
 			fileName: 'rsd-wordpress',
 		},
+		emptyOutDir: false,
 		rollupOptions: {
 			output: {
-				entryFileNames: '[name].min.js',
-				chunkFileNames: '[name].min.js',
-				assetFileNames: '[name].min.[ext]',
+				chunkFileNames: '[name].js',
+				assetFileNames: '[name].[ext]',
 			},
 		},
 		css: {
+			postcss: {
+				plugins: [
+					postcss(),
+					autoprefixer(),
+				],
+			},
 			transformer: 'lightningcss',
 			lightningcss: {
 				targets: browserslistToTargets(browserslist('defaults')),
 			},
+		},
+	},
+};
+
+const devConfig = {
+	...baseConfig,
+	build: {
+		...baseConfig.build,
+		minify: false,
+		sourcemap: true,
+		rollupOptions: {
+			...baseConfig.build.rollupOptions,
+			output: {
+				...baseConfig.build.rollupOptions.output,
+				entryFileNames: `${baseConfig.build.lib.fileName}.js`,
+				chunkFileNames: `${baseConfig.build.lib.fileName}.js`,
+				assetFileNames: `${baseConfig.build.lib.fileName}.css`,
+			},
+		},
+		css: {
+			...baseConfig.build.css,
+			cssMinify: false,
+		},
+	},
+};
+
+const prodConfig = {
+	...baseConfig,
+	build: {
+		...baseConfig.build,
+		minify: true,
+		rollupOptions: {
+			...baseConfig.build.rollupOptions,
+			output: {
+				...baseConfig.build.rollupOptions.output,
+				entryFileNames: `${baseConfig.build.lib.fileName}.min.js`,
+				chunkFileNames: `${baseConfig.build.lib.fileName}.min.js`,
+				assetFileNames: `${baseConfig.build.lib.fileName}.min.css`,
+			},
+		},
+		css: {
+			...baseConfig.build.css,
 			cssMinify: 'lightningcss',
 		},
 	},
-	plugins: [
-		{
-			name: 'rename-output',
-			writeBundle() {
-				renameSync(resolve(__dirname, 'dist', 'index.min.js'), resolve(__dirname, 'dist', 'rsd-wordpress.min.js'));
-				renameSync(resolve(__dirname, 'dist', 'style.min.css'), resolve(__dirname, 'dist', 'rsd-wordpress.min.css'));
-			},
-		},
-	],
-})
+};
+
+export default defineConfig(isProduction ? prodConfig : devConfig);
