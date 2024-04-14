@@ -41,7 +41,7 @@ jQuery(function($) {
 	const organisation_id = $container.data('organisation_id');
 
 	// Add a class to the body when the page is loaded.
-	$('body').addClass('rsd-wordpress');
+	$('body').addClass('rsd-wordpress-loaded');
 	// Hide search button, since we're using the input event to trigger a search.
 	hideSearchButton();
 	// Check if any filters are set and show the 'Clear filters' button.
