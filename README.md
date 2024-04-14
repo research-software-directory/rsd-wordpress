@@ -9,11 +9,40 @@ To display the overview (e.g. for the Software section for the Netherlands eScie
 [research_software_directory section="software" limit="4" organisation="35c17f17-6b5f-4385-aa8b-6b1d33a10157"]
 ```
 
+### Deployment or unit testing: build compiled bundle files first
+
+The current configuration uses [Vite](https://vitejs.dev/) to build the plugin front end assets, CSS and JS. Before using the plugin in a production environment (which is the default), make sure to run the build script:
+```shell
+# First install the required Node.js dependencies
+$ pnpm install
+
+# Run the build script for production
+$ pnpm run build
+``` 
+
+This will create minified CSS and JS bundle files according to the project's [Browserslist](https://browsersl.ist/) configuration, and uses [Autoprefixer](https://github.com/postcss/autoprefixer) and [Babel](https://babeljs.io/) to create cross-browser compatible code.
+
+_Note: See the section below for instructions on how to do this for a development environment._
+
 ## Local development
+
+### Installing the plugin in WordPress
 
 This plugin can be used in a new or existing WordPress intallation in a local development environment. For a super quick testing environment, the bundled `docker-compose.yml` can be used with the application [Local](https://localwp.com/).
 
 First make sure your WordPress installation is functional, then move the plugin file to the `plugins` folder of your installation, which is usually something like `<wordpress_folder>/wp-content/plugins/`.
+
+### Building compiled bundle files for development
+
+Similar to the above example, before using the plugin in a development environment, make sure to run the build script (which uses watch mode automatically):
+
+```shell
+# First install the required Node.js dependencies
+$ pnpm install
+
+# Run the build script for production
+$ pnpm run dev
+``` 
 
 ### Editor configuration
 

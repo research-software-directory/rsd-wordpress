@@ -14,8 +14,14 @@ wp-content/plugins/hello.php
 # ignore specific themes
 wp-content/themes/twenty*/
 
-# ignore node dependency directories
+# ignore Node dependency directories, log and lock files
 node_modules/
+npm-debug.log
+yarn-error.log
+yarn-debug.log*
+package-lock.json
+pnpm-lock.yaml
+yarn.lock
 
 # ignore log files and databases
 *.log
@@ -23,8 +29,22 @@ node_modules/
 *.sqlite
 wp_data
 db_data
-.idea
 .history
 
-# ignore VS Code settings
+# ignore OS generated files
+.DS_Store
+Thumbs.db
+
+# ignore build files
+/build/
+/dist/
+
+# ignore Composer dependencies
+vendor/
+
+# ignore IDE configuration files
 .vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+.nova/

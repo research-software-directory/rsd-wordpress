@@ -1,0 +1,6 @@
+# https://github.com/browserslist/browserslist#readme
+
+>0.3%
+defaults
+fully supports es6-module
+maintained node versions
