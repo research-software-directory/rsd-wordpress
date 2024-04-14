@@ -41,7 +41,7 @@ jQuery(function($) {
 	const organisation_id = $container.data('organisation_id');
 
 	// Add a class to the body when the page is loaded.
-	$('body').addClass('rsd-wordpress');
+	$('body').addClass('rsd-wordpress-loaded');
 	// Hide search button, since we're using the input event to trigger a search.
 	hideSearchButton();
 	// Check if any filters are set and show the 'Clear filters' button.
@@ -785,6 +785,25 @@ jQuery(function($) {
 
 	// Attach click event to 'Show more' button.
 	$container.find('.rsd-results-show-more .button').on('click', loadMoreItems);
+
+	// Attach back to top button scroll handler and execute on page load.
+	$(window).on('scroll', enhanceBackToTopButton);
+	enhanceBackToTopButton();
+
+	function enhanceBackToTopButton() {
+		let offset = $container.offset().top || 100;
+		let $button = $container.find('.rsd-back-to-top');
+
+		if ($(this).scrollTop() > offset) {
+			$button.stop(true, true).fadeIn();
+		} else {
+			$button.stop(true, true).fadeOut();
+		}
+	}
+
+	$container.find('.rsd-back-to-top').on('click', function() {
+		$('html, body').animate({ scrollTop: 0 }, 400);
+	});
 
 
 	/*
