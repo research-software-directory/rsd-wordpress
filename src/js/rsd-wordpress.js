@@ -786,6 +786,25 @@ jQuery(function($) {
 	// Attach click event to 'Show more' button.
 	$container.find('.rsd-results-show-more .button').on('click', loadMoreItems);
 
+	// Attach back to top button scroll handler and execute on page load.
+	$(window).on('scroll', enhanceBackToTopButton);
+	enhanceBackToTopButton();
+
+	function enhanceBackToTopButton() {
+		let offset = $container.offset().top || 100;
+		let $button = $container.find('.rsd-back-to-top');
+
+		if ($(this).scrollTop() > offset) {
+			$button.stop(true, true).fadeIn();
+		} else {
+			$button.stop(true, true).fadeOut();
+		}
+	}
+
+	$container.find('.rsd-back-to-top').on('click', function() {
+		$('html, body').animate({ scrollTop: 0 }, 400);
+	});
+
 
 	/*
 	Display functions
