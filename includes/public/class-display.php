@@ -291,6 +291,9 @@ class Display {
 				<a role="" class="button rsd-results-show-more-button" href="#more"><?php esc_html_e( 'Show more', 'rsd-wordpress' ); ?></a>
 			</div>
 		</div>
+		<div class="rsd-back-to-top">
+			<p><a role="button" class="button rsd-back-to-top-button icon-backtotop" href="#top"><?php esc_html_e( 'Back to top', 'rsd-wordpress' ); ?></a></p>
+		</div>
 		<?php
 
 		return ob_get_clean();
