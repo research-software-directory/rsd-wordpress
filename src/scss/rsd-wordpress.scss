@@ -236,3 +236,40 @@ input[type="search"].rsd-search-input {
 .rsd-results-show-more {
 	text-align: center;
 }
+
+.rsd-back-to-top {
+	z-index: 2001;
+	position: fixed;
+	bottom: 1rem;
+	right: 1rem;
+
+	p {
+		margin: 0;
+	}
+
+	a.button {
+		display: inline-block;
+		border: none;
+		cursor: pointer;
+		box-shadow: rgba(100, 100, 111, 0.2) 0px 16px 32px 0px;
+	}
+
+	body.rsd-wordpress-loaded & {
+		display: none;
+	}
+}
+
+.icon-backtotop {
+	background-image: url('../../assets/img/icon-backtotop_alt.svg');
+	background-repeat: no-repeat;
+	background-position: center;
+	background-size: 40px;
+	width: 2rem;
+	height: 2rem;
+	text-indent: -200vw;
+
+	&:hover,
+	&:focus {
+		background-image: url('../../assets/img/icon-backtotop_alt-white.svg');
+	}
+}
