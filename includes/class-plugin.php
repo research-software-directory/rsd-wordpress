@@ -143,6 +143,12 @@ class Plugin {
 	 * Enqueue plugin front end scripts and styles.
 	 */
 	public static function enqueue_public_scripts() {
+		global $post;
+
+		if ( ! is_a( $post, 'WP_Post' ) || ! has_shortcode( get_the_content(), 'research_software_directory' ) ) {
+			return;
+		}
+
 		// Enqueue compiled stylesheet and scripts, using minified versions in production and staging environments.
 		$suffix = ( wp_get_environment_type() === 'production' || wp_get_environment_type() === 'staging' ? '.min' : '' );
 		wp_enqueue_style( self::get_plugin_name() . '-public', RSD_WP__PLUGIN_URL . 'dist/rsd-wordpress' . $suffix . '.css', array(), self::get_version() );
