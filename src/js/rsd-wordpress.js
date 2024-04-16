@@ -801,8 +801,9 @@ jQuery(function($) {
 		}
 	}
 
-	$container.find('.rsd-back-to-top').on('click', function() {
+	$container.find('.rsd-back-to-top a').on('click', function() {
 		$('html, body').animate({ scrollTop: 0 }, 400);
+		return false;
 	});
 
 
