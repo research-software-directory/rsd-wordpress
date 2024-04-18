@@ -731,13 +731,11 @@ jQuery(function($) {
 		let $sidebar = $container.find('.rsd-filter-sidebar');
 
 		// Add close button to filters sidebar.
-		$sidebar.prepend(
-			`
+		$sidebar.prepend(`
 			<button class="close-button" aria-label="Close alert" type="button"
 				<span aria-hidden="true">&times;</span>
 			</button>
-			`
-		);
+		`);
 
 		$sidebar.find('.close-button').on('click', toggleFiltersSidebar);
 	}
@@ -882,8 +880,7 @@ jQuery(function($) {
 				imageContainAttr = ` class="contain"`;
 			}
 
-			$itemsContainer.append(
-				`
+			$itemsContainer.append(`
 				<div class="rsd-results-item column card in-viewport" data-id="${getItemId(item)}">
 					<div class="card-image">
 						<a href="${getItemUrl(item)}" target="_blank" rel="external"><img src="${getItemImgUrl(item)}"
@@ -902,8 +899,7 @@ jQuery(function($) {
 						</div>
 					</div>
 				</div>
-				`
-			);
+			`);
 		});
 
 		return true;
