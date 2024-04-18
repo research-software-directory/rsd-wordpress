@@ -32,10 +32,7 @@ const baseConfig = {
 		},
 		css: {
 			postcss: {
-				plugins: [
-					postcss(),
-					autoprefixer(),
-				],
+				plugins: [postcss(), autoprefixer()],
 			},
 			transformer: 'lightningcss',
 			lightningcss: {
