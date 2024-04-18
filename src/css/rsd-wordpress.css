@@ -228,8 +228,8 @@ input[type="search"].rsd-search-input {
 	background-image: url('../../assets/img/icon-mentions.svg');
 }
 
-.rsd-results-item-prop-progress {
-	display: none !important;
+.rsd-results-item-props .rsd-results-item-prop-progress {
+	display: none;
 }
 
 .rsd-results-show-more {
