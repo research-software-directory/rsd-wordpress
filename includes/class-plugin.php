@@ -191,7 +191,7 @@ class Plugin {
 		$localize_arr = array(
 			'defaultFilterLabels' => $labels,
 		);
-		wp_localize_script( self::get_plugin_name() . '-public', 'rsd_wordpress_vars', $localize_arr );
+		wp_localize_script( self::get_plugin_name() . '-public', 'rsdWordPressVars', $localize_arr );
 
 		// Get items from the API.
 		$items = Controller::get_items();

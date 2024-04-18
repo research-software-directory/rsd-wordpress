@@ -26,13 +26,13 @@ jQuery(function($) {
 	const apiVersion = 'v1';
 	// Default parameters
 	const defaultLimit = 48;
-	const defaultFilterLabels = rsd_wordpress_vars.defaultFilterLabels || {
 		'project_status': {
 			'upcoming'    : 'Upcoming',
 			'in_progress' : 'In progress',
 			'finished'    : 'Finished',
 			'unknown'     : 'Unknown'
 		}
+	const defaultFilterLabels = rsdWordPressVars.defaultFilterLabels || {
 	};
 
 	// Get container element and section.
