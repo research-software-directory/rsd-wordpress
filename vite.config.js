@@ -8,7 +8,7 @@
  */
 
 import { defineConfig } from 'vite';
-import postcss, { plugin } from 'postcss';
+import postcss from 'postcss';
 import browserslist from 'browserslist';
 import { browserslistToTargets } from 'lightningcss';
 import autoprefixer from 'autoprefixer';
