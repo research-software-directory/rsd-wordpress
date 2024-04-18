@@ -11,7 +11,9 @@
     "dev": "NODE_ENV=development vite build --watch",
     "build": "NODE_ENV=production vite build",
     "serve": "vite preview",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "lint": "eslint src/**/*.js",
+    "lint:fix": "eslint src/**/*.js --fix"
   },
   "keywords": [
     "research software directory",
