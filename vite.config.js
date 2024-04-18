@@ -2,10 +2,9 @@
  * RSD WordPress - Vite configuration file
  * https://vitejs.dev/config/
  *
- * @package RSD_WP
+ * @module
  * @since 0.8.0
  * @license Apache-2.0
- * @link https://research-software-directory.org
  */
 
 import { defineConfig } from 'vite';

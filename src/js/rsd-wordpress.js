@@ -1,10 +1,9 @@
 /**
  * RSD WordPress plugin JavaScript
  *
- * @package RSD_WP
+ * @module rsd-wordpress
  * @since 0.4.0
  * @license Apache-2.0
- * @link https://research-software-directory.org
  */
 
 'use strict';
