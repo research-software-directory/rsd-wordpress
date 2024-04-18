@@ -10,7 +10,7 @@
 'use strict';
 
 // Import styles.
-import './scss/rsd-wordpress.scss';
+import './css/rsd-wordpress.css';
 
 // Import JS components.
 import './js/rsd-wordpress.js';
