@@ -793,14 +793,11 @@ jQuery(function($) {
 	function enhanceBackToTopButton() {
 		let offset = $container.offset().top || 100;
 		let $button = $container.find('.rsd-back-to-top');
-		let isAboveOffset = $(this).scrollTop() <= offset;
-		let isBelowOffset = $(this).scrollTop() > offset;
-		let isButtonVisible = $button.is(':visible');
 
-		if (isBelowOffset && !isButtonVisible) {
-			$button.stop(true, true).fadeIn();
-		} else if (isAboveOffset && isButtonVisible) {
-			$button.stop(true, true).fadeOut();
+		if ($(window).scrollTop() > offset) {
+			$button.addClass('visible');
+		} else {
+			$button.removeClass('visible');
 		}
 	}
 
