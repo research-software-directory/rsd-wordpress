@@ -11,8 +11,12 @@
   "parserOptions": {
     "ecmaVersion": "latest"
   },
+  "plugins": [
+    "compat"
+  ],
   "rules": {
     "no-console": "off",
+    "compat/compat": "error",
     "indent": [
       "error",
       "tab"
