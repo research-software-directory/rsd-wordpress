@@ -8,8 +8,7 @@
 
 'use strict';
 
-jQuery(function($) {
-
+jQuery(function ($) {
 	/*
 	Variables
 	*/
@@ -25,13 +24,13 @@ jQuery(function($) {
 	const apiVersion = 'v1';
 	// Default parameters
 	const defaultLimit = 48;
+	const defaultFilterLabels = rsdWordPressVars.defaultFilterLabels || {
 		'project_status': {
 			'upcoming'    : 'Upcoming',
 			'in_progress' : 'In progress',
 			'finished'    : 'Finished',
 			'unknown'     : 'Unknown'
 		}
-	const defaultFilterLabels = rsdWordPressVars.defaultFilterLabels || {
 	};
 
 	// Get container element and section.
@@ -100,7 +99,7 @@ jQuery(function($) {
 			if (labeled_only || this.args.labeled_only) {
 				let items = [];
 				let labels = this.getLabels();
-				$.each(this.items, function(index, item) {
+				$.each(this.items, function (index, item) {
 					if (labels[item.name]) {
 						items.push(item);
 					}
@@ -155,7 +154,7 @@ jQuery(function($) {
 		getItemCount(name) {
 			let count = 0;
 			// Find the item by name and return its count.
-			$.each(this.items, function(index, item) {
+			$.each(this.items, function (index, item) {
 				if (name === item.name) {
 					count = item.count;
 					return false; // exit the loop
@@ -274,7 +273,7 @@ jQuery(function($) {
 				type: 'GET',
 				url: url,
 				headers: { 'Prefer': 'count=exact' },
-				success: function(response) {
+				success: function (response) {
 					let resultItems = response;
 					console.log('🎹 result items: ', resultItems);
 
@@ -289,7 +288,7 @@ jQuery(function($) {
 
 					resolve(resultItems);
 				},
-				error: function(jqXHR, textStatus, errorThrown) {
+				error: function (jqXHR, textStatus, errorThrown) {
 					reject(errorThrown);
 				},
 			});
@@ -404,11 +403,11 @@ jQuery(function($) {
 					data: JSON.stringify(data.params),
 					dataType: 'json',
 					contentType: 'application/json',
-					success: function(response) {
+					success: function (response) {
 						filters[filter] = new Filter(data.title, data.identifier, response, data.args);
 						resolve();
 					},
-					error: function(jqXHR, textStatus, errorThrown) {
+					error: function (jqXHR, textStatus, errorThrown) {
 						reject(errorThrown);
 					},
 				});
@@ -532,7 +531,7 @@ jQuery(function($) {
 
 	function getItemLabels(item) {
 		let html = '<ul class="rsd-results-item-labels">';
-		$.each(item.keywords, function(index, label) {
+		$.each(item.keywords, function (index, label) {
 			html += `<li class="label">${label}</li>`;
 		});
 		html += '</ul>';
@@ -542,7 +541,7 @@ jQuery(function($) {
 
 	function getItemProps(item, props) {
 		let html = '<ul class="rsd-results-item-props">';
-		$.each(props, function(prop, value) {
+		$.each(props, function (prop, value) {
 			html += `
 				<li class="rsd-results-item-prop-${prop.toLowerCase()}">
 					<span aria-hidden="true" class="icon icon-${prop.toLowerCase()}" title="${prop}"></span>
@@ -560,7 +559,7 @@ jQuery(function($) {
 		let items = [];
 		let validProps = ['contributor_cnt', 'mention_cnt', 'impact_cnt', 'output_cnt'];
 
-		$container.find('.rsd-results-item').each(function() {
+		$container.find('.rsd-results-item').each(function () {
 			let $item = $(this);
 			let item = {
 				id: $item.data('id'),
@@ -569,7 +568,7 @@ jQuery(function($) {
 				slug: getItemSlugFromURL($item.find('h3 a').attr('href')),
 				labels: [],
 			};
-			$item.find('.rsd-results-item-props li').each(function() {
+			$item.find('.rsd-results-item-props li').each(function () {
 				let prop = $(this).attr('class').replace('rsd-results-item-prop-', '').trim() + '_cnt';
 				let value = parseInt($(this).find('.value').text());
 				if (validProps.includes(prop)) {
@@ -629,10 +628,10 @@ jQuery(function($) {
 
 	function getFilterValues() {
 		let filters = {};
-		$container.find('.rsd-filters select').each(function() {
 			let $filter = $(this);
 			let identifier = $filter.data('filter');
 			let value = $filter.val();
+		$container.find('.rsd-filters select').each(function () {
 			if (value != '') {
 				filters[identifier] = [value];
 			}
@@ -685,10 +684,10 @@ jQuery(function($) {
 	// Search field - attach search event and get new results from API.
 	// (executing with a slight delay after entry changes, so that the search term is not sent with every character)
 	var delayTimer;
-	$container.find('.rsd-search-input').on('input', function() {
+	$container.find('.rsd-search-input').on('input', function () {
 		clearTimeout(delayTimer);
 		var searchTerm = $(this).val().toLowerCase();
-		delayTimer = setTimeout(function() {
+		delayTimer = setTimeout(function () {
 			console.log('🎹 searchTerm: ', searchTerm);
 			loadFilters();
 			loadItems(searchTerm);
@@ -701,7 +700,7 @@ jQuery(function($) {
 	});
 
 	// Attach set filters event and get new results from API.
-	$container.find('.rsd-filters').on('change', 'select', function() {
+	$container.find('.rsd-filters').on('change', 'select', function () {
 		setCurrentFilters($(this).data('filter'), $(this).val());
 		loadFilters();
 		loadItems();
@@ -740,7 +739,7 @@ jQuery(function($) {
 	}
 
 	// Attach change event to sort by select.
-	$container.find('.rsd-sortby-input').on('change', function() {
+	$container.find('.rsd-sortby-input').on('change', function () {
 		loadItems();
 	});
 
@@ -798,7 +797,7 @@ jQuery(function($) {
 		}
 	}
 
-	$container.find('.rsd-back-to-top a').on('click', function() {
+	$container.find('.rsd-back-to-top a').on('click', function () {
 		$('html, body').animate({ scrollTop: 0 }, 400);
 		return false;
 	});
@@ -815,8 +814,8 @@ jQuery(function($) {
 
 	// Update filters.
 	function displayUpdateFilterValues(filters) {
-		$.each(filters, function(identifier, filter) {
 			let $filter = $container.find(`.rsd-filters select[data-filter="${identifier}"]`);
+		$.each(filters, function (identifier, filter) {
 			// Get first placeholder item.
 			let $placeholder = $filter.find('.placeholder');
 			// Clear the filter.
@@ -824,9 +823,9 @@ jQuery(function($) {
 			// Add the placeholder item back and add the new filter values.
 			$filter.append($placeholder);
 			// Add the new filter values.
-			filter.getItems().forEach(function(item) {
 				let value = item.name;
 				let label = filter.getLabel(value);
+			filter.getItems().forEach(function (item) {
 				let selected = '';
 				if (currentFilters[identifier] && currentFilters[identifier].includes(value)) {
 					selected = ' selected';
@@ -837,13 +836,21 @@ jQuery(function($) {
 	}
 
 	// Display the results.
-	function displayResults(items = [], totalCount = null, appendItems = false) {
+	function displayResults(
+		displayItems = [],
+		totalCount = null,
+		appendItems = false
+	) {
 		// Get the results container.
 		let $itemsContainer = $container.find('.rsd-results-items');
 
 		// Empty results container if no items are provided.
-		if (!items || !Array.isArray(items) || items.length === 0) {
 			$container.find('.rsd-results-items').empty();
+		if (
+			!displayItems ||
+			!Array.isArray(displayItems) ||
+			displayItems.length === 0
+		) {
 			displaySetResultsTotalCount(0);
 			return false;
 		}
@@ -856,7 +863,7 @@ jQuery(function($) {
 			$itemsContainer.empty();
 		}
 
-		$.each(items, function(index, item) {
+		$.each(displayItems, function (index, item) {
 			let title, description, props;
 			if ('projects' === section) {
 				title = item.title;
