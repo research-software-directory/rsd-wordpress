@@ -105,9 +105,9 @@ jQuery(function ($) {
 					}
 				});
 				return filterItems;
-			} else {
-				return this.items;
 			}
+
+			return this.items;
 		}
 
 		setItems(data) {
@@ -186,9 +186,9 @@ jQuery(function ($) {
 		const nullsLast = ['mention_cnt', 'contributor_cnt', 'impact_cnt', 'output_cnt', 'date_start', 'date_end'];
 		if (nullsLast.includes(orderBy)) {
 			return `${orderBy.toLowerCase()}.${order.toLowerCase()}.nullslast`;
-		} else {
-			return `${orderBy.toLowerCase()}.${order.toLowerCase()}`;
 		}
+
+		return `${orderBy.toLowerCase()}.${order.toLowerCase()}`;
 	}
 
 
@@ -501,9 +501,9 @@ jQuery(function ($) {
 	function getItemImgUrl(item) {
 		if (item.image_id) {
 			return `https://research-software-directory.org/image/rpc/get_image?uid=${item.image_id}`;
-		} else {
-			return 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7'; // Transparent 1x1 GIF
 		}
+
+		return 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7'; // Transparent 1x1 GIF
 	}
 
 	function getItemImageContain(item) {
@@ -621,9 +621,9 @@ jQuery(function ($) {
 		const sortDesc = ['mention_cnt', 'contributor_cnt', 'impact_cnt', 'output_cnt', 'updated_at', 'date_end'];
 		if (orderBy && sortDesc.includes(orderBy)) {
 			return 'desc';
-		} else {
-			return 'asc';
 		}
+
+		return 'asc';
 	}
 
 	function getFilterValues() {
