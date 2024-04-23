@@ -474,7 +474,7 @@ class Controller {
 			),
 		);
 
-		//
+		// Prepare the filters var.
 		$filters = array();
 
 		// Set the API paths and parameters for configured filters.
