@@ -119,7 +119,7 @@ class Api {
 	 */
 	public static function build_order_param( $orderby, $order ) {
 		$nullslast = array( 'mention_cnt', 'contributor_cnt', 'impact_cnt', 'output_cnt', 'date_start', 'date_end' );
-		if ( in_array( $orderby, $nullslast ) ) {
+		if ( in_array( $orderby, $nullslast, true ) ) {
 			return strtolower( $orderby ) . '.' . strtolower( $order ) . '.nullslast';
 		} else {
 			return strtolower( $orderby ) . '.' . strtolower( $order );
