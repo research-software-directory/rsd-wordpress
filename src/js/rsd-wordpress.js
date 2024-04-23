@@ -36,7 +36,7 @@ jQuery(function ($) {
 	// Get container element and section.
 	const $container = $('#rsd-wordpress');
 	const section = $container.data('section');
-	const organisation_id = $container.data('organisation_id');
+	const organisationId = $container.data( 'organisation_id' );
 
 	// Add a class to the body when the page is loaded.
 	$('body').addClass('rsd-wordpress-loaded');
@@ -95,13 +95,13 @@ jQuery(function ($) {
 			return prefix + this.identifier;
 		}
 
-		getItems(labeled_only = false) {
-			if (labeled_only || this.args.labeled_only) {
 				let items = [];
 				let labels = this.getLabels();
 				$.each(this.items, function (index, item) {
 					if (labels[item.name]) {
 						items.push(item);
+		getItems( labeledOnly = false ) {
+			if ( labeledOnly || this.args.labeled_only ) {
 					}
 				});
 				return items;
@@ -213,7 +213,7 @@ jQuery(function ($) {
 		// Build the API URL based on section.
 		let path = '';
 		let params = {
-			organisation_id: organisation_id,
+			organisation_id: organisationId,
 			status: 'eq.approved',
 			is_published: 'eq.true',
 			limit: defaultLimit,
@@ -300,7 +300,7 @@ jQuery(function ($) {
 		let filters = {};
 		let defaultArgs = {};
 		let defaultParams = {
-			'organisation_id': organisation_id,
+			organisation_id: organisationId,
 		};
 
 		if (getSearchTerm() !== '') {
