@@ -368,7 +368,6 @@ class Controller {
 					'title'      => __( 'Project Status', 'rsd-wordpress' ),
 					'identifier' => 'project_status',
 					'args'       => array(
-						// 'type'   => 'multicheckbox',
 						'labels' => array(
 							'upcoming'    => __( 'Upcoming', 'rsd-wordpress' ),
 							'in_progress' => __( 'In progress', 'rsd-wordpress' ),
