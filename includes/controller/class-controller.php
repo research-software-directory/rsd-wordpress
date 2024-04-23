@@ -377,9 +377,12 @@ class Controller {
 						'placeholder' => __( 'Filter by project status', 'rsd-wordpress' ),
 					),
 					'path'       => '/rpc/org_project_status_filter',
-					'params'     => wp_parse_args( array(
-						'order'  => 'project_status',
-					), $default_params ),
+					'params'     => wp_parse_args(
+						array(
+							'order' => 'project_status',
+						),
+						$default_params
+					),
 				),
 				'keywords' => array(
 					'title'      => __( 'Keywords', 'rsd-wordpress' ),
@@ -388,9 +391,12 @@ class Controller {
 						'placeholder' => __( 'Filter by keyword', 'rsd-wordpress' ),
 					),
 					'path'       => '/rpc/org_project_keywords_filter',
-					'params'     => wp_parse_args( array(
-						'order'  => 'keyword',
-					), $default_params ),
+					'params'     => wp_parse_args(
+						array(
+							'order' => 'keyword',
+						),
+						$default_params
+					),
 				),
 				'research_domains' => array(
 					'title'      => __( 'Research Domains', 'rsd-wordpress' ),
@@ -400,9 +406,12 @@ class Controller {
 						'placeholder'  => __( 'Filter by research domain', 'rsd-wordpress' ),
 					),
 					'path'       => '/rpc/org_project_domains_filter',
-					'params'     => wp_parse_args( array(
-						'order'  => 'domain',
-					), $default_params ),
+					'params'     => wp_parse_args(
+						array(
+							'order' => 'domain',
+						),
+						$default_params
+					),
 				),
 				'partners' => array(
 					'title'      => __( 'Partners', 'rsd-wordpress' ),
@@ -411,9 +420,12 @@ class Controller {
 						'placeholder'  => __( 'Filter by partner', 'rsd-wordpress' ),
 					),
 					'path'       => '/rpc/org_project_participating_organisations_filter',
-					'params'     => wp_parse_args( array(
-						'order'  => 'organisation',
-					), $default_params ),
+					'params'     => wp_parse_args(
+						array(
+							'order' => 'organisation',
+						),
+						$default_params
+					),
 				),
 			),
 			'software' => array(
@@ -424,9 +436,12 @@ class Controller {
 						'placeholder' => __( 'Filter by keyword', 'rsd-wordpress' ),
 					),
 					'path'       => '/rpc/org_software_keywords_filter',
-					'params'     => wp_parse_args( array(
-						'order'  => 'keyword',
-					), $default_params ),
+					'params'     => wp_parse_args(
+						array(
+							'order' => 'keyword',
+						),
+						$default_params
+					),
 				),
 				'programming_languages' => array(
 					'title'      => __( 'Programming Languages', 'rsd-wordpress' ),
@@ -435,9 +450,12 @@ class Controller {
 						'placeholder' => __( 'Filter by programming language', 'rsd-wordpress' ),
 					),
 					'path'       => '/rpc/org_software_languages_filter',
-					'params'     => wp_parse_args( array(
-						'order'  => 'prog_language',
-					), $default_params ),
+					'params'     => wp_parse_args(
+						array(
+							'order'  => 'prog_language',
+						),
+						$default_params
+					),
 				),
 				'license' => array(
 					'title'      => __( 'Licenses', 'rsd-wordpress' ),
@@ -446,9 +464,12 @@ class Controller {
 						'placeholder' => __( 'Filter by license', 'rsd-wordpress' ),
 					),
 					'path'       => '/rpc/org_software_licenses_filter',
-					'params'     => wp_parse_args( array(
-						'order'  => 'license',
-					), $default_params ),
+					'params'     => wp_parse_args(
+						array(
+							'order'  => 'license',
+						),
+						$default_params
+					),
 				),
 			),
 		);
