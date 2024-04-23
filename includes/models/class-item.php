@@ -77,12 +77,12 @@ abstract class Item {
 	protected function __construct( $data ) {
 		$this->_data_raw = $data;
 
-		$this->id              = ( ! empty( $data['id'] ) ? $data['id'] : false );
-		$this->slug            = ( ! empty( $data['slug'] ) ? $data['slug'] : false );
-		$this->image_id        = ( ! empty( $data['image_id'] ) ? $data['image_id'] : 0 );
-		$this->updated_at      = ( ! empty( $data['updated_at'] ) ? $data['updated_at'] : false );
-		$this->is_published    = ( ! empty( $data['is_published'] ) ? $data['is_published'] : false );
-		$this->keywords        = ( ! empty( $data['keywords'] ) ? $data['keywords'] : array() );
+		$this->id           = ( ! empty( $data['id'] ) ? $data['id'] : false );
+		$this->slug         = ( ! empty( $data['slug'] ) ? $data['slug'] : false );
+		$this->image_id     = ( ! empty( $data['image_id'] ) ? $data['image_id'] : 0 );
+		$this->updated_at   = ( ! empty( $data['updated_at'] ) ? $data['updated_at'] : false );
+		$this->is_published = ( ! empty( $data['is_published'] ) ? $data['is_published'] : false );
+		$this->keywords     = ( ! empty( $data['keywords'] ) ? $data['keywords'] : array() );
 	}
 
 	/**

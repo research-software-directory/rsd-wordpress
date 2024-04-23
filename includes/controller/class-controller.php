@@ -465,15 +465,19 @@ class Controller {
 			$response = Api::get_response( $path );
 
 			// Process data.
-			$args = ( ! empty( $filter['args'] ) ? $filter['args'] : array() );
-			$filters[ $filter['identifier'] ] = new Filter( $filter['title'], $filter['identifier'], $response['data'], $args );
+			$args           = ( ! empty( $filter['args'] ) ? $filter['args'] : array() );
+			$id             = $filter['identifier'];
+			$filters[ $id ] = new Filter( $filter['title'], $filter['identifier'], $response['data'], $args );
 
 			// Additionally retrieve and set labels for specific filter(s).
 			if ( 'domain' === $filter['identifier'] ) {
-				$path = Api::build_path( 'research_domain', array(
-					'select' => 'key,name',
-					'parent' => 'is.null',
-				) );
+				$path     = Api::build_path(
+					'research_domain',
+					array(
+						'select' => 'key,name',
+						'parent' => 'is.null',
+					)
+				);
 				$response = Api::get_response( $path );
 
 				$labels = array();
@@ -557,7 +561,7 @@ class Controller {
 			'limit'           => self::get_limit(),
 			'offset'          => self::get_offset(),
 		);
-		$params = wp_parse_args( array(), $defaults );
+		$params   = wp_parse_args( array(), $defaults );
 
 		// Add search query to parameters.
 		if ( ! empty( self::get_search_query() ) ) {
@@ -566,7 +570,7 @@ class Controller {
 
 		// Set order by and order parameters.
 		$orderby = ( 'software' === $section ? 'brand_name' : 'title' );
-		$order = 'asc';
+		$order   = 'asc';
 		if ( ! empty( self::get_orderby() ) ) {
 			$orderby = self::get_orderby();
 		}
@@ -592,8 +596,8 @@ class Controller {
 
 		// Get the API response.
 		$response = Api::get_response( $path, $args, true );
-		$headers = $response['headers'];
-		$data = $response['data'];
+		$headers  = $response['headers'];
+		$data     = $response['data'];
 
 		// Process data.
 		$items = array();

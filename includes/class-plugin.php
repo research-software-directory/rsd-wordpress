@@ -152,7 +152,7 @@ class Plugin {
 		// Enqueue compiled stylesheet and scripts, using minified versions in production and staging environments.
 		$suffix = ( wp_get_environment_type() === 'production' || wp_get_environment_type() === 'staging' ? '.min' : '' );
 		wp_enqueue_style( self::get_plugin_name() . '-public', RSD_WP__PLUGIN_URL . 'dist/rsd-wordpress' . $suffix . '.css', array(), self::get_version() );
-		wp_enqueue_script( self::get_plugin_name() . '-public', RSD_WP__PLUGIN_URL . 'dist/rsd-wordpress' .  $suffix . '.js', array( 'jquery' ), self::get_version(), true );
+		wp_enqueue_script( self::get_plugin_name() . '-public', RSD_WP__PLUGIN_URL . 'dist/rsd-wordpress' . $suffix . '.js', array( 'jquery' ), self::get_version(), true );
 	}
 
 	/**
@@ -187,7 +187,7 @@ class Plugin {
 		Controller::fetch_filters();
 
 		// Make filter labels available in JS.
-		$labels = Controller::get_filter_labels();
+		$labels       = Controller::get_filter_labels();
 		$localize_arr = array(
 			'defaultFilterLabels' => $labels,
 		);

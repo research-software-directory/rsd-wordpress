@@ -220,17 +220,17 @@ class Display {
 			$sort_fields = array(
 				'impact_cnt' => __( 'Impact', 'rsd-wordpress' ),
 				'output_cnt' => __( 'Output', 'rsd-wordpress' ),
-				'title' => __( 'Title', 'rsd-wordpress' ),
+				'title'      => __( 'Title', 'rsd-wordpress' ),
 				'date_start' => __( 'Start date', 'rsd-wordpress' ),
-				'date_end' => __( 'End date', 'rsd-wordpress' ),
+				'date_end'   => __( 'End date', 'rsd-wordpress' ),
 				'updated_at' => __( 'Last updated', 'rsd-wordpress' ),
 			);
 		} else {
 			$sort_fields = array(
-				'brand_name' => __( 'Name', 'rsd-wordpress' ),
-				'mention_cnt' => __( 'Mentions', 'rsd-wordpress' ),
+				'brand_name'      => __( 'Name', 'rsd-wordpress' ),
+				'mention_cnt'     => __( 'Mentions', 'rsd-wordpress' ),
 				'contributor_cnt' => __( 'Contributors', 'rsd-wordpress' ),
-				'updated_at' => __( 'Last updated', 'rsd-wordpress' ),
+				'updated_at'      => __( 'Last updated', 'rsd-wordpress' ),
 			);
 		}
 
@@ -301,11 +301,11 @@ class Display {
 	 * @return string The item HTML.
 	 */
 	public static function display_software_item( $item ) {
-		$labels = $item->get_keywords();
-		$title = $item->get_brand_name();
+		$labels   = $item->get_keywords();
+		$title    = $item->get_brand_name();
 		$item_url = sprintf( 'https://research-software-directory.org/software/%s', $item->get_slug() );
 		$aria_label = sprintf( __( "Logo for '%s'", 'rsd-wordpress' ), $title );
-		$image_url = $item->get_image_url();
+		$image_url  = $item->get_image_url();
 
 		if ( empty( $image_url ) ) {
 			$image_url = self::get_default_image_url();
@@ -324,11 +324,11 @@ class Display {
 			</div>
 			<div class="card-footer">
 				<div class="rsd-results-item-specs">
-					<?php if ( ! empty( $labels) && is_array( $labels ) && count( $labels ) > 0 ) : ?>
+					<?php if ( ! empty( $labels ) && is_array( $labels ) && count( $labels ) > 0 ) : ?>
 					<ul class="rsd-results-item-spec-labels">
-					<?php foreach ( $labels as $label ) : ?>
+						<?php foreach ( $labels as $label ) : ?>
 						<li class="label"><?php echo esc_html( $label ); ?></li>
-					<?php endforeach; ?>
+						<?php endforeach; ?>
 					</ul>
 					<?php endif; ?>
 				</div>
@@ -358,11 +358,12 @@ class Display {
 	 * @return string The item HTML.
 	 */
 	public static function display_project_item( $item ) {
-		$labels = $item->get_keywords();
-		$title = $item->get_title();
+		$labels   = $item->get_keywords();
+		$title    = $item->get_title();
 		$item_url = sprintf( 'https://research-software-directory.org/projects/%s', $item->get_slug() );
-		$aria_label = sprintf( __( "Logo for '%s'", 'rsd-wordpress' ), $title );
-		$image_url = $item->get_image_url();
+		// translators: Aria label for the logo of a project item.
+		$aria_label         = sprintf( __( "Logo for '%s'", 'rsd-wordpress' ), $title );
+		$image_url          = $item->get_image_url();
 		$image_contain_attr = ( $item->get_image_contain() ? ' class="contain"' : '' );
 
 		if ( empty( $image_url ) ) {
@@ -384,9 +385,9 @@ class Display {
 				<div class="rsd-results-item-specs">
 					<?php if ( ! empty( $labels ) && is_array( $labels ) && count( $labels ) > 0 ) : ?>
 					<ul class="rsd-results-item-spec-labels">
-					<?php foreach ( $labels as $label ) : ?>
+						<?php foreach ( $labels as $label ) : ?>
 						<li class="label"><?php echo esc_html( $label ); ?></li>
-					<?php endforeach; ?>
+						<?php endforeach; ?>
 					</ul>
 					<?php endif; ?>
 				</div>

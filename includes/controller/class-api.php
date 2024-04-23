@@ -159,7 +159,7 @@ class Api {
 
 		// Decode the API response.
 		$headers = ( $retrieve_headers ? wp_remote_retrieve_headers( $response ) : array() );
-		$data = json_decode( wp_remote_retrieve_body( $response ), true );
+		$data    = json_decode( wp_remote_retrieve_body( $response ), true );
 
 		// Return the data.
 		return array(
