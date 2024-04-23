@@ -723,7 +723,7 @@ jQuery(function ($) {
 	$container.find('.rsd-filter-button button').on('click', toggleFiltersSidebar);
 
 	// Enhance filters sidebar.
-	function enhanceFiltersSidebar(filters) {
+	function enhanceFiltersSidebar() {
 		const $sidebar = $container.find('.rsd-filter-sidebar');
 
 		// Add close button to filters sidebar.
