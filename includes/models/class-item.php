@@ -135,7 +135,7 @@ abstract class Item {
 	 *
 	 * @return string The image URL.
 	 */
-	function get_image_url() {
+	public function get_image_url() {
 		if ( empty( $this->get_image_id() ) ) {
 			return false;
 		}
