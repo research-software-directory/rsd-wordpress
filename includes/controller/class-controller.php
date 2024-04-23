@@ -354,7 +354,7 @@ class Controller {
 	 * @since 0.3.2
 	 */
 	public static function fetch_filters( $section = false ) {
-		$section = ( $section ?: self::get_section() );
+		$section = ( $section ? $section : self::get_section() );
 
 		// Set the default API path parameters.
 		$default_params = array(
@@ -553,7 +553,7 @@ class Controller {
 	 */
 	public static function get_items( $section = false ) {
 		// Set the default section.
-		$section = ( $section ?: self::get_section() );
+		$section = ( $section ? $section : self::get_section() );
 
 		// Set the default API path parameters.
 		$defaults = array(
