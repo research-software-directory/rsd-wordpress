@@ -17,6 +17,7 @@
   "rules": {
     "no-console": "off",
     "compat/compat": "error",
+    "prettier/prettier": "warn",
     "indent": [
       "error",
       "tab"
