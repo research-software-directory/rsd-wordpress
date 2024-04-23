@@ -125,7 +125,8 @@ jQuery(function ($) {
 		}
 
 		getPlaceholder() {
-			const defaultPlaceholder = 'Filter by ' + this.getTitle().toLowerCase(); // TODO: i18n
+			const defaultPlaceholder =
+				'Filter by ' + this.getTitle().toLowerCase(); // TODO: i18n
 			return this.args.placeholder || defaultPlaceholder;
 		}
 
@@ -175,15 +176,28 @@ jQuery(function ($) {
 
 	// Get the API URL.
 	function apiGetUrl(path, params = {}) {
-		if (params && typeof params === 'object' && Object.keys(params).length !== 0) {
+		if (
+			params &&
+			typeof params === 'object' &&
+			Object.keys( params ).length !== 0
+		) {
 			path = path + '?' + $.param(params);
 		}
-		return apiEndpoint + '/' + apiVersion + '/' + path.replace(/^\/+/, '');
+		return (
+			apiEndpoint + '/' + apiVersion + '/' + path.replace( /^\/+/, '' )
+		);
 	}
 
 	// Get the API order string.
 	function apiGetOrder(orderBy, order) {
-		const nullsLast = ['mention_cnt', 'contributor_cnt', 'impact_cnt', 'output_cnt', 'date_start', 'date_end'];
+		const nullsLast = [
+			'mention_cnt',
+			'contributor_cnt',
+			'impact_cnt',
+			'output_cnt',
+			'date_start',
+			'date_end',
+		];
 		if (nullsLast.includes(orderBy)) {
 			return `${orderBy.toLowerCase()}.${order.toLowerCase()}.nullslast`;
 		}
@@ -197,16 +211,27 @@ jQuery(function ($) {
 	*/
 
 	// Get the result items from the API.
-	async function fetchItems(searchTerm = false, filters = false, orderBy = false, order = false, offset = 0) {
+	async function fetchItems(
+		searchTerm = false,
+		filters = false,
+		orderBy = false,
+		order = false,
+		offset = 0
+	) {
 		// Get the search term and filter values.
-		searchTerm = searchTerm ? searchTerm.toLowerCase().trim() : getSearchTerm();
+		searchTerm = searchTerm
+			? searchTerm.toLowerCase().trim()
+			: getSearchTerm();
 		filters = filters ? filters : getFilterValues();
 		orderBy = orderBy ? orderBy : getOrderBy();
 		order = order ? order : getOrder(orderBy);
 		offset = offset ? offset : 0;
 
 		// Hide the 'Clear filters' button if no search term or filters are set.
-		if (searchTerm || (filters && Object.keys(filters).length !== 0)) {
+		if (
+			searchTerm ||
+			( filters && Object.keys( filters ).length !== 0 )
+		) {
 			showClearFiltersButton();
 		}
 
@@ -256,9 +281,16 @@ jQuery(function ($) {
 			const filterValue = filters[filterKey];
 			if (filterValue && filterValue.length > 0) {
 				if (paramKey === 'project_status') {
-					params[paramKey] = `eq.${filterValue.flat().map(value => value.toLowerCase())}`;
+					params[ paramKey ] = `eq.${ filterValue
+						.flat()
+						.map( ( value ) => value.toLowerCase() ) }`;
 				} else {
-					params[paramKey] = 'cs.{' + filterValue.map(value => `"${value}"`).join(',') + '}';
+					params[ paramKey ] =
+						'cs.{' +
+						filterValue
+							.map( ( value ) => `"${ value }"` )
+							.join( ',' ) +
+						'}';
 				}
 			}
 		});
@@ -278,7 +310,8 @@ jQuery(function ($) {
 
 					// Get the total count of results from `content-range` response header.
 					let totalResults = false;
-					const contentRange = req.getResponseHeader('content-range');
+					const contentRange =
+						req.getResponseHeader( 'content-range' );
 					if (contentRange) {
 						const total = contentRange.split('/');
 						totalResults = total[1];
@@ -312,7 +345,10 @@ jQuery(function ($) {
 				project_status: {
 					title: 'Project status',
 					identifier: 'project_status',
-					args: { ...defaultArgs, labels: { ...defaultFilterLabels.project_status } },
+					args: {
+						...defaultArgs,
+						labels: { ...defaultFilterLabels.project_status },
+					},
 					filter_as_param: 'status_filter',
 					path: '/rpc/org_project_status_filter?order=project_status',
 					params: { ...defaultParams },
@@ -328,7 +364,11 @@ jQuery(function ($) {
 				domain: {
 					title: 'Research domains',
 					identifier: 'domain',
-					args: { ...defaultArgs, labeled_only: true, labels: { ...defaultFilterLabels.domain } },
+					args: {
+						...defaultArgs,
+						labeled_only: true,
+						labels: { ...defaultFilterLabels.domain },
+					},
 					filter_as_param: 'research_domain_filter',
 					path: '/rpc/org_project_domains_filter?order=domain',
 					params: { ...defaultParams },
@@ -378,7 +418,10 @@ jQuery(function ($) {
 		// Add any filter values to the filter requests.
 		Object.keys(filterReqs).forEach(filter => {
 			Object.keys(filterValues).forEach(valueId => {
-				if (valueId === 'project_status' && filter === 'project_status') {
+				if (
+					valueId === 'project_status' &&
+					filter === 'project_status'
+				) {
 					// Skip the project_status filter if it's set to project_status.
 					return;
 				}
@@ -386,9 +429,11 @@ jQuery(function ($) {
 				const param = filterReqs[valueId].filter_as_param || false;
 				if (param) {
 					if (valueId === 'project_status') {
-						filterReqs[filter].params[param] = filterValues[valueId][0] || '';
+						filterReqs[ filter ].params[ param ] =
+							filterValues[ valueId ][ 0 ] || '';
 					} else {
-						filterReqs[filter].params[param] = filterValues[valueId];
+						filterReqs[ filter ].params[ param ] =
+							filterValues[ valueId ];
 					}
 				}
 			});
@@ -405,7 +450,12 @@ jQuery(function ($) {
 					contentType: 'application/json',
 					// eslint-disable-next-line object-shorthand
 					success: function (response) {
-						filters[filter] = new Filter(data.title, data.identifier, response, data.args);
+						filters[ filter ] = new Filter(
+							data.title,
+							data.identifier,
+							response,
+							data.args
+						);
 						resolve();
 					},
 					// eslint-disable-next-line object-shorthand
@@ -433,7 +483,13 @@ jQuery(function ($) {
 		try {
 			// Fetch the items from the API.
 			const offset = 0;
-			items = await fetchItems(getSearchTerm(), getFilterValues(), getOrderBy(), getOrder(), offset);
+			items = await fetchItems(
+				getSearchTerm(),
+				getFilterValues(),
+				getOrderBy(),
+				getOrder(),
+				offset
+			);
 			currentOffset = offset + items.length;
 
 			// Display the results.
@@ -454,7 +510,13 @@ jQuery(function ($) {
 		try {
 			// Fetch more items from the API.
 			const offset = currentOffset;
-			const newItems = await fetchItems(getSearchTerm(), getFilterValues(), getOrderBy(), getOrder(), offset);
+			const newItems = await fetchItems(
+				getSearchTerm(),
+				getFilterValues(),
+				getOrderBy(),
+				getOrder(),
+				offset
+			);
 			items = items.concat(newItems);
 			currentOffset = offset + newItems.length;
 
@@ -559,7 +621,12 @@ jQuery(function ($) {
 
 	function getItemsFromDOM() {
 		const domItems = [];
-		const validProps = ['contributor_cnt', 'mention_cnt', 'impact_cnt', 'output_cnt'];
+		const validProps = [
+			'contributor_cnt',
+			'mention_cnt',
+			'impact_cnt',
+			'output_cnt',
+		];
 
 		$container.find('.rsd-results-item').each(function () {
 			const $item = $(this);
@@ -571,7 +638,11 @@ jQuery(function ($) {
 				labels: [],
 			};
 			$item.find('.rsd-results-item-props li').each(function () {
-				const prop = $(this).attr('class').replace('rsd-results-item-prop-', '').trim() + '_cnt';
+				const prop =
+					$( this )
+						.attr( 'class' )
+						.replace( 'rsd-results-item-prop-', '' )
+						.trim() + '_cnt';
 				const value = parseInt($(this).find('.value').text());
 				if (validProps.includes(prop)) {
 					item[prop] = value;
@@ -584,7 +655,9 @@ jQuery(function ($) {
 	}
 
 	function getItemsTotalFromDOM() {
-		const count = $container.find('.rsd-results-count').data('items-total');
+		const count = $container
+			.find( '.rsd-results-count' )
+			.data( 'items-total' );
 		return parseInt(count);
 	}
 
@@ -611,16 +684,31 @@ jQuery(function ($) {
 	*/
 
 	function getSearchTerm() {
-		return $container.find('.rsd-search-input').val().toLowerCase().trim();
+		return $container
+			.find( '.rsd-search-input' )
+			.val()
+			.toLowerCase()
+			.trim();
 	}
 
 	function getOrderBy() {
-		const orderBy = $container.find('.rsd-sortby-input').val().toLowerCase().trim();
+		const orderBy = $container
+			.find( '.rsd-sortby-input' )
+			.val()
+			.toLowerCase()
+			.trim();
 		return orderBy || false;
 	}
 
 	function getOrder(orderBy = false) {
-		const sortDesc = ['mention_cnt', 'contributor_cnt', 'impact_cnt', 'output_cnt', 'updated_at', 'date_end'];
+		const sortDesc = [
+			'mention_cnt',
+			'contributor_cnt',
+			'impact_cnt',
+			'output_cnt',
+			'updated_at',
+			'date_end',
+		];
 		if (orderBy && sortDesc.includes(orderBy)) {
 			return 'desc';
 		}
@@ -724,7 +812,9 @@ jQuery(function ($) {
 	}
 
 	// Attach click event to filters toggle button.
-	$container.find('.rsd-filter-button button').on('click', toggleFiltersSidebar);
+	$container
+		.find( '.rsd-filter-button button' )
+		.on( 'click', toggleFiltersSidebar );
 
 	// Enhance filters sidebar.
 	function enhanceFiltersSidebar() {
@@ -760,16 +850,17 @@ jQuery(function ($) {
 			}
 		} else {
 			// Start observing the target element.
-			scrollObserver = new IntersectionObserver(async (entries, observer) => {
-				if (entries[0].isIntersecting) {
-					if (hasMoreItems()) {
-						loadMoreItems();
-					} else {
-						observer.unobserve(entries[0].target);
+			scrollObserver = new IntersectionObserver(
+				async ( entries, observer ) => {
+					if ( entries[ 0 ].isIntersecting ) {
+						if ( hasMoreItems() ) {
+							loadMoreItems();
+						} else {
+							observer.unobserve( entries[ 0 ].target );
+						}
 					}
-
 				}
-			});
+			);
 
 			scrollObserver.observe(targetElement);
 		}
@@ -782,7 +873,9 @@ jQuery(function ($) {
 	}
 
 	// Attach click event to 'Show more' button.
-	$container.find('.rsd-results-show-more .button').on('click', loadMoreItems);
+	$container
+		.find( '.rsd-results-show-more .button' )
+		.on( 'click', loadMoreItems );
 
 	// Attach back to top button scroll handler and execute on page load.
 	$(window).on('scroll', enhanceBackToTopButton);
@@ -811,13 +904,17 @@ jQuery(function ($) {
 
 	// Update the result count.
 	function displaySetResultsTotalCount(count) {
-		$container.find('.rsd-results-count').text(`${count} items found`);
+		$container
+			.find( '.rsd-results-count' )
+			.text( `${ count } items found` );
 	}
 
 	// Update filters.
 	function displayUpdateFilterValues(filters) {
 		$.each(filters, function (identifier, filter) {
-			const $filter = $container.find(`.rsd-filters select[data-filter="${identifier}"]`);
+			const $filter = $container.find(
+				`.rsd-filters select[data-filter="${ identifier }"]`
+			);
 			// Get first placeholder item.
 			const $placeholder = $filter.find('.placeholder');
 			// Clear the filter.
@@ -829,10 +926,15 @@ jQuery(function ($) {
 				const value = item.name;
 				const label = filter.getLabel(value);
 				let selected = '';
-				if (currentFilters[identifier] && currentFilters[identifier].includes(value)) {
+				if (
+					currentFilters[ identifier ] &&
+					currentFilters[ identifier ].includes( value )
+				) {
 					selected = ' selected';
 				}
-				$filter.append(`<option value="${value}"${selected}>${label}</option>`);
+				$filter.append(
+					`<option value="${ value }"${ selected }>${ label }</option>`
+				);
 			});
 		});
 	}
