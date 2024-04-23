@@ -74,8 +74,8 @@ class Filter {
 	 *
 	 * @param string $title The filter title.
 	 * @param string $identifier The filter identifier.
-	 * @param array $data The filter items.
-	 * @param array $args The filter arguments.
+	 * @param array  $data The filter items.
+	 * @param array  $args The filter arguments.
 	 */
 	public function __construct( $title, $identifier, $data = array(), $args = array() ) {
 		$default_args = array(
@@ -128,6 +128,7 @@ class Filter {
 	/**
 	 * Get filter identifier.
 	 *
+	 * @param string $prefix The filter identifier prefix.
 	 * @return string
 	 */
 	public function get_identifier( $prefix = '' ) {
@@ -155,6 +156,7 @@ class Filter {
 	/**
 	 * Get item count.
 	 *
+	 * @param string $name The filter item name.
 	 * @return int
 	 */
 	public function get_item_count( $name ) {

@@ -172,7 +172,7 @@ class Controller {
 	/**
 	 * Set the link base URL.
 	 *
-	 * @param string $link_base_url The link base URL.
+	 * @param string $url The link base URL.
 	 */
 	public static function set_link_base_url( $url ) {
 		self::$link_base_url = $url;
@@ -190,7 +190,7 @@ class Controller {
 	/**
 	 * Set the image base URL.
 	 *
-	 * @param string $img_base_url The image base URL.
+	 * @param string $url The image base URL.
 	 */
 	public static function set_img_base_url( $url ) {
 		self::$img_base_url = $url;
@@ -208,7 +208,7 @@ class Controller {
 	/**
 	 * Set the image path.
 	 *
-	 * @param string $img_path The image path.
+	 * @param string $path The image path.
 	 */
 	public static function set_img_path( $path ) {
 		self::$img_path = $path;
@@ -325,6 +325,7 @@ class Controller {
 	/**
 	 * Get the filters.
 	 *
+	 * @param string $identifier The filter identifier.
 	 * @return array
 	 */
 	public static function get_filters( $identifier = false ) {
@@ -348,7 +349,7 @@ class Controller {
 	 * Fetch all filters from API.
 	 *
 	 * @param string $section The section to fetch filters for (defaults to current section).
-	 * @return array|bool
+	 * @return array
 	 *
 	 * @since 0.3.2
 	 */
@@ -495,6 +496,7 @@ class Controller {
 	/**
 	 * Get the filter labels.
 	 *
+	 * @param string $identifier The filter identifier.
 	 * @return array
 	 */
 	public static function get_filter_labels( $identifier = false ) {
@@ -547,7 +549,8 @@ class Controller {
 	/**
 	 * Get items from the API.
 	 *
-	 * @param array $args The arguments.
+	 * @param string $section The section to get items for.
+	 * @return array|bool
 	 */
 	public static function get_items( $section = false ) {
 		// Set the default section.
