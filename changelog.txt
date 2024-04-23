@@ -12,6 +12,11 @@ WordPress plugin that displays projects and software information using the Resea
 
 == Changelog ==
 
+= 0.10.0 - 2024-04-23 =
+* Drop support for IE <= 11 (dead) and Opera Mini in Browserslist configuration.
+* Optimise PHP_CS configuration and apply PHP and WordPress standards to all PHP code.
+* Add ESLint + Prettier configuration for WordPress and apply to all JavaScript code.
+
 = 0.9.3 - 2024-04-18 =
 * Remove Sass dependency from CSS build process, in favor of using CSS directly.
 
