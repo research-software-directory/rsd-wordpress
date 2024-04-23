@@ -511,6 +511,8 @@ class Controller {
 
 		// Set the filters.
 		self::set_filters( $filters );
+
+		return $filters;
 	}
 
 	/**
