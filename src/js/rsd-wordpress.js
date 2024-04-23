@@ -272,14 +272,14 @@ jQuery(function ($) {
 				url: url,
 				headers: { 'Prefer': 'count=exact' },
 				success: function (response) {
-					let resultItems = response;
+					const resultItems = response;
 					console.log('🎹 result items: ', resultItems);
 
 					// Get the total count of results from `content-range` response header.
 					let totalResults = false;
-					let contentRange = req.getResponseHeader('content-range');
+					const contentRange = req.getResponseHeader('content-range');
 					if (contentRange) {
-						let total = contentRange.split('/');
+						const total = contentRange.split('/');
 						totalResults = total[1];
 						itemsTotal = parseInt(totalResults);
 					}
@@ -684,7 +684,7 @@ jQuery(function ($) {
 	let delayTimer;
 	$container.find('.rsd-search-input').on('input', function () {
 		clearTimeout(delayTimer);
-		let searchTerm = $(this).val().toLowerCase();
+		const searchTerm = $(this).val().toLowerCase();
 		delayTimer = setTimeout(function () {
 			console.log('🎹 searchTerm: ', searchTerm);
 			loadFilters();
@@ -848,7 +848,7 @@ jQuery(function ($) {
 			!Array.isArray(displayItems) ||
 			displayItems.length === 0
 		) {
-			$container.find('.rsd-results-items').empty();
+			$itemsContainer.empty();
 			displaySetResultsTotalCount(0);
 			return false;
 		}
