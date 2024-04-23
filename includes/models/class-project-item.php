@@ -231,5 +231,4 @@ class Project_Item extends Item {
 
 		return $progress;
 	}
-
 }

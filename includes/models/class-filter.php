@@ -265,5 +265,4 @@ class Filter {
 
 		return $label;
 	}
-
 }
