@@ -118,8 +118,8 @@ jQuery(function ($) {
 				// Convert data to items.
 				this.items = data.map(item => {
 					const label = item[this.getIdentifier()];
-					const count = item[this.getIdentifier() + '_cnt'] || 0;
-					return { name: label, count: count };
+					const num = item[this.getIdentifier() + '_cnt'] || 0;
+					return { name: label, count: num };
 				});
 			}
 		}
@@ -217,6 +217,7 @@ jQuery(function ($) {
 			status: 'eq.approved',
 			is_published: 'eq.true',
 			limit: defaultLimit,
+			// eslint-disable-next-line object-shorthand
 			offset: offset,
 		};
 
@@ -266,10 +267,9 @@ jQuery(function ($) {
 
 		// Get the data from the API.
 		return new Promise((resolve, reject) => {
-			const url = apiGetUrl(path, params);
 			const req = $.ajax({
 				type: 'GET',
-				url: url,
+				url: apiGetUrl(path, params),
 				headers: { 'Prefer': 'count=exact' },
 				// eslint-disable-next-line object-shorthand
 				success: function (response) {
