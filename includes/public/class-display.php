@@ -181,6 +181,7 @@ class Display {
 		ob_start();
 
 		$identifier = $filter->get_identifier( 'rsd-filter-' );
+
 		$i = 1;
 		?>
 			<div class="rsd-filter columns in-viewport">
