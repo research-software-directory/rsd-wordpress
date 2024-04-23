@@ -28,11 +28,6 @@ class Software_Item extends Item {
 	public $brand_name = false;
 
 	/**
-	 * The item concept DOI.
-	 */
-	public $concept_doi = false;
-
-	/**
 	 * The item description.
 	 *
 	 * @var string

@@ -19,14 +19,6 @@ defined( 'ABSPATH' ) || exit;
  * @since 0.1.0
  */
 abstract class Item {
-
-	/**
-	 * The item raw data.
-	 *
-	 * @var array
-	 */
-	private $_data_raw = array();
-
 	/**
 	 * The item ID.
 	 *
@@ -75,8 +67,6 @@ abstract class Item {
 	 * @param array $data The item data.
 	 */
 	protected function __construct( $data ) {
-		$this->_data_raw = $data;
-
 		$this->id           = ( ! empty( $data['id'] ) ? $data['id'] : false );
 		$this->slug         = ( ! empty( $data['slug'] ) ? $data['slug'] : false );
 		$this->image_id     = ( ! empty( $data['image_id'] ) ? $data['image_id'] : 0 );
