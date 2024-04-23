@@ -2,14 +2,13 @@
  * RSD WordPress - Vite configuration file
  * https://vitejs.dev/config/
  *
- * @package RSD_WP
+ * @module
  * @since 0.8.0
  * @license Apache-2.0
- * @link https://research-software-directory.org
  */
 
 import { defineConfig } from 'vite';
-import postcss, { plugin } from 'postcss';
+import postcss from 'postcss';
 import browserslist from 'browserslist';
 import { browserslistToTargets } from 'lightningcss';
 import autoprefixer from 'autoprefixer';
@@ -33,10 +32,7 @@ const baseConfig = {
 		},
 		css: {
 			postcss: {
-				plugins: [
-					postcss(),
-					autoprefixer(),
-				],
+				plugins: [postcss(), autoprefixer()],
 			},
 			transformer: 'lightningcss',
 			lightningcss: {

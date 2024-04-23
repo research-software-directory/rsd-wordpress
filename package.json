@@ -11,7 +11,9 @@
     "dev": "NODE_ENV=development vite build --watch",
     "build": "NODE_ENV=production vite build",
     "serve": "vite preview",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "lint": "eslint src/**/*.js",
+    "lint:fix": "eslint src/**/*.js --fix"
   },
   "keywords": [
     "research software directory",
@@ -28,10 +30,15 @@
   "devDependencies": {
     "@babel/preset-env": "^7.24.4",
     "@rollup/plugin-babel": "^6.0.4",
+    "@wordpress/eslint-plugin": "^17.13.0",
+    "@wordpress/prettier-config": "^3.13.0",
     "autoprefixer": "^10.4.19",
     "browserslist": "^4.23.0",
+    "eslint": "^8.57.0",
+    "eslint-plugin-compat": "^4.2.0",
     "lightningcss": "^1.24.1",
     "postcss": "^8.4.38",
-    "vite": "^5.2.9"
+    "prettier": "npm:wp-prettier@^3.0.3",
+    "vite": "^5.2.10"
   }
 }

@@ -1,6 +1,7 @@
 # https://github.com/browserslist/browserslist#readme
 
->0.3%
+>0.3% and not dead
 defaults
 fully supports es6-module
 maintained node versions
+not op_mini all
