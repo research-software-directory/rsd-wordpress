@@ -226,7 +226,7 @@ class Project_Item extends Item {
 		$progress = '';
 
 		if ( ! empty( $this->date_start ) && ! empty( $this->date_end ) ) {
-			$progress = date( 'Y', strtotime( $this->date_end ) ) - date( 'Y', strtotime( $this->date_start ) );
+			$progress = wp_date( 'Y', strtotime( $this->date_end ) ) - wp_date( 'Y', strtotime( $this->date_start ) );
 		}
 
 		return $progress;
