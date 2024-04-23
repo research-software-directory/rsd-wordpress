@@ -366,7 +366,7 @@ jQuery(function ($) {
 					params: { ...defaultParams }
 				}
 			}
-		}
+		};
 
 		// Build filters object for the current section, narrowed down by filter values.
 		const filterReqs = filtersDefault[section] || {};
@@ -869,14 +869,14 @@ jQuery(function ($) {
 				props = {
 					'Impact': getItemImpactCount(item),
 					'Output': getItemOutputCount(item),
-				}
+				};
 			} else {
 				title = item.brand_name;
 				description = item.short_statement;
 				props = {
 					'Contributors': getItemContributorsCount(item),
 					'Mentions': getItemMentionsCount(item),
-				}
+				};
 			}
 
 			let imageContainAttr = '';
