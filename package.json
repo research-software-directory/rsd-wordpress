@@ -3,10 +3,18 @@
   "version": "1.0.0",
   "description": "Displays projects and software information from the Research Software Directory API.",
   "author": "Research Software Directory / eScience Center",
+  "homepage": "https://github.com/research-software-directory/rsd-wordpress/",
   "license": "Apache-2.0",
   "private": true,
   "main": "src/index.js",
   "type": "module",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/research-software-directory/rsd-wordpress.git"
+  },
+  "bugs": {
+    "url": "https://github.com/research-software-directory/rsd-wordpress/issues"
+  },
   "scripts": {
     "dev": "NODE_ENV=development vite build --watch",
     "build": "NODE_ENV=production vite build",
