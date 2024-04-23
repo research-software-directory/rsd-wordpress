@@ -30,7 +30,7 @@ jQuery(function ($) {
 			in_progress: 'In progress',
 			finished: 'Finished',
 			unknown: 'Unknown',
-		}
+		},
 	};
 
 	// Get container element and section.
@@ -315,7 +315,7 @@ jQuery(function ($) {
 					args: { ...defaultArgs, labels: { ...defaultFilterLabels.project_status } },
 					filter_as_param: 'status_filter',
 					path: '/rpc/org_project_status_filter?order=project_status',
-					params: { ...defaultParams }
+					params: { ...defaultParams },
 				},
 				keyword: {
 					title: 'Keywords',
@@ -323,7 +323,7 @@ jQuery(function ($) {
 					args: { ...defaultArgs },
 					filter_as_param: 'keyword_filter',
 					path: '/rpc/org_project_keywords_filter?order=keyword',
-					params: { ...defaultParams }
+					params: { ...defaultParams },
 				},
 				domain: {
 					title: 'Research domains',
@@ -331,7 +331,7 @@ jQuery(function ($) {
 					args: { ...defaultArgs, labeled_only: true, labels: { ...defaultFilterLabels.domain } },
 					filter_as_param: 'research_domain_filter',
 					path: '/rpc/org_project_domains_filter?order=domain',
-					params: { ...defaultParams }
+					params: { ...defaultParams },
 				},
 				organisation: {
 					title: 'Partners',
@@ -339,8 +339,8 @@ jQuery(function ($) {
 					args: { ...defaultArgs },
 					filter_as_param: 'organisation_filter',
 					path: '/rpc/org_project_participating_organisations_filter?order=organisation',
-					params: { ...defaultParams }
-				}
+					params: { ...defaultParams },
+				},
 			},
 			software: {
 				keyword: {
@@ -349,7 +349,7 @@ jQuery(function ($) {
 					args: { ...defaultArgs },
 					filter_as_param: 'keyword_filter',
 					path: '/rpc/org_software_keywords_filter?order=keyword',
-					params: { ...defaultParams }
+					params: { ...defaultParams },
 				},
 				prog_language: {
 					title: 'Programming Languages',
@@ -357,7 +357,7 @@ jQuery(function ($) {
 					args: { ...defaultArgs },
 					filter_as_param: 'prog_lang_filter',
 					path: '/rpc/org_software_languages_filter?order=prog_language',
-					params: { ...defaultParams }
+					params: { ...defaultParams },
 				},
 				license: {
 					title: 'Licenses',
@@ -365,9 +365,9 @@ jQuery(function ($) {
 					args: { ...defaultArgs },
 					filter_as_param: 'license_filter',
 					path: '/rpc/org_software_licenses_filter?order=license',
-					params: { ...defaultParams }
-				}
-			}
+					params: { ...defaultParams },
+				},
+			},
 		};
 
 		// Build filters object for the current section, narrowed down by filter values.
