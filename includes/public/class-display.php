@@ -242,7 +242,7 @@ class Display {
 					<h3 class="rsd-results-count" data-items-total="<?php echo esc_attr( Controller::get_result_total_count() ); ?>">
 						<?php
 						// translators: Number of result items found.
-						printf( esc_html__( '%s items found', 'rsd-wordpress' ), Controller::get_result_total_count() );
+						printf( esc_html__( '%s items found', 'rsd-wordpress' ), esc_attr( Controller::get_result_total_count() ) );
 						?>
 					</h3>
 					<button class="rsd-results-clear-filters button"<?php if ( Controller::has_search_or_filters() ) { echo ' style="display: none;"'; } ?>><?php esc_html_e( 'Clear filters', 'rsd-wordpress' ); ?></button>
