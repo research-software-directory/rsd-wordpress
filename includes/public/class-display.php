@@ -304,6 +304,7 @@ class Display {
 		$labels   = $item->get_keywords();
 		$title    = $item->get_brand_name();
 		$item_url = sprintf( 'https://research-software-directory.org/software/%s', $item->get_slug() );
+		// translators: Aria label for the logo of a software item.
 		$aria_label = sprintf( __( "Logo for '%s'", 'rsd-wordpress' ), $title );
 		$image_url  = $item->get_image_url();
 
