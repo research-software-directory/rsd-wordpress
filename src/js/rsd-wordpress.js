@@ -95,13 +95,13 @@ jQuery(function ($) {
 			return prefix + this.identifier;
 		}
 
+		getItems( labeledOnly = false ) {
+			if ( labeledOnly || this.args.labeled_only ) {
 				let items = [];
 				let labels = this.getLabels();
 				$.each(this.items, function (index, item) {
 					if (labels[item.name]) {
 						items.push(item);
-		getItems( labeledOnly = false ) {
-			if ( labeledOnly || this.args.labeled_only ) {
 					}
 				});
 				return items;
@@ -628,10 +628,10 @@ jQuery(function ($) {
 
 	function getFilterValues() {
 		let filters = {};
+		$container.find('.rsd-filters select').each(function () {
 			let $filter = $(this);
 			let identifier = $filter.data('filter');
 			let value = $filter.val();
-		$container.find('.rsd-filters select').each(function () {
 			if (value != '') {
 				filters[identifier] = [value];
 			}
@@ -814,8 +814,8 @@ jQuery(function ($) {
 
 	// Update filters.
 	function displayUpdateFilterValues(filters) {
-			let $filter = $container.find(`.rsd-filters select[data-filter="${identifier}"]`);
 		$.each(filters, function (identifier, filter) {
+			let $filter = $container.find(`.rsd-filters select[data-filter="${identifier}"]`);
 			// Get first placeholder item.
 			let $placeholder = $filter.find('.placeholder');
 			// Clear the filter.
@@ -823,9 +823,9 @@ jQuery(function ($) {
 			// Add the placeholder item back and add the new filter values.
 			$filter.append($placeholder);
 			// Add the new filter values.
+			filter.getItems().forEach(function (item) {
 				let value = item.name;
 				let label = filter.getLabel(value);
-			filter.getItems().forEach(function (item) {
 				let selected = '';
 				if (currentFilters[identifier] && currentFilters[identifier].includes(value)) {
 					selected = ' selected';
@@ -845,12 +845,12 @@ jQuery(function ($) {
 		let $itemsContainer = $container.find('.rsd-results-items');
 
 		// Empty results container if no items are provided.
-			$container.find('.rsd-results-items').empty();
 		if (
 			!displayItems ||
 			!Array.isArray(displayItems) ||
 			displayItems.length === 0
 		) {
+			$container.find('.rsd-results-items').empty();
 			displaySetResultsTotalCount(0);
 			return false;
 		}
