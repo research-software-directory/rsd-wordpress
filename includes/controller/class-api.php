@@ -42,7 +42,7 @@ class Api {
 	 *
 	 * @var Api|null
 	 */
-	private static $_instance = null;
+	private static $instance = null;
 
 	/**
 	 * Get the singleton instance of the class.
@@ -52,11 +52,11 @@ class Api {
 	 * @return Api
 	 */
 	public static function get_instance() {
-		if ( null === self::$_instance ) {
-			self::$_instance = new self();
+		if ( null === self::$instance ) {
+			self::$instance = new self();
 		}
 
-		return self::$_instance;
+		return self::$instance;
 	}
 
 	/**

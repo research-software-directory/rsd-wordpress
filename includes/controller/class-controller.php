@@ -102,7 +102,7 @@ class Controller {
 	 * @var int The result total items count. False if result is not cached yet.
 	 * @since 0.3.1
 	 */
-	private static $_result_total_count = false;
+	private static $result_total_count = false;
 
 	/**
 	 * The result items.
@@ -110,14 +110,14 @@ class Controller {
 	 * @var bool|array The result items. False if result is not cached yet.
 	 * @since 0.3.1
 	 */
-	private static $_result_items = false;
+	private static $result_items = false;
 
 	/**
 	 * The instance of the Controller class.
 	 *
 	 * @var Controller|null
 	 */
-	private static $_instance = null;
+	private static $instance = null;
 
 	/**
 	 * Get the instance of the Controller class.
@@ -126,11 +126,11 @@ class Controller {
 	 * @return Controller
 	 */
 	public static function get_instance() {
-		if ( null === self::$_instance ) {
-			self::$_instance = new self();
+		if ( null === self::$instance ) {
+			self::$instance = new self();
 		}
 
-		return self::$_instance;
+		return self::$instance;
 	}
 
 	/**
@@ -510,7 +510,7 @@ class Controller {
 	 * @param int $total_count The total count of items.
 	 */
 	public static function set_result_total_count( $total_count ) {
-		self::$_result_total_count = (int) $total_count;
+		self::$result_total_count = (int) $total_count;
 	}
 
 	/**
@@ -519,7 +519,7 @@ class Controller {
 	 * @return int
 	 */
 	public static function get_result_total_count() {
-		return self::$_result_total_count;
+		return self::$result_total_count;
 	}
 
 	/**
@@ -527,8 +527,8 @@ class Controller {
 	 *
 	 * @param array $items The result items.
 	 */
-	private static function _set_result_items( $items ) {
-		self::$_result_items = $items;
+	private static function set_result_items( $items ) {
+		self::$result_items = $items;
 	}
 
 	/**
@@ -536,8 +536,8 @@ class Controller {
 	 *
 	 * @return array
 	 */
-	public static function _get_result_items() {
-		return self::$_result_items;
+	public static function get_result_items() {
+		return self::$result_items;
 	}
 
 	/**
@@ -617,7 +617,7 @@ class Controller {
 			}
 
 			// Store the result items.
-			self::_set_result_items( $items );
+			self::set_result_items( $items );
 
 			return $items;
 		} else {
