@@ -881,7 +881,7 @@ jQuery(function ($) {
 
 			let imageContainAttr = '';
 			if (getItemImageContain(item)) {
-				imageContainAttr = ` class="contain"`;
+				imageContainAttr = ' class="contain"';
 			}
 
 			$itemsContainer.append(`
