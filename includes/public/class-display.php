@@ -187,7 +187,6 @@ class Display {
 				<h3><label for="<?php echo esc_attr( $identifier ); ?>"><?php echo esc_html( $filter->get_title() ); ?></label></h3>
 				<?php if ( 'multicheckbox' === $filter->get_type() ) : ?>
 					<?php foreach ( $filter->get_items() as $item ) : ?>
-						<?php  ?>
 						<label for="<?php echo esc_attr( $identifier . '-' . $i ); ?>"><input type="checkbox" name="<?php echo esc_attr( $identifier . '[]' ); ?>" id="<?php echo esc_attr( $identifier . '-' . $i ); ?>" value="<?php echo esc_attr( $item['name'] ); ?>"> <?php echo esc_html( $filter->get_label( $item['name'] ) ); ?></label>
 						<?php $i++; ?>
 					<?php endforeach; ?>
