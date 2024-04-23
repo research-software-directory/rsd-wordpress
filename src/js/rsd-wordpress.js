@@ -270,6 +270,7 @@ jQuery(function ($) {
 				type: 'GET',
 				url: apiGetUrl(path, params),
 				headers: { 'Prefer': 'count=exact' },
+				// eslint-disable-next-line object-shorthand
 				success: function (response) {
 					const resultItems = response;
 					console.log('🎹 result items: ', resultItems);
@@ -285,6 +286,7 @@ jQuery(function ($) {
 
 					resolve(resultItems);
 				},
+				// eslint-disable-next-line object-shorthand
 				error: function (jqXHR, textStatus, errorThrown) {
 					reject(errorThrown);
 				},
@@ -400,10 +402,12 @@ jQuery(function ($) {
 					data: JSON.stringify(data.params),
 					dataType: 'json',
 					contentType: 'application/json',
+					// eslint-disable-next-line object-shorthand
 					success: function (response) {
 						filters[filter] = new Filter(data.title, data.identifier, response, data.args);
 						resolve();
 					},
+					// eslint-disable-next-line object-shorthand
 					error: function (jqXHR, textStatus, errorThrown) {
 						reject(errorThrown);
 					},
