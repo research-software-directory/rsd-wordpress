@@ -102,7 +102,7 @@ class Controller {
 	 * @var int The result total items count. False if result is not cached yet.
 	 * @since 0.3.1
 	 */
-	private static $_result_total_count = false;
+	private static $result_total_count = false;
 
 	/**
 	 * The result items.
@@ -110,14 +110,14 @@ class Controller {
 	 * @var bool|array The result items. False if result is not cached yet.
 	 * @since 0.3.1
 	 */
-	private static $_result_items = false;
+	private static $result_items = false;
 
 	/**
 	 * The instance of the Controller class.
 	 *
 	 * @var Controller|null
 	 */
-	private static $_instance = null;
+	private static $instance = null;
 
 	/**
 	 * Get the instance of the Controller class.
@@ -126,11 +126,11 @@ class Controller {
 	 * @return Controller
 	 */
 	public static function get_instance() {
-		if ( null === self::$_instance ) {
-			self::$_instance = new self();
+		if ( null === self::$instance ) {
+			self::$instance = new self();
 		}
 
-		return self::$_instance;
+		return self::$instance;
 	}
 
 	/**
@@ -172,7 +172,7 @@ class Controller {
 	/**
 	 * Set the link base URL.
 	 *
-	 * @param string $link_base_url The link base URL.
+	 * @param string $url The link base URL.
 	 */
 	public static function set_link_base_url( $url ) {
 		self::$link_base_url = $url;
@@ -190,7 +190,7 @@ class Controller {
 	/**
 	 * Set the image base URL.
 	 *
-	 * @param string $img_base_url The image base URL.
+	 * @param string $url The image base URL.
 	 */
 	public static function set_img_base_url( $url ) {
 		self::$img_base_url = $url;
@@ -208,7 +208,7 @@ class Controller {
 	/**
 	 * Set the image path.
 	 *
-	 * @param string $img_path The image path.
+	 * @param string $path The image path.
 	 */
 	public static function set_img_path( $path ) {
 		self::$img_path = $path;
@@ -325,6 +325,7 @@ class Controller {
 	/**
 	 * Get the filters.
 	 *
+	 * @param string $identifier The filter identifier.
 	 * @return array
 	 */
 	public static function get_filters( $identifier = false ) {
@@ -348,12 +349,12 @@ class Controller {
 	 * Fetch all filters from API.
 	 *
 	 * @param string $section The section to fetch filters for (defaults to current section).
-	 * @return array|bool
+	 * @return array
 	 *
 	 * @since 0.3.2
 	 */
 	public static function fetch_filters( $section = false ) {
-		$section = ( $section ?: self::get_section() );
+		$section = ( $section ? $section : self::get_section() );
 
 		// Set the default API path parameters.
 		$default_params = array(
@@ -361,13 +362,13 @@ class Controller {
 		);
 
 		// Set the default filters.
+		// phpcs:disable
 		$filters_default = array(
 			'projects' => array(
 				'project_status' => array(
 					'title'      => __( 'Project Status', 'rsd-wordpress' ),
 					'identifier' => 'project_status',
 					'args'       => array(
-						// 'type'   => 'multicheckbox',
 						'labels' => array(
 							'upcoming'    => __( 'Upcoming', 'rsd-wordpress' ),
 							'in_progress' => __( 'In progress', 'rsd-wordpress' ),
@@ -377,9 +378,12 @@ class Controller {
 						'placeholder' => __( 'Filter by project status', 'rsd-wordpress' ),
 					),
 					'path'       => '/rpc/org_project_status_filter',
-					'params'     => wp_parse_args( array(
-						'order'  => 'project_status',
-					), $default_params ),
+					'params'     => wp_parse_args(
+						array(
+							'order' => 'project_status',
+						),
+						$default_params
+					),
 				),
 				'keywords' => array(
 					'title'      => __( 'Keywords', 'rsd-wordpress' ),
@@ -388,9 +392,12 @@ class Controller {
 						'placeholder' => __( 'Filter by keyword', 'rsd-wordpress' ),
 					),
 					'path'       => '/rpc/org_project_keywords_filter',
-					'params'     => wp_parse_args( array(
-						'order'  => 'keyword',
-					), $default_params ),
+					'params'     => wp_parse_args(
+						array(
+							'order' => 'keyword',
+						),
+						$default_params
+					),
 				),
 				'research_domains' => array(
 					'title'      => __( 'Research Domains', 'rsd-wordpress' ),
@@ -400,9 +407,12 @@ class Controller {
 						'placeholder'  => __( 'Filter by research domain', 'rsd-wordpress' ),
 					),
 					'path'       => '/rpc/org_project_domains_filter',
-					'params'     => wp_parse_args( array(
-						'order'  => 'domain',
-					), $default_params ),
+					'params'     => wp_parse_args(
+						array(
+							'order' => 'domain',
+						),
+						$default_params
+					),
 				),
 				'partners' => array(
 					'title'      => __( 'Partners', 'rsd-wordpress' ),
@@ -411,9 +421,12 @@ class Controller {
 						'placeholder'  => __( 'Filter by partner', 'rsd-wordpress' ),
 					),
 					'path'       => '/rpc/org_project_participating_organisations_filter',
-					'params'     => wp_parse_args( array(
-						'order'  => 'organisation',
-					), $default_params ),
+					'params'     => wp_parse_args(
+						array(
+							'order' => 'organisation',
+						),
+						$default_params
+					),
 				),
 			),
 			'software' => array(
@@ -424,9 +437,12 @@ class Controller {
 						'placeholder' => __( 'Filter by keyword', 'rsd-wordpress' ),
 					),
 					'path'       => '/rpc/org_software_keywords_filter',
-					'params'     => wp_parse_args( array(
-						'order'  => 'keyword',
-					), $default_params ),
+					'params'     => wp_parse_args(
+						array(
+							'order' => 'keyword',
+						),
+						$default_params
+					),
 				),
 				'programming_languages' => array(
 					'title'      => __( 'Programming Languages', 'rsd-wordpress' ),
@@ -435,9 +451,12 @@ class Controller {
 						'placeholder' => __( 'Filter by programming language', 'rsd-wordpress' ),
 					),
 					'path'       => '/rpc/org_software_languages_filter',
-					'params'     => wp_parse_args( array(
-						'order'  => 'prog_language',
-					), $default_params ),
+					'params'     => wp_parse_args(
+						array(
+							'order'  => 'prog_language',
+						),
+						$default_params
+					),
 				),
 				'license' => array(
 					'title'      => __( 'Licenses', 'rsd-wordpress' ),
@@ -446,14 +465,18 @@ class Controller {
 						'placeholder' => __( 'Filter by license', 'rsd-wordpress' ),
 					),
 					'path'       => '/rpc/org_software_licenses_filter',
-					'params'     => wp_parse_args( array(
-						'order'  => 'license',
-					), $default_params ),
+					'params'     => wp_parse_args(
+						array(
+							'order'  => 'license',
+						),
+						$default_params
+					),
 				),
 			),
 		);
+		// phpcs:enable
 
-		//
+		// Prepare the filters var.
 		$filters = array();
 
 		// Set the API paths and parameters for configured filters.
@@ -465,15 +488,19 @@ class Controller {
 			$response = Api::get_response( $path );
 
 			// Process data.
-			$args = ( ! empty( $filter['args'] ) ? $filter['args'] : array() );
-			$filters[ $filter['identifier'] ] = new Filter( $filter['title'], $filter['identifier'], $response['data'], $args );
+			$args           = ( ! empty( $filter['args'] ) ? $filter['args'] : array() );
+			$id             = $filter['identifier'];
+			$filters[ $id ] = new Filter( $filter['title'], $filter['identifier'], $response['data'], $args );
 
 			// Additionally retrieve and set labels for specific filter(s).
 			if ( 'domain' === $filter['identifier'] ) {
-				$path = Api::build_path( 'research_domain', array(
-					'select' => 'key,name',
-					'parent' => 'is.null',
-				) );
+				$path     = Api::build_path(
+					'research_domain',
+					array(
+						'select' => 'key,name',
+						'parent' => 'is.null',
+					)
+				);
 				$response = Api::get_response( $path );
 
 				$labels = array();
@@ -486,11 +513,14 @@ class Controller {
 
 		// Set the filters.
 		self::set_filters( $filters );
+
+		return $filters;
 	}
 
 	/**
 	 * Get the filter labels.
 	 *
+	 * @param string $identifier The filter identifier.
 	 * @return array
 	 */
 	public static function get_filter_labels( $identifier = false ) {
@@ -510,7 +540,7 @@ class Controller {
 	 * @param int $total_count The total count of items.
 	 */
 	public static function set_result_total_count( $total_count ) {
-		self::$_result_total_count = (int) $total_count;
+		self::$result_total_count = (int) $total_count;
 	}
 
 	/**
@@ -519,7 +549,7 @@ class Controller {
 	 * @return int
 	 */
 	public static function get_result_total_count() {
-		return self::$_result_total_count;
+		return self::$result_total_count;
 	}
 
 	/**
@@ -527,8 +557,8 @@ class Controller {
 	 *
 	 * @param array $items The result items.
 	 */
-	private static function _set_result_items( $items ) {
-		self::$_result_items = $items;
+	private static function set_result_items( $items ) {
+		self::$result_items = $items;
 	}
 
 	/**
@@ -536,18 +566,19 @@ class Controller {
 	 *
 	 * @return array
 	 */
-	public static function _get_result_items() {
-		return self::$_result_items;
+	public static function get_result_items() {
+		return self::$result_items;
 	}
 
 	/**
 	 * Get items from the API.
 	 *
-	 * @param array $args The arguments.
+	 * @param string $section The section to get items for.
+	 * @return array|bool
 	 */
 	public static function get_items( $section = false ) {
 		// Set the default section.
-		$section = ( $section ?: self::get_section() );
+		$section = ( $section ? $section : self::get_section() );
 
 		// Set the default API path parameters.
 		$defaults = array(
@@ -557,7 +588,7 @@ class Controller {
 			'limit'           => self::get_limit(),
 			'offset'          => self::get_offset(),
 		);
-		$params = wp_parse_args( array(), $defaults );
+		$params   = wp_parse_args( array(), $defaults );
 
 		// Add search query to parameters.
 		if ( ! empty( self::get_search_query() ) ) {
@@ -566,7 +597,7 @@ class Controller {
 
 		// Set order by and order parameters.
 		$orderby = ( 'software' === $section ? 'brand_name' : 'title' );
-		$order = 'asc';
+		$order   = 'asc';
 		if ( ! empty( self::get_orderby() ) ) {
 			$orderby = self::get_orderby();
 		}
@@ -592,8 +623,8 @@ class Controller {
 
 		// Get the API response.
 		$response = Api::get_response( $path, $args, true );
-		$headers = $response['headers'];
-		$data = $response['data'];
+		$headers  = $response['headers'];
+		$data     = $response['data'];
 
 		// Process data.
 		$items = array();
@@ -617,7 +648,7 @@ class Controller {
 			}
 
 			// Store the result items.
-			self::_set_result_items( $items );
+			self::set_result_items( $items );
 
 			return $items;
 		} else {

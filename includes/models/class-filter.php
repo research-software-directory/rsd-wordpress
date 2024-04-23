@@ -74,8 +74,8 @@ class Filter {
 	 *
 	 * @param string $title The filter title.
 	 * @param string $identifier The filter identifier.
-	 * @param array $data The filter items.
-	 * @param array $args The filter arguments.
+	 * @param array  $data The filter items.
+	 * @param array  $args The filter arguments.
 	 */
 	public function __construct( $title, $identifier, $data = array(), $args = array() ) {
 		$default_args = array(
@@ -86,7 +86,7 @@ class Filter {
 
 		$this->title      = $title;
 		$this->identifier = $identifier;
-		$this->type	      =  ( ! empty( $args['type'] ) ? $args['type'] : 'select' );
+		$this->type       = ( ! empty( $args['type'] ) ? $args['type'] : 'select' );
 		$this->args       = wp_parse_args( $args, $default_args );
 
 		if ( ! empty( $args['labels'] ) ) {
@@ -128,6 +128,7 @@ class Filter {
 	/**
 	 * Get filter identifier.
 	 *
+	 * @param string $prefix The filter identifier prefix.
 	 * @return string
 	 */
 	public function get_identifier( $prefix = '' ) {
@@ -155,6 +156,7 @@ class Filter {
 	/**
 	 * Get item count.
 	 *
+	 * @param string $name The filter item name.
 	 * @return int
 	 */
 	public function get_item_count( $name ) {
@@ -196,7 +198,7 @@ class Filter {
 	 */
 	public function get_items( $labeled_only = null ) {
 		if ( ( isset( $labeled_only ) && $labeled_only ) || ( isset( $this->args['labeled_only'] ) && $this->args['labeled_only'] ) ) {
-			$items = array();
+			$items  = array();
 			$labels = self::get_labels();
 
 			foreach ( $this->items as $item ) {
@@ -263,5 +265,4 @@ class Filter {
 
 		return $label;
 	}
-
 }

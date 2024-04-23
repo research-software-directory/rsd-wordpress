@@ -33,7 +33,7 @@ class Display {
 	 *
 	 * @var Display|null
 	 */
-	private static $_instance = null;
+	private static $instance = null;
 
 	/**
 	 * Get the singleton instance of the class.
@@ -42,11 +42,11 @@ class Display {
 	 * @return Display
 	 */
 	public static function get_instance() {
-		if ( null === self::$_instance ) {
-			self::$_instance = new self();
+		if ( null === self::$instance ) {
+			self::$instance = new self();
 		}
 
-		return self::$_instance;
+		return self::$instance;
 	}
 
 	/**
@@ -181,15 +181,15 @@ class Display {
 		ob_start();
 
 		$identifier = $filter->get_identifier( 'rsd-filter-' );
+
 		$i = 1;
 		?>
 			<div class="rsd-filter columns in-viewport">
 				<h3><label for="<?php echo esc_attr( $identifier ); ?>"><?php echo esc_html( $filter->get_title() ); ?></label></h3>
 				<?php if ( 'multicheckbox' === $filter->get_type() ) : ?>
 					<?php foreach ( $filter->get_items() as $item ) : ?>
-						<?php  ?>
 						<label for="<?php echo esc_attr( $identifier . '-' . $i ); ?>"><input type="checkbox" name="<?php echo esc_attr( $identifier . '[]' ); ?>" id="<?php echo esc_attr( $identifier . '-' . $i ); ?>" value="<?php echo esc_attr( $item['name'] ); ?>"> <?php echo esc_html( $filter->get_label( $item['name'] ) ); ?></label>
-						<?php $i++; ?>
+						<?php ++$i; ?>
 					<?php endforeach; ?>
 				<?php else : ?>
 					<select name="<?php echo esc_attr( $identifier ); ?>" id="<?php echo esc_attr( $identifier ); ?>" data-filter="<?php echo esc_attr( $filter->get_identifier() ); ?>">
@@ -220,17 +220,17 @@ class Display {
 			$sort_fields = array(
 				'impact_cnt' => __( 'Impact', 'rsd-wordpress' ),
 				'output_cnt' => __( 'Output', 'rsd-wordpress' ),
-				'title' => __( 'Title', 'rsd-wordpress' ),
+				'title'      => __( 'Title', 'rsd-wordpress' ),
 				'date_start' => __( 'Start date', 'rsd-wordpress' ),
-				'date_end' => __( 'End date', 'rsd-wordpress' ),
+				'date_end'   => __( 'End date', 'rsd-wordpress' ),
 				'updated_at' => __( 'Last updated', 'rsd-wordpress' ),
 			);
 		} else {
 			$sort_fields = array(
-				'brand_name' => __( 'Name', 'rsd-wordpress' ),
-				'mention_cnt' => __( 'Mentions', 'rsd-wordpress' ),
+				'brand_name'      => __( 'Name', 'rsd-wordpress' ),
+				'mention_cnt'     => __( 'Mentions', 'rsd-wordpress' ),
 				'contributor_cnt' => __( 'Contributors', 'rsd-wordpress' ),
-				'updated_at' => __( 'Last updated', 'rsd-wordpress' ),
+				'updated_at'      => __( 'Last updated', 'rsd-wordpress' ),
 			);
 		}
 
@@ -242,10 +242,17 @@ class Display {
 					<h3 class="rsd-results-count" data-items-total="<?php echo esc_attr( Controller::get_result_total_count() ); ?>">
 						<?php
 						// translators: Number of result items found.
-						printf( esc_html__( '%s items found', 'rsd-wordpress' ), Controller::get_result_total_count() );
+						printf( esc_html__( '%s items found', 'rsd-wordpress' ), esc_attr( Controller::get_result_total_count() ) );
 						?>
 					</h3>
-					<button class="rsd-results-clear-filters button"<?php if ( Controller::has_search_or_filters() ) { echo ' style="display: none;"'; } ?>><?php esc_html_e( 'Clear filters', 'rsd-wordpress' ); ?></button>
+					<button class="rsd-results-clear-filters button"
+						<?php
+						if ( Controller::has_search_or_filters() ) {
+							echo ' style="display: none;"';
+						}
+						?>
+					>
+						<?php esc_html_e( 'Clear filters', 'rsd-wordpress' ); ?></button>
 				</div>
 				<div class="rsd-results-controls columns in-viewport">
 					<?php
@@ -301,11 +308,12 @@ class Display {
 	 * @return string The item HTML.
 	 */
 	public static function display_software_item( $item ) {
-		$labels = $item->get_keywords();
-		$title = $item->get_brand_name();
+		$labels   = $item->get_keywords();
+		$title    = $item->get_brand_name();
 		$item_url = sprintf( 'https://research-software-directory.org/software/%s', $item->get_slug() );
+		// translators: Aria label for the logo of a software item.
 		$aria_label = sprintf( __( "Logo for '%s'", 'rsd-wordpress' ), $title );
-		$image_url = $item->get_image_url();
+		$image_url  = $item->get_image_url();
 
 		if ( empty( $image_url ) ) {
 			$image_url = self::get_default_image_url();
@@ -315,8 +323,8 @@ class Display {
 		?>
 		<div class="rsd-results-item column card" data-id="<?php echo esc_attr( $item->get_id() ); ?>">
 			<div class="card-image">
-				<a href="<?php echo esc_attr( $item_url ); ?>" target="_blank" rel="external"><img src="<?php echo $image_url; ?>"
-				 alt="" title="<?php echo esc_attr( $title ); ?>" aria-label="<?php echo esc_attr( $aria_label ); ?>"></a>
+				<a href="<?php echo esc_attr( $item_url ); ?>" target="_blank" rel="external"><img src="<?php echo esc_attr( $image_url ); ?>"
+				alt="" title="<?php echo esc_attr( $title ); ?>" aria-label="<?php echo esc_attr( $aria_label ); ?>"></a>
 			</div>
 			<div class="card-section">
 				<h3><a href="<?php echo esc_attr( $item_url ); ?>" target="_blank" rel="external"><?php echo esc_html( $item->get_brand_name() ); ?></a></h3>
@@ -324,11 +332,11 @@ class Display {
 			</div>
 			<div class="card-footer">
 				<div class="rsd-results-item-specs">
-					<?php if ( ! empty( $labels) && is_array( $labels ) && count( $labels ) > 0 ) : ?>
+					<?php if ( ! empty( $labels ) && is_array( $labels ) && count( $labels ) > 0 ) : ?>
 					<ul class="rsd-results-item-spec-labels">
-					<?php foreach ( $labels as $label ) : ?>
+						<?php foreach ( $labels as $label ) : ?>
 						<li class="label"><?php echo esc_html( $label ); ?></li>
-					<?php endforeach; ?>
+						<?php endforeach; ?>
 					</ul>
 					<?php endif; ?>
 				</div>
@@ -358,11 +366,12 @@ class Display {
 	 * @return string The item HTML.
 	 */
 	public static function display_project_item( $item ) {
-		$labels = $item->get_keywords();
-		$title = $item->get_title();
+		$labels   = $item->get_keywords();
+		$title    = $item->get_title();
 		$item_url = sprintf( 'https://research-software-directory.org/projects/%s', $item->get_slug() );
-		$aria_label = sprintf( __( "Logo for '%s'", 'rsd-wordpress' ), $title );
-		$image_url = $item->get_image_url();
+		// translators: Aria label for the logo of a project item.
+		$aria_label         = sprintf( __( "Logo for '%s'", 'rsd-wordpress' ), $title );
+		$image_url          = $item->get_image_url();
 		$image_contain_attr = ( $item->get_image_contain() ? ' class="contain"' : '' );
 
 		if ( empty( $image_url ) ) {
@@ -373,8 +382,8 @@ class Display {
 		?>
 		<div class="rsd-results-item column card" data-id="<?php echo esc_attr( $item->get_id() ); ?>">
 			<div class="card-image">
-				<a href="<?php echo esc_attr( $item_url ); ?>" target="_blank" rel="external"><img src="<?php echo $image_url; ?>"
-				 alt="" title="<?php echo esc_attr( $title ); ?>" aria-label="<?php echo esc_attr( $aria_label ); ?>"<?php echo $image_contain_attr; ?>></a>
+				<a href="<?php echo esc_attr( $item_url ); ?>" target="_blank" rel="external"><img src="<?php echo esc_attr( $image_url ); ?>"
+				alt="" title="<?php echo esc_attr( $title ); ?>" aria-label="<?php echo esc_attr( $aria_label ); ?>"<?php echo esc_attr( $image_contain_attr ); ?>></a>
 			</div>
 			<div class="card-section">
 				<h3><a href="<?php echo esc_attr( $item_url ); ?>" target="_blank" rel="external"><?php echo esc_html( $item->get_title() ); ?></a></h3>
@@ -384,9 +393,9 @@ class Display {
 				<div class="rsd-results-item-specs">
 					<?php if ( ! empty( $labels ) && is_array( $labels ) && count( $labels ) > 0 ) : ?>
 					<ul class="rsd-results-item-spec-labels">
-					<?php foreach ( $labels as $label ) : ?>
+						<?php foreach ( $labels as $label ) : ?>
 						<li class="label"><?php echo esc_html( $label ); ?></li>
-					<?php endforeach; ?>
+						<?php endforeach; ?>
 					</ul>
 					<?php endif; ?>
 				</div>

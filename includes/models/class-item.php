@@ -19,14 +19,6 @@ defined( 'ABSPATH' ) || exit;
  * @since 0.1.0
  */
 abstract class Item {
-
-	/**
-	 * The item raw data.
-	 *
-	 * @var array
-	 */
-	private $_data_raw = array();
-
 	/**
 	 * The item ID.
 	 *
@@ -75,14 +67,12 @@ abstract class Item {
 	 * @param array $data The item data.
 	 */
 	protected function __construct( $data ) {
-		$this->_data_raw = $data;
-
-		$this->id              = ( ! empty( $data['id'] ) ? $data['id'] : false );
-		$this->slug            = ( ! empty( $data['slug'] ) ? $data['slug'] : false );
-		$this->image_id        = ( ! empty( $data['image_id'] ) ? $data['image_id'] : 0 );
-		$this->updated_at      = ( ! empty( $data['updated_at'] ) ? $data['updated_at'] : false );
-		$this->is_published    = ( ! empty( $data['is_published'] ) ? $data['is_published'] : false );
-		$this->keywords        = ( ! empty( $data['keywords'] ) ? $data['keywords'] : array() );
+		$this->id           = ( ! empty( $data['id'] ) ? $data['id'] : false );
+		$this->slug         = ( ! empty( $data['slug'] ) ? $data['slug'] : false );
+		$this->image_id     = ( ! empty( $data['image_id'] ) ? $data['image_id'] : 0 );
+		$this->updated_at   = ( ! empty( $data['updated_at'] ) ? $data['updated_at'] : false );
+		$this->is_published = ( ! empty( $data['is_published'] ) ? $data['is_published'] : false );
+		$this->keywords     = ( ! empty( $data['keywords'] ) ? $data['keywords'] : array() );
 	}
 
 	/**
@@ -145,12 +135,11 @@ abstract class Item {
 	 *
 	 * @return string The image URL.
 	 */
-	function get_image_url() {
+	public function get_image_url() {
 		if ( empty( $this->get_image_id() ) ) {
 			return false;
 		}
 
-		return Controller::get_img_base_url() . Controller::get_img_path() . '?uid=' . urlencode( $this->get_image_id() );
+		return Controller::get_img_base_url() . Controller::get_img_path() . '?uid=' . rawurlencode( $this->get_image_id() );
 	}
-
 }

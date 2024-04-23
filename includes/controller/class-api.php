@@ -42,7 +42,7 @@ class Api {
 	 *
 	 * @var Api|null
 	 */
-	private static $_instance = null;
+	private static $instance = null;
 
 	/**
 	 * Get the singleton instance of the class.
@@ -52,11 +52,11 @@ class Api {
 	 * @return Api
 	 */
 	public static function get_instance() {
-		if ( null === self::$_instance ) {
-			self::$_instance = new self();
+		if ( null === self::$instance ) {
+			self::$instance = new self();
 		}
 
-		return self::$_instance;
+		return self::$instance;
 	}
 
 	/**
@@ -119,7 +119,7 @@ class Api {
 	 */
 	public static function build_order_param( $orderby, $order ) {
 		$nullslast = array( 'mention_cnt', 'contributor_cnt', 'impact_cnt', 'output_cnt', 'date_start', 'date_end' );
-		if ( in_array( $orderby, $nullslast ) ) {
+		if ( in_array( $orderby, $nullslast, true ) ) {
 			return strtolower( $orderby ) . '.' . strtolower( $order ) . '.nullslast';
 		} else {
 			return strtolower( $orderby ) . '.' . strtolower( $order );
@@ -159,7 +159,7 @@ class Api {
 
 		// Decode the API response.
 		$headers = ( $retrieve_headers ? wp_remote_retrieve_headers( $response ) : array() );
-		$data = json_decode( wp_remote_retrieve_body( $response ), true );
+		$data    = json_decode( wp_remote_retrieve_body( $response ), true );
 
 		// Return the data.
 		return array(
