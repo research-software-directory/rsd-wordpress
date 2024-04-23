@@ -8,7 +8,7 @@
 
 'use strict';
 
-jQuery(function ($) {
+jQuery( function ( $ ) {
 	/*
 	Variables
 	*/
@@ -34,16 +34,16 @@ jQuery(function ($) {
 	};
 
 	// Get container element and section.
-	const $container = $('#rsd-wordpress');
-	const section = $container.data('section');
+	const $container = $( '#rsd-wordpress' );
+	const section = $container.data( 'section' );
 	const organisationId = $container.data( 'organisation_id' );
 
 	// Add a class to the body when the page is loaded.
-	$('body').addClass('rsd-wordpress-loaded');
+	$( 'body' ).addClass( 'rsd-wordpress-loaded' );
 	// Hide search button, since we're using the input event to trigger a search.
 	hideSearchButton();
 	// Check if any filters are set and show the 'Clear filters' button.
-	if (getSearchTerm() || Object.keys(getFilterValues()).length !== 0) {
+	if ( getSearchTerm() || Object.keys( getFilterValues() ).length !== 0 ) {
 		currentFilters = getFilterValues();
 		// (Re)load filters and items.
 		loadFilters();
@@ -60,14 +60,13 @@ jQuery(function ($) {
 	// Attach filters sidebar event handlers.
 	enhanceFiltersSidebar();
 
-
 	/*
 	Classes
 	*/
 
 	// Filter class
 	class Filter {
-		constructor(title, identifier, data = [], args = {}) {
+		constructor( title, identifier, data = [], args = {} ) {
 			const defaultArgs = {
 				placeholder: '',
 				showCount: true,
@@ -80,18 +79,18 @@ jQuery(function ($) {
 			this.args = { ...defaultArgs, ...args };
 
 			this.labels = {};
-			if (args.labels && Object.keys(args.labels).length !== 0) {
-				this.setLabels(args.labels);
+			if ( args.labels && Object.keys( args.labels ).length !== 0 ) {
+				this.setLabels( args.labels );
 			}
 
-			this.setItems(data);
+			this.setItems( data );
 		}
 
 		getTitle() {
 			return this.title;
 		}
 
-		getIdentifier(prefix = '') {
+		getIdentifier( prefix = '' ) {
 			return prefix + this.identifier;
 		}
 
@@ -99,28 +98,28 @@ jQuery(function ($) {
 			if ( labeledOnly || this.args.labeled_only ) {
 				const filterItems = [];
 				const labels = this.getLabels();
-				$.each(this.items, function (index, item) {
-					if (labels[item.name]) {
-						filterItems.push(item);
+				$.each( this.items, function ( index, item ) {
+					if ( labels[ item.name ] ) {
+						filterItems.push( item );
 					}
-				});
+				} );
 				return filterItems;
 			}
 
 			return this.items;
 		}
 
-		setItems(data) {
+		setItems( data ) {
 			this.items = [];
 
 			// Check if data is an array and not empty.
-			if (data && Array.isArray(data) && data.length !== 0) {
+			if ( data && Array.isArray( data ) && data.length !== 0 ) {
 				// Convert data to items.
-				this.items = data.map(item => {
-					const label = item[this.getIdentifier()];
-					const num = item[this.getIdentifier() + '_cnt'] || 0;
+				this.items = data.map( ( item ) => {
+					const label = item[ this.getIdentifier() ];
+					const num = item[ this.getIdentifier() + '_cnt' ] || 0;
 					return { name: label, count: num };
-				});
+				} );
 			}
 		}
 
@@ -130,7 +129,7 @@ jQuery(function ($) {
 			return this.args.placeholder || defaultPlaceholder;
 		}
 
-		setLabels(labels) {
+		setLabels( labels ) {
 			this.labels = labels;
 		}
 
@@ -138,50 +137,49 @@ jQuery(function ($) {
 			return this.labels;
 		}
 
-		getLabel(name) {
+		getLabel( name ) {
 			let label = name;
 
-			if (this.args.labels && this.args.labels[name]) {
-				label = this.args.labels[name];
+			if ( this.args.labels && this.args.labels[ name ] ) {
+				label = this.args.labels[ name ];
 			}
 
-			if (this.args.showCount) {
+			if ( this.args.showCount ) {
 				label += ' (' + this.getItemCount( name ) + ')';
 			}
 
 			return label;
 		}
 
-		getItemCount(name) {
+		getItemCount( name ) {
 			let count = 0;
 			// Find the item by name and return its count.
-			$.each(this.items, function (index, item) {
-				if (name === item.name) {
+			$.each( this.items, function ( index, item ) {
+				if ( name === item.name ) {
 					count = item.count;
 					return false; // exit the loop
 				}
-			});
+			} );
 			return count;
 		}
 
 		getValues() {
-			return this.items.map(item => item.name);
+			return this.items.map( ( item ) => item.name );
 		}
 	}
-
 
 	/*
 	API functions
 	*/
 
 	// Get the API URL.
-	function apiGetUrl(path, params = {}) {
+	function apiGetUrl( path, params = {} ) {
 		if (
 			params &&
 			typeof params === 'object' &&
 			Object.keys( params ).length !== 0
 		) {
-			path = path + '?' + $.param(params);
+			path = path + '?' + $.param( params );
 		}
 		return (
 			apiEndpoint + '/' + apiVersion + '/' + path.replace( /^\/+/, '' )
@@ -189,7 +187,7 @@ jQuery(function ($) {
 	}
 
 	// Get the API order string.
-	function apiGetOrder(orderBy, order) {
+	function apiGetOrder( orderBy, order ) {
 		const nullsLast = [
 			'mention_cnt',
 			'contributor_cnt',
@@ -198,13 +196,12 @@ jQuery(function ($) {
 			'date_start',
 			'date_end',
 		];
-		if (nullsLast.includes(orderBy)) {
-			return `${orderBy.toLowerCase()}.${order.toLowerCase()}.nullslast`;
+		if ( nullsLast.includes( orderBy ) ) {
+			return `${ orderBy.toLowerCase() }.${ order.toLowerCase() }.nullslast`;
 		}
 
-		return `${orderBy.toLowerCase()}.${order.toLowerCase()}`;
+		return `${ orderBy.toLowerCase() }.${ order.toLowerCase() }`;
 	}
-
 
 	/*
 	Controller functions
@@ -224,7 +221,7 @@ jQuery(function ($) {
 			: getSearchTerm();
 		filters = filters ? filters : getFilterValues();
 		orderBy = orderBy ? orderBy : getOrderBy();
-		order = order ? order : getOrder(orderBy);
+		order = order ? order : getOrder( orderBy );
 		offset = offset ? offset : 0;
 
 		// Hide the 'Clear filters' button if no search term or filters are set.
@@ -246,19 +243,19 @@ jQuery(function ($) {
 			offset: offset,
 		};
 
-		if (orderBy) {
-			params.order = apiGetOrder(orderBy, order);
+		if ( orderBy ) {
+			params.order = apiGetOrder( orderBy, order );
 		}
 
-		if (section === 'projects') {
-			if (searchTerm !== '') {
+		if ( section === 'projects' ) {
+			if ( searchTerm !== '' ) {
 				path = '/rpc/projects_by_organisation_search';
 				params.search = searchTerm;
 			} else {
 				path = '/rpc/projects_by_organisation';
 			}
-		} else if (section === 'software') {
-			if (searchTerm !== '') {
+		} else if ( section === 'software' ) {
+			if ( searchTerm !== '' ) {
 				path = '/rpc/software_by_organisation_search';
 				params.search = searchTerm;
 			} else {
@@ -276,11 +273,11 @@ jQuery(function ($) {
 			organisation: 'participating_organisations',
 		};
 
-		Object.keys(filterParamMap).forEach(filterKey => {
-			const paramKey = filterParamMap[filterKey];
-			const filterValue = filters[filterKey];
-			if (filterValue && filterValue.length > 0) {
-				if (paramKey === 'project_status') {
+		Object.keys( filterParamMap ).forEach( ( filterKey ) => {
+			const paramKey = filterParamMap[ filterKey ];
+			const filterValue = filters[ filterKey ];
+			if ( filterValue && filterValue.length > 0 ) {
+				if ( paramKey === 'project_status' ) {
 					params[ paramKey ] = `eq.${ filterValue
 						.flat()
 						.map( ( value ) => value.toLowerCase() ) }`;
@@ -293,39 +290,39 @@ jQuery(function ($) {
 						'}';
 				}
 			}
-		});
+		} );
 
-		console.log('🎹 path with params: ', apiGetUrl(path, params));
+		console.log( '🎹 path with params: ', apiGetUrl( path, params ) );
 
 		// Get the data from the API.
-		return new Promise((resolve, reject) => {
-			const req = $.ajax({
+		return new Promise( ( resolve, reject ) => {
+			const req = $.ajax( {
 				type: 'GET',
-				url: apiGetUrl(path, params),
+				url: apiGetUrl( path, params ),
 				headers: { Prefer: 'count=exact' },
 				// eslint-disable-next-line object-shorthand
-				success: function (response) {
+				success: function ( response ) {
 					const resultItems = response;
-					console.log('🎹 result items: ', resultItems);
+					console.log( '🎹 result items: ', resultItems );
 
 					// Get the total count of results from `content-range` response header.
 					let totalResults = false;
 					const contentRange =
 						req.getResponseHeader( 'content-range' );
-					if (contentRange) {
-						const total = contentRange.split('/');
-						totalResults = total[1];
-						itemsTotal = parseInt(totalResults);
+					if ( contentRange ) {
+						const total = contentRange.split( '/' );
+						totalResults = total[ 1 ];
+						itemsTotal = parseInt( totalResults );
 					}
 
-					resolve(resultItems);
+					resolve( resultItems );
 				},
 				// eslint-disable-next-line object-shorthand
-				error: function (jqXHR, textStatus, errorThrown) {
-					reject(errorThrown);
+				error: function ( jqXHR, textStatus, errorThrown ) {
+					reject( errorThrown );
 				},
-			});
-		});
+			} );
+		} );
 	}
 
 	// Get the filters from the API.
@@ -336,7 +333,7 @@ jQuery(function ($) {
 			organisation_id: organisationId,
 		};
 
-		if (getSearchTerm() !== '') {
+		if ( getSearchTerm() !== '' ) {
 			defaultParams.search_filter = getSearchTerm();
 		}
 
@@ -411,13 +408,13 @@ jQuery(function ($) {
 		};
 
 		// Build filters object for the current section, narrowed down by filter values.
-		const filterReqs = filtersDefault[section] || {};
+		const filterReqs = filtersDefault[ section ] || {};
 		const filterValues = getFilterValues();
 		const requests = [];
 
 		// Add any filter values to the filter requests.
-		Object.keys(filterReqs).forEach(filter => {
-			Object.keys(filterValues).forEach(valueId => {
+		Object.keys( filterReqs ).forEach( ( filter ) => {
+			Object.keys( filterValues ).forEach( ( valueId ) => {
 				if (
 					valueId === 'project_status' &&
 					filter === 'project_status'
@@ -426,9 +423,9 @@ jQuery(function ($) {
 					return;
 				}
 
-				const param = filterReqs[valueId].filter_as_param || false;
-				if (param) {
-					if (valueId === 'project_status') {
+				const param = filterReqs[ valueId ].filter_as_param || false;
+				if ( param ) {
+					if ( valueId === 'project_status' ) {
 						filterReqs[ filter ].params[ param ] =
 							filterValues[ valueId ][ 0 ] || '';
 					} else {
@@ -436,20 +433,20 @@ jQuery(function ($) {
 							filterValues[ valueId ];
 					}
 				}
-			});
-		});
+			} );
+		} );
 
 		// Get filter data from the API for each filter.
-		Object.entries(filterReqs).forEach(([filter, data]) => {
-			const promise = new Promise((resolve, reject) => {
-				$.ajax({
+		Object.entries( filterReqs ).forEach( ( [ filter, data ] ) => {
+			const promise = new Promise( ( resolve, reject ) => {
+				$.ajax( {
 					type: 'POST',
-					url: apiGetUrl(data.path),
-					data: JSON.stringify(data.params),
+					url: apiGetUrl( data.path ),
+					data: JSON.stringify( data.params ),
 					dataType: 'json',
 					contentType: 'application/json',
 					// eslint-disable-next-line object-shorthand
-					success: function (response) {
+					success: function ( response ) {
 						filters[ filter ] = new Filter(
 							data.title,
 							data.identifier,
@@ -459,20 +456,19 @@ jQuery(function ($) {
 						resolve();
 					},
 					// eslint-disable-next-line object-shorthand
-					error: function (jqXHR, textStatus, errorThrown) {
-						reject(errorThrown);
+					error: function ( jqXHR, textStatus, errorThrown ) {
+						reject( errorThrown );
 					},
-				});
-			});
+				} );
+			} );
 
-			requests.push(promise);
-		});
+			requests.push( promise );
+		} );
 
-		return Promise.all(requests).then(() => {
+		return Promise.all( requests ).then( () => {
 			return filters;
-		});
+		} );
 	}
-
 
 	/*
 	Wrappers
@@ -493,17 +489,17 @@ jQuery(function ($) {
 			currentOffset = offset + items.length;
 
 			// Display the results.
-			displayResults(items, itemsTotal);
+			displayResults( items, itemsTotal );
 			// Re-attach infinite scroll event.
 			enhanceResultsInfiniteScroll();
-		} catch (error) {
-			console.error('🎹 Error fetching items: ', error);
+		} catch ( error ) {
+			console.error( '🎹 Error fetching items: ', error );
 		}
 	}
 
 	// Load more items.
 	async function loadMoreItems() {
-		if (!hasMoreItems()) {
+		if ( ! hasMoreItems() ) {
 			return;
 		}
 
@@ -517,14 +513,14 @@ jQuery(function ($) {
 				getOrder(),
 				offset
 			);
-			items = items.concat(newItems);
+			items = items.concat( newItems );
 			currentOffset = offset + newItems.length;
 
 			// Append the results.
 			const appendItems = true;
-			displayResults(newItems, itemsTotal, appendItems);
-		} catch (error) {
-			console.error('🎹 Error fetching more items: ', error);
+			displayResults( newItems, itemsTotal, appendItems );
+		} catch ( error ) {
+			console.error( '🎹 Error fetching more items: ', error );
 		}
 	}
 
@@ -536,84 +532,83 @@ jQuery(function ($) {
 	// Load filters
 	async function loadFilters() {
 		fetchFilters()
-			.then(filters => {
-				displayUpdateFilterValues(filters);
+			.then( ( filters ) => {
+				displayUpdateFilterValues( filters );
 				return filters;
-			})
-			.catch(error => {
-				console.error('🎹 Error fetching filters: ', error);
-			});
+			} )
+			.catch( ( error ) => {
+				console.error( '🎹 Error fetching filters: ', error );
+			} );
 	}
-
 
 	/*
 	Item functions
 	*/
 
-	function getItemId(item) {
+	function getItemId( item ) {
 		return item.id;
 	}
 
-	function getItemSlugFromURL(url) {
-		return url.split('/').pop();
+	function getItemSlugFromURL( url ) {
+		return url.split( '/' ).pop();
 	}
 
-	function getItemUrl(item) {
-		return `https://research-software-directory.org/${section}/${item.slug}`;
+	function getItemUrl( item ) {
+		return `https://research-software-directory.org/${ section }/${ item.slug }`;
 	}
 
-	function getItemImgUrl(item) {
-		if (item.image_id) {
-			return `https://research-software-directory.org/image/rpc/get_image?uid=${item.image_id}`;
+	function getItemImgUrl( item ) {
+		if ( item.image_id ) {
+			return `https://research-software-directory.org/image/rpc/get_image?uid=${ item.image_id }`;
 		}
 
 		return 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7'; // Transparent 1x1 GIF
 	}
 
-	function getItemImageContain(item) {
-		if (item.image_contain) {
+	function getItemImageContain( item ) {
+		if ( item.image_contain ) {
 			return item.image_contain;
 		}
 		return false;
 	}
 
-	function getItemContributorsCount(item) {
+	function getItemContributorsCount( item ) {
 		return item.contributor_cnt || 0;
 	}
 
-	function getItemMentionsCount(item) {
+	function getItemMentionsCount( item ) {
 		return item.mention_cnt || 0;
 	}
 
-	function getItemImpactCount(item) {
+	function getItemImpactCount( item ) {
 		return item.impact_cnt || 0;
 	}
 
-	function getItemOutputCount(item) {
+	function getItemOutputCount( item ) {
 		return item.output_cnt || 0;
 	}
 
-	function getItemLabels(item) {
+	function getItemLabels( item ) {
 		let html = '<ul class="rsd-results-item-labels">';
-		$.each(item.keywords, function (index, label) {
-			html += `<li class="label">${label}</li>`;
-		});
+		$.each( item.keywords, function ( index, label ) {
+			html += `<li class="label">${ label }</li>`;
+		} );
 		html += '</ul>';
 
 		return html;
 	}
 
-	function getItemProps(item, props) {
+	function getItemProps( item, props ) {
 		let html = '<ul class="rsd-results-item-props">';
-		$.each(props, function (prop, value) {
+		$.each( props, function ( prop, value ) {
 			html += `
-				<li class="rsd-results-item-prop-${prop.toLowerCase()}">
-					<span aria-hidden="true" class="icon icon-${prop.toLowerCase()}" title="${prop}"></span>
-					<span class="value">${value}</span>
-					<span class="prop">${prop.toLowerCase()}</span>
+				<li class="rsd-results-item-prop-${ prop.toLowerCase() }">
+					<span aria-hidden="true" class="icon icon-${ prop.toLowerCase() }" title="${ prop }"></span>
+					<span class="value">${ value }</span>
+					<span class="prop">${ prop.toLowerCase() }</span>
 				</li>
 			`;
-		});
+		} );
 		html += '</ul>';
 
 		return html;
@@ -628,29 +623,29 @@ jQuery(function ($) {
 			'output_cnt',
 		];
 
-		$container.find('.rsd-results-item').each(function () {
-			const $item = $(this);
+		$container.find( '.rsd-results-item' ).each( function () {
+			const $item = $( this );
 			const item = {
-				id: $item.data('id'),
-				title: $item.find('h3').text(),
-				description: $item.find('.card-section p').text(),
-				slug: getItemSlugFromURL($item.find('h3 a').attr('href')),
+				id: $item.data( 'id' ),
+				title: $item.find( 'h3' ).text(),
+				description: $item.find( '.card-section p' ).text(),
+				slug: getItemSlugFromURL( $item.find( 'h3 a' ).attr( 'href' ) ),
 				labels: [],
 			};
-			$item.find('.rsd-results-item-props li').each(function () {
+			$item.find( '.rsd-results-item-props li' ).each( function () {
 				const prop =
 					$( this )
 						.attr( 'class' )
 						.replace( 'rsd-results-item-prop-', '' )
 						.trim() + '_cnt';
-				const value = parseInt($(this).find('.value').text());
-				if (validProps.includes(prop)) {
-					item[prop] = value;
+				const value = parseInt( $( this ).find( '.value' ).text() );
+				if ( validProps.includes( prop ) ) {
+					item[ prop ] = value;
 				}
-			});
+			} );
 
-			domItems.push(item);
-		});
+			domItems.push( item );
+		} );
 		return domItems;
 	}
 
@@ -658,26 +653,24 @@ jQuery(function ($) {
 		const count = $container
 			.find( '.rsd-results-count' )
 			.data( 'items-total' );
-		return parseInt(count);
+		return parseInt( count );
 	}
-
 
 	/*
 	Filter functions
 	*/
 
-	function setCurrentFilters(filter, value) {
-		if (!Array.isArray(value)) {
-			currentFilters[filter] = [value];
+	function setCurrentFilters( filter, value ) {
+		if ( ! Array.isArray( value ) ) {
+			currentFilters[ filter ] = [ value ];
 		} else {
-			currentFilters[filter] = value;
+			currentFilters[ filter ] = value;
 		}
 	}
 
 	function clearCurrentFilters() {
 		currentFilters = {};
 	}
-
 
 	/*
 	Form functions
@@ -700,7 +693,7 @@ jQuery(function ($) {
 		return orderBy || false;
 	}
 
-	function getOrder(orderBy = false) {
+	function getOrder( orderBy = false ) {
 		const sortDesc = [
 			'mention_cnt',
 			'contributor_cnt',
@@ -709,7 +702,7 @@ jQuery(function ($) {
 			'updated_at',
 			'date_end',
 		];
-		if (orderBy && sortDesc.includes(orderBy)) {
+		if ( orderBy && sortDesc.includes( orderBy ) ) {
 			return 'desc';
 		}
 
@@ -718,54 +711,52 @@ jQuery(function ($) {
 
 	function getFilterValues() {
 		const filters = {};
-		$container.find('.rsd-filters select').each(function () {
-			const $filter = $(this);
-			const identifier = $filter.data('filter');
+		$container.find( '.rsd-filters select' ).each( function () {
+			const $filter = $( this );
+			const identifier = $filter.data( 'filter' );
 			const value = $filter.val();
-			if (value && value !== '') {
-				filters[identifier] = [value];
+			if ( value && value !== '' ) {
+				filters[ identifier ] = [ value ];
 			}
-		});
+		} );
 		return filters;
 	}
-
 
 	/*
 	UI functions
 	*/
 
 	function hideSearchButton() {
-		$container.find('.rsd-search-bar input[type="submit"]').hide();
+		$container.find( '.rsd-search-bar input[type="submit"]' ).hide();
 	}
 
 	function showClearFiltersButton() {
-		$container.find('.rsd-results-clear-filters').show();
+		$container.find( '.rsd-results-clear-filters' ).show();
 	}
 
 	function hideClearFiltersButton() {
-		$container.find('.rsd-results-clear-filters').hide();
+		$container.find( '.rsd-results-clear-filters' ).hide();
 	}
 
 	function hideFiltersSidebar() {
-		$container.find('.rsd-filter-sidebar').hide();
+		$container.find( '.rsd-filter-sidebar' ).hide();
 	}
 
 	function toggleFiltersSidebar() {
-		const $sidebar = $container.find('.rsd-filter-sidebar');
-		const $button = $container.find('.rsd-filter-button button');
+		const $sidebar = $container.find( '.rsd-filter-sidebar' );
+		const $button = $container.find( '.rsd-filter-button button' );
 		$sidebar.toggle();
 
-		if ($sidebar.is(':visible')) {
-			$button.addClass('active');
+		if ( $sidebar.is( ':visible' ) ) {
+			$button.addClass( 'active' );
 		} else {
-			$button.removeClass('active');
+			$button.removeClass( 'active' );
 		}
 	}
 
 	function hideShowMoreButton() {
-		$container.find('.rsd-results-show-more .button').hide();
+		$container.find( '.rsd-results-show-more .button' ).hide();
 	}
-
 
 	/*
 	Event handlers
@@ -774,37 +765,37 @@ jQuery(function ($) {
 	// Search field - attach search event and get new results from API.
 	// (executing with a slight delay after entry changes, so that the search term is not sent with every character)
 	let delayTimer;
-	$container.find('.rsd-search-input').on('input', function () {
-		clearTimeout(delayTimer);
-		const searchTerm = $(this).val().toLowerCase();
-		delayTimer = setTimeout(function () {
-			console.log('🎹 searchTerm: ', searchTerm);
+	$container.find( '.rsd-search-input' ).on( 'input', function () {
+		clearTimeout( delayTimer );
+		const searchTerm = $( this ).val().toLowerCase();
+		delayTimer = setTimeout( function () {
+			console.log( '🎹 searchTerm: ', searchTerm );
 			loadFilters();
-			loadItems(searchTerm);
-			if (searchTerm.trim() === '') {
+			loadItems( searchTerm );
+			if ( searchTerm.trim() === '' ) {
 				hideClearFiltersButton();
 			} else {
 				showClearFiltersButton();
 			}
-		}, 500);
-	});
+		}, 500 );
+	} );
 
 	// Attach set filters event and get new results from API.
-	$container.find('.rsd-filters').on('change', 'select', function () {
-		setCurrentFilters($(this).data('filter'), $(this).val());
+	$container.find( '.rsd-filters' ).on( 'change', 'select', function () {
+		setCurrentFilters( $( this ).data( 'filter' ), $( this ).val() );
 		loadFilters();
 		loadItems();
-		if (Object.keys(getFilterValues()).length === 0) {
+		if ( Object.keys( getFilterValues() ).length === 0 ) {
 			hideClearFiltersButton();
 		}
-	});
+	} );
 
 	// Attach click event to 'Clear filters' button and get new results from API.
-	$container.find('.rsd-results-clear-filters').on('click', clearFilters);
+	$container.find( '.rsd-results-clear-filters' ).on( 'click', clearFilters );
 
 	function clearFilters() {
-		$container.find('.rsd-search-input').val('');
-		$container.find('.rsd-filters select').val('');
+		$container.find( '.rsd-search-input' ).val( '' );
+		$container.find( '.rsd-filters select' ).val( '' );
 		clearCurrentFilters();
 		loadFilters();
 		loadItems();
@@ -818,35 +809,35 @@ jQuery(function ($) {
 
 	// Enhance filters sidebar.
 	function enhanceFiltersSidebar() {
-		const $sidebar = $container.find('.rsd-filter-sidebar');
+		const $sidebar = $container.find( '.rsd-filter-sidebar' );
 
 		// Add close button to filters sidebar.
-		$sidebar.prepend(`
+		$sidebar.prepend( `
 			<button class="close-button" aria-label="Close alert" type="button"
 				<span aria-hidden="true">&times;</span>
 			</button>
-		`);
+		` );
 
-		$sidebar.find('.close-button').on('click', toggleFiltersSidebar);
+		$sidebar.find( '.close-button' ).on( 'click', toggleFiltersSidebar );
 	}
 
 	// Attach change event to sort by select.
-	$container.find('.rsd-sortby-input').on('change', function () {
+	$container.find( '.rsd-sortby-input' ).on( 'change', function () {
 		loadItems();
-	});
+	} );
 
 	// Attach infinite scroll event that automatically loads more results (if any).
 	function enhanceResultsInfiniteScroll() {
-		if (IntersectionObserver === undefined) {
+		if ( IntersectionObserver === undefined ) {
 			return false;
 		}
 
-		const targetElement = $('.rsd-results-show-more')[0];
+		const targetElement = $( '.rsd-results-show-more' )[ 0 ];
 
-		if (scrollObserver) {
+		if ( scrollObserver ) {
 			// Continue observing the target element.
-			if (hasMoreItems()) {
-				scrollObserver.observe(targetElement);
+			if ( hasMoreItems() ) {
+				scrollObserver.observe( targetElement );
 			}
 		} else {
 			// Start observing the target element.
@@ -862,13 +853,13 @@ jQuery(function ($) {
 				}
 			);
 
-			scrollObserver.observe(targetElement);
+			scrollObserver.observe( targetElement );
 		}
 
 		return true;
 	}
 
-	if (enhanceResultsInfiniteScroll()) {
+	if ( enhanceResultsInfiniteScroll() ) {
 		hideShowMoreButton();
 	}
 
@@ -878,53 +869,52 @@ jQuery(function ($) {
 		.on( 'click', loadMoreItems );
 
 	// Attach back to top button scroll handler and execute on page load.
-	$(window).on('scroll', enhanceBackToTopButton);
+	$( window ).on( 'scroll', enhanceBackToTopButton );
 	enhanceBackToTopButton();
 
 	function enhanceBackToTopButton() {
 		const offset = $container.offset().top || 100;
-		const $button = $container.find('.rsd-back-to-top');
+		const $button = $container.find( '.rsd-back-to-top' );
 
-		if ($(window).scrollTop() > offset) {
-			$button.addClass('visible');
+		if ( $( window ).scrollTop() > offset ) {
+			$button.addClass( 'visible' );
 		} else {
-			$button.removeClass('visible');
+			$button.removeClass( 'visible' );
 		}
 	}
 
-	$container.find('.rsd-back-to-top a').on('click', function () {
-		$('html, body').animate({ scrollTop: 0 }, 400);
+	$container.find( '.rsd-back-to-top a' ).on( 'click', function () {
+		$( 'html, body' ).animate( { scrollTop: 0 }, 400 );
 		return false;
-	});
-
+	} );
 
 	/*
 	Display functions
 	*/
 
 	// Update the result count.
-	function displaySetResultsTotalCount(count) {
+	function displaySetResultsTotalCount( count ) {
 		$container
 			.find( '.rsd-results-count' )
 			.text( `${ count } items found` );
 	}
 
 	// Update filters.
-	function displayUpdateFilterValues(filters) {
-		$.each(filters, function (identifier, filter) {
+	function displayUpdateFilterValues( filters ) {
+		$.each( filters, function ( identifier, filter ) {
 			const $filter = $container.find(
 				`.rsd-filters select[data-filter="${ identifier }"]`
 			);
 			// Get first placeholder item.
-			const $placeholder = $filter.find('.placeholder');
+			const $placeholder = $filter.find( '.placeholder' );
 			// Clear the filter.
 			$filter.empty();
 			// Add the placeholder item back and add the new filter values.
-			$filter.append($placeholder);
+			$filter.append( $placeholder );
 			// Add the new filter values.
-			filter.getItems().forEach(function (item) {
+			filter.getItems().forEach( function ( item ) {
 				const value = item.name;
-				const label = filter.getLabel(value);
+				const label = filter.getLabel( value );
 				let selected = '';
 				if (
 					currentFilters[ identifier ] &&
@@ -935,8 +925,8 @@ jQuery(function ($) {
 				$filter.append(
 					`<option value="${ value }"${ selected }>${ label }</option>`
 				);
-			});
-		});
+			} );
+		} );
 	}
 
 	// Display the results.
@@ -946,30 +936,30 @@ jQuery(function ($) {
 		appendItems = false
 	) {
 		// Get the results container.
-		const $itemsContainer = $container.find('.rsd-results-items');
+		const $itemsContainer = $container.find( '.rsd-results-items' );
 
 		// Empty results container if no items are provided.
 		if (
-			!displayItems ||
-			!Array.isArray(displayItems) ||
+			! displayItems ||
+			! Array.isArray( displayItems ) ||
 			displayItems.length === 0
 		) {
 			$itemsContainer.empty();
-			displaySetResultsTotalCount(0);
+			displaySetResultsTotalCount( 0 );
 			return false;
 		}
 
 		// Update result count.
-		displaySetResultsTotalCount(totalCount || '-');
+		displaySetResultsTotalCount( totalCount || '-' );
 
 		// Clear the results container.
-		if (!appendItems) {
+		if ( ! appendItems ) {
 			$itemsContainer.empty();
 		}
 
-		$.each(displayItems, function (index, item) {
+		$.each( displayItems, function ( index, item ) {
 			let title, description, props;
-			if ('projects' === section) {
+			if ( 'projects' === section ) {
 				title = item.title;
 				description = item.subtitle;
 				props = {
@@ -986,33 +976,32 @@ jQuery(function ($) {
 			}
 
 			let imageContainAttr = '';
-			if (getItemImageContain(item)) {
+			if ( getItemImageContain( item ) ) {
 				imageContainAttr = ' class="contain"';
 			}
 
-			$itemsContainer.append(`
-				<div class="rsd-results-item column card in-viewport" data-id="${getItemId(item)}">
+			$itemsContainer.append( `
+				<div class="rsd-results-item column card in-viewport" data-id="${ getItemId( item ) }">
 					<div class="card-image">
-						<a href="${getItemUrl(item)}" target="_blank" rel="external"><img src="${getItemImgUrl(item)}"
-							 alt="" title="${title}" aria-label="${title}"${imageContainAttr}></a>
+						<a href="${ getItemUrl( item ) }" target="_blank" rel="external"><img src="${ getItemImgUrl( item ) }"
+							 alt="" title="${ title }" aria-label="${ title }"${ imageContainAttr }></a>
 					</div>
 					<div class="card-section">
-						<h3><a href="${getItemUrl(item)}" target="_blank" rel="external">${title}</a></h3>
-						<p>${description}</p>
+						<h3><a href="${ getItemUrl( item ) }" target="_blank" rel="external">${ title }</a></h3>
+						<p>${ description }</p>
 					</div>
 					<div class="card-footer">
 						<div class="rsd-results-item-specs">
-							${getItemLabels(item)}
+							${ getItemLabels( item ) }
 						</div>
 						<div class="rsd-results-item-props">
-							${getItemProps(item, props)}
+							${ getItemProps( item, props ) }
 						</div>
 					</div>
 				</div>
-			`);
-		});
+			` );
+		} );
 
 		return true;
 	}
-
-});
+} );
