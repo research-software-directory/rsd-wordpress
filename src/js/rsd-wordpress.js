@@ -681,10 +681,10 @@ jQuery(function ($) {
 
 	// Search field - attach search event and get new results from API.
 	// (executing with a slight delay after entry changes, so that the search term is not sent with every character)
-	var delayTimer;
+	let delayTimer;
 	$container.find('.rsd-search-input').on('input', function () {
 		clearTimeout(delayTimer);
-		var searchTerm = $(this).val().toLowerCase();
+		let searchTerm = $(this).val().toLowerCase();
 		delayTimer = setTimeout(function () {
 			console.log('🎹 searchTerm: ', searchTerm);
 			loadFilters();
