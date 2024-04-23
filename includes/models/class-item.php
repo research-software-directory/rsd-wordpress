@@ -140,6 +140,6 @@ abstract class Item {
 			return false;
 		}
 
-		return Controller::get_img_base_url() . Controller::get_img_path() . '?uid=' . urlencode( $this->get_image_id() );
+		return Controller::get_img_base_url() . Controller::get_img_path() . '?uid=' . rawurlencode( $this->get_image_id() );
 	}
 }
