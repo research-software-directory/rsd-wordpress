@@ -9,8 +9,12 @@
 	<exclude-pattern>*/vendor/*</exclude-pattern>
 	<!-- Exclude the Node Modules directory. -->
 	<exclude-pattern>*/node_modules/*</exclude-pattern>
-	<!-- Exclude minified Javascript files. -->
-	<exclude-pattern>*.min.js</exclude-pattern>
+	<!-- Exclude static source files directory. -->
+	<exclude-pattern>*/src/*</exclude-pattern>
+	<!-- Exclude dist build files directory. -->
+	<exclude-pattern>*/dist/*</exclude-pattern>
+	<!-- Exclude all non PHP files. -->
+	<exclude-pattern>.*\.(?!php$|inc$)[^.]*$</exclude-pattern>
 
 	<!-- Strip the filepaths down to the relevant bit. -->
 	<arg name="basepath" value="."/>
