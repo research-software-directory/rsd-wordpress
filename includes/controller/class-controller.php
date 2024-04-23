@@ -362,6 +362,7 @@ class Controller {
 		);
 
 		// Set the default filters.
+		// phpcs:disable
 		$filters_default = array(
 			'projects' => array(
 				'project_status' => array(
@@ -473,6 +474,7 @@ class Controller {
 				),
 			),
 		);
+		// phpcs:enable
 
 		// Prepare the filters var.
 		$filters = array();
