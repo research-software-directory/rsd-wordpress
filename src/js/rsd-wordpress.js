@@ -980,6 +980,7 @@ jQuery( function ( $ ) {
 				imageContainAttr = ' class="contain"';
 			}
 
+			// prettier-ignore
 			$itemsContainer.append( `
 				<div class="rsd-results-item column card in-viewport" data-id="${ getItemId( item ) }">
 					<div class="card-image">
