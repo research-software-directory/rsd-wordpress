@@ -25,11 +25,11 @@ jQuery(function ($) {
 	// Default parameters
 	const defaultLimit = 48;
 	const defaultFilterLabels = rsdWordPressVars.defaultFilterLabels || {
-		'project_status': {
-			'upcoming'    : 'Upcoming',
-			'in_progress' : 'In progress',
-			'finished'    : 'Finished',
-			'unknown'     : 'Unknown'
+		project_status: {
+			upcoming: 'Upcoming',
+			in_progress: 'In progress',
+			finished: 'Finished',
+			unknown: 'Unknown',
 		}
 	};
 
@@ -270,7 +270,7 @@ jQuery(function ($) {
 			const req = $.ajax({
 				type: 'GET',
 				url: apiGetUrl(path, params),
-				headers: { 'Prefer': 'count=exact' },
+				headers: { Prefer: 'count=exact' },
 				// eslint-disable-next-line object-shorthand
 				success: function (response) {
 					const resultItems = response;
@@ -308,8 +308,8 @@ jQuery(function ($) {
 		}
 
 		const filtersDefault = {
-			'projects': {
-				'project_status': {
+			projects: {
+				project_status: {
 					title: 'Project status',
 					identifier: 'project_status',
 					args: { ...defaultArgs, labels: { ...defaultFilterLabels.project_status } },
@@ -317,7 +317,7 @@ jQuery(function ($) {
 					path: '/rpc/org_project_status_filter?order=project_status',
 					params: { ...defaultParams }
 				},
-				'keyword': {
+				keyword: {
 					title: 'Keywords',
 					identifier: 'keyword',
 					args: { ...defaultArgs },
@@ -325,7 +325,7 @@ jQuery(function ($) {
 					path: '/rpc/org_project_keywords_filter?order=keyword',
 					params: { ...defaultParams }
 				},
-				'domain': {
+				domain: {
 					title: 'Research domains',
 					identifier: 'domain',
 					args: { ...defaultArgs, labeled_only: true, labels: { ...defaultFilterLabels.domain } },
@@ -333,7 +333,7 @@ jQuery(function ($) {
 					path: '/rpc/org_project_domains_filter?order=domain',
 					params: { ...defaultParams }
 				},
-				'organisation': {
+				organisation: {
 					title: 'Partners',
 					identifier: 'organisation',
 					args: { ...defaultArgs },
@@ -342,8 +342,8 @@ jQuery(function ($) {
 					params: { ...defaultParams }
 				}
 			},
-			'software': {
-				'keyword': {
+			software: {
+				keyword: {
 					title: 'Keywords',
 					identifier: 'keyword',
 					args: { ...defaultArgs },
@@ -351,7 +351,7 @@ jQuery(function ($) {
 					path: '/rpc/org_software_keywords_filter?order=keyword',
 					params: { ...defaultParams }
 				},
-				'prog_language': {
+				prog_language: {
 					title: 'Programming Languages',
 					identifier: 'prog_language',
 					args: { ...defaultArgs },
@@ -359,7 +359,7 @@ jQuery(function ($) {
 					path: '/rpc/org_software_languages_filter?order=prog_language',
 					params: { ...defaultParams }
 				},
-				'license': {
+				license: {
 					title: 'Licenses',
 					identifier: 'license',
 					args: { ...defaultArgs },
@@ -871,15 +871,15 @@ jQuery(function ($) {
 				title = item.title;
 				description = item.subtitle;
 				props = {
-					'Impact': getItemImpactCount(item),
-					'Output': getItemOutputCount(item),
+					Impact: getItemImpactCount( item ),
+					Output: getItemOutputCount( item ),
 				};
 			} else {
 				title = item.brand_name;
 				description = item.short_statement;
 				props = {
-					'Contributors': getItemContributorsCount(item),
-					'Mentions': getItemMentionsCount(item),
+					Contributors: getItemContributorsCount( item ),
+					Mentions: getItemMentionsCount( item ),
 				};
 			}
 
