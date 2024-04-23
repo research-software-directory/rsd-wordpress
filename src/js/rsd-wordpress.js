@@ -226,14 +226,14 @@ jQuery(function ($) {
 		}
 
 		if (section === 'projects') {
-			if (searchTerm != '') {
+			if (searchTerm !== '') {
 				path = '/rpc/projects_by_organisation_search';
 				params.search = searchTerm;
 			} else {
 				path = '/rpc/projects_by_organisation';
 			}
 		} else if (section === 'software') {
-			if (searchTerm != '') {
+			if (searchTerm !== '') {
 				path = '/rpc/software_by_organisation_search';
 				params.search = searchTerm;
 			} else {
@@ -634,7 +634,7 @@ jQuery(function ($) {
 			const $filter = $(this);
 			const identifier = $filter.data('filter');
 			const value = $filter.val();
-			if (value != '') {
+			if (value && value !== '') {
 				filters[identifier] = [value];
 			}
 		});
