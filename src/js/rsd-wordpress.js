@@ -97,14 +97,14 @@ jQuery(function ($) {
 
 		getItems( labeledOnly = false ) {
 			if ( labeledOnly || this.args.labeled_only ) {
-				const items = [];
+				const filterItems = [];
 				const labels = this.getLabels();
 				$.each(this.items, function (index, item) {
 					if (labels[item.name]) {
-						items.push(item);
+						filterItems.push(item);
 					}
 				});
-				return items;
+				return filterItems;
 			} else {
 				return this.items;
 			}
@@ -556,7 +556,7 @@ jQuery(function ($) {
 	}
 
 	function getItemsFromDOM() {
-		const items = [];
+		const domItems = [];
 		const validProps = ['contributor_cnt', 'mention_cnt', 'impact_cnt', 'output_cnt'];
 
 		$container.find('.rsd-results-item').each(function () {
@@ -576,9 +576,9 @@ jQuery(function ($) {
 				}
 			});
 
-			items.push(item);
+			domItems.push(item);
 		});
-		return items;
+		return domItems;
 	}
 
 	function getItemsTotalFromDOM() {
