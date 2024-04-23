@@ -231,7 +231,7 @@ jQuery(function ($) {
 			} else {
 				path = '/rpc/projects_by_organisation';
 			}
-		} else {
+		} else if (section === 'software') {
 			if (searchTerm != '') {
 				path = '/rpc/software_by_organisation_search';
 				params.search = searchTerm;
@@ -253,12 +253,10 @@ jQuery(function ($) {
 		Object.keys(filterParamMap).forEach(filterKey => {
 			const paramKey = filterParamMap[filterKey];
 			const filterValue = filters[filterKey];
-			if (paramKey === 'project_status') {
-				if (filterValue && filterValue.length > 0) {
+			if (filterValue && filterValue.length > 0) {
+				if (paramKey === 'project_status') {
 					params[paramKey] = `eq.${filterValue.flat().map(value => value.toLowerCase())}`;
-				}
-			} else {
-				if (filterValue && filterValue.length > 0) {
+				} else {
 					params[paramKey] = 'cs.{' + filterValue.map(value => `"${value}"`).join(',') + '}';
 				}
 			}
