@@ -493,7 +493,7 @@ class Controller {
 			$filters[ $id ] = new Filter( $filter['title'], $filter['identifier'], $response['data'], $args );
 
 			// Additionally retrieve and set labels for specific filter(s).
-			if ( 'domain' === $filter['identifier'] ) {
+			if ( 'domain' === $id ) {
 				$path     = Api::build_path(
 					'research_domain',
 					array(
@@ -507,7 +507,7 @@ class Controller {
 				foreach ( $response['data'] as $item ) {
 					$labels[ $item['key'] ] = $item['name'];
 				}
-				$filters[ $filter['identifier'] ]->set_labels( $labels );
+				$filters[ $id ]->set_labels( $labels );
 			}
 		}
 
