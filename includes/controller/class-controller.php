@@ -508,6 +508,9 @@ class Controller {
 					$labels[ $item['key'] ] = $item['name'];
 				}
 				$filters[ $id ]->set_labels( $labels );
+			} elseif ( 'project_status' === $id ) {
+				// Remove 'unknown' status from items.
+				$filters[ $id ]->remove_item( 'unknown' );
 			}
 		}
 
