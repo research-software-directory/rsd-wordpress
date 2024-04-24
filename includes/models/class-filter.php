@@ -214,6 +214,27 @@ class Filter {
 	}
 
 	/**
+	 * Remove filter item.
+	 *
+	 * @since 0.10.0
+	 * @param string $name The filter item name.
+	 * @return bool
+	 */
+	public function remove_item( $name ) {
+		$items = $this->get_items();
+
+		foreach ( $items as $key => $item ) {
+			if ( $name === $item['name'] ) {
+				unset( $items[ $key ] );
+				$this->items = $items;
+				return true;
+			}
+		}
+
+		return false;
+	}
+
+	/**
 	 * Get filter placeholder title.
 	 *
 	 * @return string
