@@ -218,7 +218,6 @@ class Display {
 
 		if ( 'projects' === Controller::get_section() ) {
 			$sort_fields = array(
-				'impact_cnt' => __( 'Impact', 'rsd-wordpress' ),
 				'output_cnt' => __( 'Output', 'rsd-wordpress' ),
 				'title'      => __( 'Title', 'rsd-wordpress' ),
 				'date_start' => __( 'Start date', 'rsd-wordpress' ),
