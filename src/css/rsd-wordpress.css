@@ -199,10 +199,6 @@ input[type="search"].rsd-search-input {
 	margin-right: 0;
 }
 
-[data-section="projects"] .rsd-results-item-props li .prop {
-	display: none;
-}
-
 .icon {
 	display: inline-block;
 	background-repeat: no-repeat;

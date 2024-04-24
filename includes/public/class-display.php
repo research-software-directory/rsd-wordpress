@@ -405,12 +405,12 @@ class Display {
 					<li class="rsd-results-item-prop-impact">
 						<span aria-hidden="true" class="icon icon-impact" title="<?php esc_html_e( 'Impact', 'rsd-wordpress' ); ?>"></span>
 						<span class="value"><?php echo esc_html( $item->get_impact_cnt() ); ?></span>
-						<span class="prop"><?php esc_html_e( 'impact', 'rsd-wordpress' ); ?></span>
+						<span class="prop"><?php esc_html_e( 'impact references', 'rsd-wordpress' ); ?></span>
 					</li>
 					<li class="rsd-results-item-prop-output">
 						<span aria-hidden="true" class="icon icon-output" title="<?php esc_html_e( 'Output', 'rsd-wordpress' ); ?>"></span>
 						<span class="value"><?php echo esc_html( $item->get_output_cnt() ); ?></span>
-						<span class="prop"><?php esc_html_e( 'output', 'rsd-wordpress' ); ?></span>
+						<span class="prop"><?php esc_html_e( 'research outputs', 'rsd-wordpress' ); ?></span>
 					</li>
 				</ul>
 			</div>
