@@ -90,7 +90,7 @@ class Display {
 	public static function display_search_bar() {
 		ob_start();
 
-		$btn_placeholder = 'software' === Controller::get_section() ? __( 'Search software', 'rsd-wordpress' ) : __( 'Search projects', 'rsd-wordpress' );
+		$btn_placeholder = 'software' === Controller::get_section() ? __( 'Search software descriptions', 'rsd-wordpress' ) : __( 'Search projects', 'rsd-wordpress' );
 		?>
 			<div class="rsd-search-bar">
 				<form action="" method="get">
