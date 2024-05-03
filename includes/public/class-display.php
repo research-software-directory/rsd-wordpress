@@ -293,7 +293,7 @@ class Display {
 			</div>
 		</div>
 		<div class="rsd-back-to-top">
-			<p><a role="button" class="button rsd-back-to-top-button icon-backtotop" href="#top"><?php esc_html_e( 'Back to top', 'rsd-wordpress' ); ?></a></p>
+			<p><a role="button" class="button rsd-back-to-top-button icon-backtotop" href="#top"><i class="icon-backtotop" aria-label="<?php esc_html_e( 'Back to top', 'rsd-wordpress' ); ?>"></i></a></p>
 		</div>
 		<?php
 

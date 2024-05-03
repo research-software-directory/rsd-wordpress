@@ -269,8 +269,6 @@ input[type="search"].rsd-search-input {
 	background-size: 40px;
 	width: 2rem;
 	height: 2rem;
-	text-indent: -200vw;
-	direction: ltr;
 }
 
 .icon-backtotop:hover,
