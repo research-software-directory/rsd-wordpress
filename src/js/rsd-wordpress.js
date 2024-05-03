@@ -961,14 +961,14 @@ jQuery( function ( $ ) {
 			let title, description, props;
 			if ( 'projects' === section ) {
 				title = item.title;
-				description = item.subtitle;
+				description = item.subtitle || '';
 				props = {
 					Impact: getItemImpactCount( item ),
 					Output: getItemOutputCount( item ),
 				};
 			} else {
 				title = item.brand_name;
-				description = item.short_statement;
+				description = item.short_statement || '';
 				props = {
 					Contributors: getItemContributorsCount( item ),
 					Mentions: getItemMentionsCount( item ),
