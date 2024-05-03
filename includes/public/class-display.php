@@ -224,7 +224,7 @@ class Display {
 				'date_end'   => __( 'End date', 'rsd-wordpress' ),
 				'updated_at' => __( 'Last updated', 'rsd-wordpress' ),
 			);
-		} elseif ( 'software' === Controller::get_section() ){
+		} elseif ( 'software' === Controller::get_section() ) {
 			$sort_fields = array(
 				'brand_name'      => __( 'Name', 'rsd-wordpress' ),
 				'mention_cnt'     => __( 'Mentions', 'rsd-wordpress' ),
