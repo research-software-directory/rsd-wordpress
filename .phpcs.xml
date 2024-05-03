@@ -13,14 +13,15 @@
 	<exclude-pattern>*/src/*</exclude-pattern>
 	<!-- Exclude dist build files directory. -->
 	<exclude-pattern>*/dist/*</exclude-pattern>
-	<!-- Include all PHP files. -->
-	<include-pattern>*\.(php|inc)$</include-pattern>
 
 	<!-- Strip the filepaths down to the relevant bit. -->
 	<arg name="basepath" value="."/>
 
 	<!-- Check up to 8 files simultaneously. -->
 	<arg name="parallel" value="8"/>
+
+	<!-- Include PHP files only. -->
+	<arg name="extensions" value="php,inc"/>
 
 	<!-- Configs -->
 	<config name="minimum_supported_wp_version" value="6.0"/>
