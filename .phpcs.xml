@@ -13,8 +13,8 @@
 	<exclude-pattern>*/src/*</exclude-pattern>
 	<!-- Exclude dist build files directory. -->
 	<exclude-pattern>*/dist/*</exclude-pattern>
-	<!-- Exclude all non PHP files. -->
-	<exclude-pattern>.*\.(?!php$|inc$)[^.]*$</exclude-pattern>
+	<!-- Include all PHP files. -->
+	<include-pattern>*\.(php|inc)$</include-pattern>
 
 	<!-- Strip the filepaths down to the relevant bit. -->
 	<arg name="basepath" value="."/>
