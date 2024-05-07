@@ -4,9 +4,24 @@ This repo contains a WordPress integration of the Projects and Software overview
 
 ## How to use the plugin
 
-To display the overview (e.g. for the Software section for the Netherlands eScience Center organisation) on your Wordpress site, use the following shortcode in any post or page:
+To display the overview (e.g. for the Software section for the Netherlands eScience Center organisation) on your Wordpress site, use one of the following shortcode example in any post or page:
 ```shell
-[research_software_directory section="software" limit="4" organisation="35c17f17-6b5f-4385-aa8b-6b1d33a10157"]
+[research_software_directory section="software" organisation="35c17f17-6b5f-4385-aa8b-6b1d33a10157"]
+```
+
+Or simply:
+```shell
+[research_software_directory organisation="35c17f17-6b5f-4385-aa8b-6b1d33a10157"]
+```
+
+To show the Projects section for the Netherlands eScience Center:
+```shell
+[research_software_directory section="projects" organisation="35c17f17-6b5f-4385-aa8b-6b1d33a10157"]
+```
+
+To limit the initial amount of nine items at page load:
+```shell
+[research_software_directory section="software" limit="9" organisation="35c17f17-6b5f-4385-aa8b-6b1d33a10157"]
 ```
 
 ### Deployment or unit testing: build compiled bundle files first
