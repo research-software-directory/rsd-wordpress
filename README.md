@@ -9,11 +9,6 @@ To display the overview (e.g. for the Software section for the Netherlands eScie
 [research_software_directory section="software" organisation="35c17f17-6b5f-4385-aa8b-6b1d33a10157"]
 ```
 
-Or simply:
-```shell
-[research_software_directory organisation="35c17f17-6b5f-4385-aa8b-6b1d33a10157"]
-```
-
 To show the Projects section for the Netherlands eScience Center:
 ```shell
 [research_software_directory section="projects" organisation="35c17f17-6b5f-4385-aa8b-6b1d33a10157"]
