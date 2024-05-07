@@ -50,7 +50,7 @@ This project uses [EditorConfig](https://editorconfig.org/) to maintain a consis
 
 ### WordPress Coding Standards
 
-To ensure code quality and adherence to coding conventions, before committing any changes to the code of this project, please use `phpcs` (see [WordPress Coding Standards for PHP_CodeSniffer](https://github.com/WordPress/WordPress-Coding-Standards)) with the bundle PHP_CS configuration file.
+To ensure code quality and adherence to coding conventions, before committing any changes to the code of this project, please use `phpcs` (see [WordPress Coding Standards for PHP_CodeSniffer](https://github.com/WordPress/WordPress-Coding-Standards)) with the bundled PHP_CS configuration file.
 
 You can also use the bundled project PHP_CS configuration by running:
 ```shell
