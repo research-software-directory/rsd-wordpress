@@ -372,6 +372,9 @@ class Display {
 		$aria_label         = sprintf( __( "Logo for '%s'", 'rsd-wordpress' ), $title );
 		$image_url          = $item->get_image_url();
 		$image_contain_attr = ( $item->get_image_contain() ? ' class="contain"' : '' );
+		// Convert last updated date to a Unix timestamp, then convert it to use the WordPress site local timezone.
+		$last_updated       = strtotime( $item->get_updated_at() );
+		$last_updated_local = wp_date( 'c', $last_updated );
 
 		if ( empty( $image_url ) ) {
 			$image_url = self::get_default_image_url();
@@ -379,7 +382,7 @@ class Display {
 
 		ob_start();
 		?>
-		<div class="rsd-results-item column card" data-id="<?php echo esc_attr( $item->get_id() ); ?>">
+		<div class="rsd-results-item column card" data-id="<?php echo esc_attr( $item->get_id() ); ?>" data-last-updated="<?php echo esc_attr( $last_updated_local ); ?>">
 			<div class="card-image">
 				<a href="<?php echo esc_attr( $item_url ); ?>" target="_blank" rel="external"><img src="<?php echo esc_attr( $image_url ); ?>"
 				alt="" title="<?php echo esc_attr( $title ); ?>" aria-label="<?php echo esc_attr( $aria_label ); ?>"<?php echo esc_attr( $image_contain_attr ); ?>></a>
