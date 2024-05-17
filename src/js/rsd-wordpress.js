@@ -292,8 +292,6 @@ jQuery( function ( $ ) {
 			}
 		} );
 
-		console.log( '🎹 path with params: ', apiGetUrl( path, params ) );
-
 		// Get the data from the API.
 		return new Promise( ( resolve, reject ) => {
 			const req = $.ajax( {
@@ -303,7 +301,6 @@ jQuery( function ( $ ) {
 				// eslint-disable-next-line object-shorthand
 				success: function ( response ) {
 					const resultItems = response;
-					console.log( '🎹 result items: ', resultItems );
 
 					// Get the total count of results from `content-range` response header.
 					let totalResults = false;
@@ -769,7 +766,6 @@ jQuery( function ( $ ) {
 		clearTimeout( delayTimer );
 		const searchTerm = $( this ).val().toLowerCase();
 		delayTimer = setTimeout( function () {
-			console.log( '🎹 searchTerm: ', searchTerm );
 			loadFilters();
 			loadItems( searchTerm );
 			if ( searchTerm.trim() === '' ) {
