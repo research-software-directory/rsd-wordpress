@@ -598,15 +598,17 @@ class Controller {
 			$params['search'] = self::get_search_query();
 		}
 
-		// Set order by and order parameters.
-		$orderby = ( 'software' === $section ? 'brand_name' : 'title' );
-		$order   = 'asc';
+		// Set order by and order parameters, or use defaults.
+		$orderby = 'updated_at';
+		$order   = 'desc';
 		if ( ! empty( self::get_orderby() ) ) {
 			$orderby = self::get_orderby();
 		}
 		if ( ! empty( self::get_order() ) ) {
 			$order = self::get_order();
 		}
+		self::set_orderby( $orderby );
+		self::set_order( $order );
 		$params['order'] = Api::build_order_param( $orderby, $order );
 
 		// Set the API path and parameters.
