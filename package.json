@@ -36,15 +36,15 @@
   ],
   "packageManager": "pnpm@9.0.5+sha256.61bd66913b52012107ec25a6ee4d6a161021ab99e04f6acee3aa50d0e34b4af9",
   "devDependencies": {
-    "@babel/preset-env": "^7.24.5",
+    "@babel/preset-env": "^7.24.6",
     "@rollup/plugin-babel": "^6.0.4",
     "@wordpress/eslint-plugin": "^17.13.0",
-    "@wordpress/prettier-config": "^3.14.0",
+    "@wordpress/prettier-config": "^3.15.0",
     "autoprefixer": "^10.4.19",
     "browserslist": "^4.23.0",
     "eslint": "^8.57.0",
     "eslint-plugin-compat": "^4.2.0",
-    "lightningcss": "^1.24.1",
+    "lightningcss": "^1.25.1",
     "postcss": "^8.4.38",
     "prettier": "npm:wp-prettier@^3.0.3",
     "vite": "^5.2.11"
