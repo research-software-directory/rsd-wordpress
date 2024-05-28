@@ -12,6 +12,26 @@ WordPress plugin that displays projects and software information using the Resea
 
 == Changelog ==
 
+= 0.10.4 - 2024-05-28 =
+* Disable pointer events for invisible back-to-top button.
+* Add last-updated data attribute to both result item elements.
+
+= 0.10.3 - 2024-05-28 =
+* Use DateTimeImmutable over strototime() for timezone support.
+* Ensure the current sort option is selected in the sort select field.
+* Sort result items by last updated by default.
+
+= 0.10.2 - 2024-05-03 =
+* Use empty string when item description is not available.
+* Add more shortcode examples to README.
+* Refactor 'back to top' button markup for improved accessibility.
+
+= 0.10.1 - 2024-05-02 =
+* Update search bar placeholder text for Software descriptions.
+* Also show text labels for Projects item properties.
+* Remove impact from sort field options.
+* Manually remove 'unknown' from project status filter.
+
 = 0.10.0 - 2024-04-23 =
 * Drop support for IE <= 11 (dead) and Opera Mini in Browserslist configuration.
 * Optimise PHP_CS configuration and apply PHP and WordPress standards to all PHP code.
