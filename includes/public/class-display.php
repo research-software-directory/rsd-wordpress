@@ -316,8 +316,10 @@ class Display {
 		$title    = $item->get_brand_name();
 		$item_url = sprintf( 'https://research-software-directory.org/software/%s', $item->get_slug() );
 		// translators: Aria label for the logo of a software item.
-		$aria_label = sprintf( __( "Logo for '%s'", 'rsd-wordpress' ), $title );
-		$image_url  = $item->get_image_url();
+		$aria_label         = sprintf( __( "Logo for '%s'", 'rsd-wordpress' ), $title );
+		$image_url          = $item->get_image_url();
+		$use_wp_timezone    = true;
+		$last_updated_local = $item->get_last_updated( $use_wp_timezone );
 
 		if ( empty( $image_url ) ) {
 			$image_url = self::get_default_image_url();
@@ -325,7 +327,7 @@ class Display {
 
 		ob_start();
 		?>
-		<div class="rsd-results-item column card" data-id="<?php echo esc_attr( $item->get_id() ); ?>">
+		<div class="rsd-results-item column card" data-id="<?php echo esc_attr( $item->get_id() ); ?>" data-last-updated="<?php echo esc_attr( $last_updated_local ); ?>">
 			<div class="card-image">
 				<a href="<?php echo esc_attr( $item_url ); ?>" target="_blank" rel="external"><img src="<?php echo esc_attr( $image_url ); ?>"
 				alt="" title="<?php echo esc_attr( $title ); ?>" aria-label="<?php echo esc_attr( $aria_label ); ?>"></a>
@@ -377,10 +379,8 @@ class Display {
 		$aria_label         = sprintf( __( "Logo for '%s'", 'rsd-wordpress' ), $title );
 		$image_url          = $item->get_image_url();
 		$image_contain_attr = ( $item->get_image_contain() ? ' class="contain"' : '' );
-		// Convert last updated date to a Unix timestamp, then convert it to use the WordPress site local timezone.
-		$date               = new \DateTimeImmutable( $item->get_updated_at() );
-		$last_updated       = $date->getTimestamp();
-		$last_updated_local = wp_date( 'c', $last_updated );
+		$use_wp_timezone    = true;
+		$last_updated_local = $item->get_last_updated( $use_wp_timezone );
 
 		if ( empty( $image_url ) ) {
 			$image_url = self::get_default_image_url();

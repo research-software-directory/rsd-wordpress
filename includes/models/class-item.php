@@ -131,6 +131,22 @@ abstract class Item {
 	}
 
 	/**
+	 * Get the item last updated date in ISO 8601 format.
+	 *
+	 * @param bool $use_wp_timezone Whether to convert to use WordPress timezone.
+	 * @return string
+	 */
+	public function get_last_updated( $use_wp_timezone = false ) {
+		$date = new \DateTimeImmutable( $this->get_updated_at() );
+
+		if ( $use_wp_timezone ) {
+			return wp_date( 'c', $date->getTimestamp() );
+		} else {
+			return $date->format( 'c' );
+		}
+	}
+
+	/**
 	 * Get the image URL.
 	 *
 	 * @return string The image URL.
