@@ -244,11 +244,13 @@ input[type="search"].rsd-search-input {
 	right: 2rem;
 	opacity: 0;
 	transition: opacity 0.5s ease-in-out;
+	pointer-events: none;
 }
 
 .rsd-back-to-top.visible {
 	animation: rsdFadeInOut 0.5s;
 	opacity: 1;
+	pointer-events: auto;
 }
 
 .rsd-back-to-top p {
