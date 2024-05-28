@@ -378,7 +378,8 @@ class Display {
 		$image_url          = $item->get_image_url();
 		$image_contain_attr = ( $item->get_image_contain() ? ' class="contain"' : '' );
 		// Convert last updated date to a Unix timestamp, then convert it to use the WordPress site local timezone.
-		$last_updated       = strtotime( $item->get_updated_at() );
+		$date               = new \DateTimeImmutable( $item->get_updated_at() );
+		$last_updated       = $date->getTimestamp();
 		$last_updated_local = wp_date( 'c', $last_updated );
 
 		if ( empty( $image_url ) ) {
