@@ -360,6 +360,10 @@ class Controller {
 		$default_params = array(
 			'organisation_id' => self::get_organisation_id(),
 		);
+		// Add search query to parameters, if set.
+		if ( ! empty( self::get_search_query() ) ) {
+			$default_params['search_filter'] = self::get_search_query();
+		}
 
 		// Set the default filters.
 		// phpcs:disable
