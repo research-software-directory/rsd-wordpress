@@ -134,15 +134,16 @@ abstract class Item {
 	 * Get the item last updated date in ISO 8601 format.
 	 *
 	 * @param bool $use_wp_timezone Whether to convert to use WordPress timezone.
+	 * @param string $format The date format. (default: UNIX timestamp format, see https://www.php.net/manual/en/datetime.format.php)
 	 * @return string
 	 */
-	public function get_last_updated( $use_wp_timezone = false ) {
+	public function get_last_updated( $use_wp_timezone = false, $format = 'U' ) {
 		$date = new \DateTimeImmutable( $this->get_updated_at() );
 
 		if ( $use_wp_timezone ) {
-			return wp_date( 'c', $date->getTimestamp() );
+			return wp_date( $format, $date->getTimestamp() );
 		} else {
-			return $date->format( 'c' );
+			return $date->format( $format );
 		}
 	}
 
