@@ -761,8 +761,10 @@ jQuery( function ( $ ) {
 
 	// Search field - attach search event and get new results from API.
 	// (executing with a slight delay after entry changes, so that the search term is not sent with every character)
+	// (also, if the user presses Enter, the search is executed immediately)
 	let delayTimer;
-	$container.find( '.rsd-search-input' ).on( 'input', function () {
+
+	function handleSearch() {
 		clearTimeout( delayTimer );
 		const searchTerm = $( this ).val().toLowerCase().trim();
 		delayTimer = setTimeout( function () {
@@ -774,7 +776,20 @@ jQuery( function ( $ ) {
 				showClearFiltersButton();
 			}
 		}, 500 );
-	} );
+	}
+
+	function handleSearchEnterKey( e ) {
+		if ( e.keyCode === 13 ) {
+			e.preventDefault();
+			clearTimeout( delayTimer );
+			handleSearch.call( this );
+		}
+	}
+
+	$container
+		.find( '.rsd-search-input' )
+		.on( 'input', handleSearch )
+		.on( 'keydown', handleSearchEnterKey );
 
 	// Attach set filters event and get new results from API.
 	$container.find( '.rsd-filters' ).on( 'change', 'select', function () {
