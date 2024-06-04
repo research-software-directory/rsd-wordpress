@@ -617,6 +617,10 @@ class Controller {
 		} else {
 			$path_start = '/rpc/software_by_organisation';
 		}
+		// Append _search to API path if search query is set.
+		if ( ! empty( $params['search'] ) ) {
+			$path_start .= '_search';
+		}
 		$path = Api::build_path( $path_start, $params );
 
 		// Add `Prefer` header to also request total count of result items (may result in slower query).
