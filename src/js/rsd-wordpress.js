@@ -43,7 +43,10 @@ jQuery( function ( $ ) {
 	// Hide search button, since we're using the input event to trigger a search.
 	hideSearchButton();
 	// Check if any filters are set and show the 'Clear filters' button.
-	if ( getSearchTerm() || Object.keys( getFilterValues() ).length !== 0 ) {
+	if (
+		( rsdWordPressVars.search === undefined && getSearchTerm() ) ||
+		Object.keys( getFilterValues() ).length !== 0
+	) {
 		currentFilters = getFilterValues();
 		// (Re)load filters and items.
 		loadFilters();
