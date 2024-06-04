@@ -178,6 +178,13 @@ class Plugin {
 			'research_software_directory'
 		);
 
+		// If a search query is provided, set it in the controller.
+		// phpcs:disable WordPress.Security.NonceVerification
+		if ( ! empty( $_GET['q'] ) ) {
+			Controller::set_search_query( sanitize_text_field( $_GET['q'] ) );
+		}
+		// phpcs:enable WordPress.Security.NonceVerification
+
 		// Process attributes.
 		Controller::set_section( sanitize_text_field( $atts['section'] ) );
 		Controller::set_organisation_id( sanitize_text_field( $atts['organisation-id'] ) );
