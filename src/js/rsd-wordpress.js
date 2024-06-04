@@ -42,14 +42,25 @@ jQuery( function ( $ ) {
 	$( 'body' ).addClass( 'rsd-wordpress-loaded' );
 	// Hide search button, since we're using the input event to trigger a search.
 	hideSearchButton();
-	// Check if any filters are set and show the 'Clear filters' button.
-	if ( getSearchTerm() || Object.keys( getFilterValues() ).length !== 0 ) {
+	// When search query is not set from PHP, check if search query or any filters are set and show the 'Clear filters' button.
+	if (
+		! rsdWordPressVars.search &&
+		( getSearchTerm() || Object.keys( getFilterValues() ).length !== 0 )
+	) {
 		currentFilters = getFilterValues();
 		// (Re)load filters and items.
 		loadFilters();
 		loadItems();
 		showClearFiltersButton();
 	} else {
+		if ( rsdWordPressVars.search ) {
+			// Search term is set, show the 'Clear filters' button.
+			showClearFiltersButton();
+			// But please do clear any active filters.
+			const reloadResults = false;
+			const clearSearch = false;
+			clearFilters( reloadResults, clearSearch );
+		}
 		// Hide filters sidebar by default.
 		hideFiltersSidebar();
 		// Load items from DOM.
@@ -761,8 +772,10 @@ jQuery( function ( $ ) {
 
 	// Search field - attach search event and get new results from API.
 	// (executing with a slight delay after entry changes, so that the search term is not sent with every character)
+	// (also, if the user presses Enter, the search is executed immediately)
 	let delayTimer;
-	$container.find( '.rsd-search-input' ).on( 'input', function () {
+
+	function handleSearch() {
 		clearTimeout( delayTimer );
 		const searchTerm = $( this ).val().toLowerCase();
 		delayTimer = setTimeout( function () {
@@ -774,7 +787,20 @@ jQuery( function ( $ ) {
 				showClearFiltersButton();
 			}
 		}, 500 );
-	} );
+	}
+
+	function handleSearchEnterKey( e ) {
+		if ( e.keyCode === 13 ) {
+			e.preventDefault();
+			clearTimeout( delayTimer );
+			handleSearch.call( this );
+		}
+	}
+
+	$container
+		.find( '.rsd-search-input' )
+		.on( 'input', handleSearch )
+		.on( 'keydown', handleSearchEnterKey );
 
 	// Attach set filters event and get new results from API.
 	$container.find( '.rsd-filters' ).on( 'change', 'select', function () {
@@ -789,13 +815,25 @@ jQuery( function ( $ ) {
 	// Attach click event to 'Clear filters' button and get new results from API.
 	$container.find( '.rsd-results-clear-filters' ).on( 'click', clearFilters );
 
-	function clearFilters() {
-		$container.find( '.rsd-search-input' ).val( '' );
+	function clearFilters( reloadResults = true, clearSearch = true ) {
+		if ( clearSearch ) {
+			$container.find( '.rsd-search-input' ).val( '' );
+		}
 		$container.find( '.rsd-filters select' ).val( '' );
+
 		clearCurrentFilters();
-		loadFilters();
-		loadItems();
-		hideClearFiltersButton();
+
+		if ( reloadResults ) {
+			loadFilters();
+			loadItems();
+		}
+
+		if (
+			! getSearchTerm() &&
+			Object.keys( getFilterValues() ).length === 0
+		) {
+			hideClearFiltersButton();
+		}
 	}
 
 	// Attach click event to filters toggle button.

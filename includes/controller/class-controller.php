@@ -360,6 +360,10 @@ class Controller {
 		$default_params = array(
 			'organisation_id' => self::get_organisation_id(),
 		);
+		// Add search query to parameters, if set.
+		if ( ! empty( self::get_search_query() ) ) {
+			$default_params['search_filter'] = self::get_search_query();
+		}
 
 		// Set the default filters.
 		// phpcs:disable
@@ -616,6 +620,10 @@ class Controller {
 			$path_start = '/rpc/projects_by_organisation';
 		} else {
 			$path_start = '/rpc/software_by_organisation';
+		}
+		// Append _search to API path if search query is set.
+		if ( ! empty( $params['search'] ) ) {
+			$path_start .= '_search';
 		}
 		$path = Api::build_path( $path_start, $params );
 
