@@ -54,12 +54,12 @@ jQuery( function ( $ ) {
 		showClearFiltersButton();
 	} else {
 		if ( rsdWordPressVars.search ) {
-			// Search term is set, show the 'Clear filters' button.
-			showClearFiltersButton();
-			// But please do clear any active filters.
+			// Clear any active filters, except the search term.
 			const reloadResults = false;
 			const clearSearch = false;
 			clearFilters( reloadResults, clearSearch );
+			// Search term is set, do show the 'Clear filters' button.
+			showClearFiltersButton();
 		}
 		// Hide filters sidebar by default.
 		hideFiltersSidebar();
