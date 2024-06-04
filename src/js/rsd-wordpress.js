@@ -764,7 +764,7 @@ jQuery( function ( $ ) {
 	let delayTimer;
 	$container.find( '.rsd-search-input' ).on( 'input', function () {
 		clearTimeout( delayTimer );
-		const searchTerm = $( this ).val().toLowerCase();
+		const searchTerm = $( this ).val().toLowerCase().trim();
 		delayTimer = setTimeout( function () {
 			loadFilters();
 			loadItems( searchTerm );
