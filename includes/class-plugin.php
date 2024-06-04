@@ -198,6 +198,10 @@ class Plugin {
 		$localize_arr = array(
 			'defaultFilterLabels' => $labels,
 		);
+		// If a search query is provided, also make it available in JS.
+		if ( ! empty( Controller::get_search_query() ) ) {
+			$localize_arr['search'] = Controller::get_search_query();
+		}
 		wp_localize_script( self::get_plugin_name() . '-public', 'rsdWordPressVars', $localize_arr );
 
 		// Get items from the API.
