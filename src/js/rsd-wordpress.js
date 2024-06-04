@@ -777,7 +777,7 @@ jQuery( function ( $ ) {
 
 	function handleSearch() {
 		clearTimeout( delayTimer );
-		const searchTerm = $( this ).val().toLowerCase().trim();
+		const searchTerm = $( this ).val().toLowerCase();
 		delayTimer = setTimeout( function () {
 			loadFilters();
 			loadItems( searchTerm );
