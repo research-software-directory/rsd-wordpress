@@ -807,13 +807,25 @@ jQuery( function ( $ ) {
 	// Attach click event to 'Clear filters' button and get new results from API.
 	$container.find( '.rsd-results-clear-filters' ).on( 'click', clearFilters );
 
-	function clearFilters() {
-		$container.find( '.rsd-search-input' ).val( '' );
+	function clearFilters( reloadResults = true, clearSearch = true ) {
+		if ( clearSearch ) {
+			$container.find( '.rsd-search-input' ).val( '' );
+		}
 		$container.find( '.rsd-filters select' ).val( '' );
+
 		clearCurrentFilters();
-		loadFilters();
-		loadItems();
-		hideClearFiltersButton();
+
+		if ( reloadResults ) {
+			loadFilters();
+			loadItems();
+		}
+
+		if (
+			! getSearchTerm() &&
+			Object.keys( getFilterValues() ).length === 0
+		) {
+			hideClearFiltersButton();
+		}
 	}
 
 	// Attach click event to filters toggle button.
