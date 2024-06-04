@@ -53,6 +53,14 @@ jQuery( function ( $ ) {
 		loadItems();
 		showClearFiltersButton();
 	} else {
+		if ( rsdWordPressVars.search ) {
+			// Search term is set, show the 'Clear filters' button.
+			showClearFiltersButton();
+			// But please do clear any active filters.
+			const reloadResults = false;
+			const clearSearch = false;
+			clearFilters( reloadResults, clearSearch );
+		}
 		// Hide filters sidebar by default.
 		hideFiltersSidebar();
 		// Load items from DOM.
