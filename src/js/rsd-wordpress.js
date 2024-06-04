@@ -596,6 +596,22 @@ jQuery( function ( $ ) {
 		return item.output_cnt || 0;
 	}
 
+	function getItemLastUpdated( item, format = false ) {
+		const date = new Date( item.updated_at );
+
+		if ( ! isNaN( date.getTime() ) ) {
+			if ( format && 'c' === format ) {
+				// Return ISO 8601 formatted date.
+				return date.toISOString();
+			}
+
+			// Return UNIX timestamp in seconds.
+			return Math.floor( date.getTime() / 1000 );
+		}
+
+		return item.updated_at || '';
+	}
+
 	function getItemLabels( item ) {
 		let html = '<ul class="rsd-results-item-labels">';
 		$.each( item.keywords, function ( index, label ) {
@@ -1016,7 +1032,7 @@ jQuery( function ( $ ) {
 
 			// prettier-ignore
 			$itemsContainer.append( `
-				<div class="rsd-results-item column card in-viewport" data-id="${ getItemId( item ) }">
+				<div class="rsd-results-item column card in-viewport" data-id="${ getItemId( item ) }" data-last-updated="${ getItemLastUpdated( item ) }">
 					<div class="card-image">
 						<a href="${ getItemUrl( item ) }" target="_blank" rel="external"><img src="${ getItemImgUrl( item ) }"
 							 alt="" title="${ title }" aria-label="${ title }"${ imageContainAttr }></a>
