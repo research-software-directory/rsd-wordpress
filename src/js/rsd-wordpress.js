@@ -491,7 +491,7 @@ jQuery( function ( $ ) {
 				getSearchTerm(),
 				getFilterValues(),
 				getOrderBy(),
-				getOrder(),
+				getOrder( getOrderBy() ),
 				offset
 			);
 			currentOffset = offset + items.length;
@@ -518,7 +518,7 @@ jQuery( function ( $ ) {
 				getSearchTerm(),
 				getFilterValues(),
 				getOrderBy(),
-				getOrder(),
+				getOrder( getOrderBy() ),
 				offset
 			);
 			items = items.concat( newItems );
