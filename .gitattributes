@@ -1,0 +1,9 @@
+# Ignore development files for export build
+*.lock export-ignore
+*.json export-ignore
+*.yml export-ignore
+.* export-ignore
+/node_modules/ export-ignore
+/src/ export-ignore
+/vendor/ export-ignore
+/vite.config.js export-ignore
