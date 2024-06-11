@@ -57,6 +57,10 @@ function clearFilters( reloadResults = true, clearSearch = true ) {
 	}
 }
 
+function handleSortBySelect() {
+	Controller.loadItems();
+}
+
 function enhanceFiltersSidebar() {
 	const $sidebar = DOM.$container.find( '.rsd-filter-sidebar' );
 
@@ -68,6 +72,14 @@ function enhanceFiltersSidebar() {
 	` );
 
 	$sidebar.find( '.close-button' ).on( 'click', UI.toggleFiltersSidebar );
+}
+
+// Attach event to select filters and get new results from API.
+// Note: should be attached to jQuery object, not to the DOM object, since `$( this )` is used.
+function handleFiltersSelect() {
+	Controller.setCurrentFilters( $( this ).data( 'filter' ), $( this ).val() );
+	Controller.loadFilters();
+	Controller.loadItems();
 }
 
 // Attach infinite scroll event that automatically loads more results (if any).
@@ -118,6 +130,8 @@ export {
 	handleSearch,
 	handleSearchEnterKey,
 	clearFilters,
+	handleSortBySelect,
+	handleFiltersSelect,
 	enhanceFiltersSidebar,
 	enhanceResultsInfiniteScroll,
 	enhanceBackToTopButton,

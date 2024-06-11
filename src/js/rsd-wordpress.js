@@ -14,6 +14,8 @@ import {
 	handleSearch,
 	handleSearchEnterKey,
 	clearFilters,
+	handleSortBySelect,
+	handleFiltersSelect,
 	enhanceFiltersSidebar,
 	enhanceResultsInfiniteScroll,
 	enhanceBackToTopButton,
@@ -78,22 +80,14 @@ import {
 		.on( 'click', UI.toggleFiltersSidebar );
 
 	// Attach set filters event and get new results from API.
-	DOM.$container.find( '.rsd-filters' ).on( 'change', 'select', function () {
-		Controller.setCurrentFilters(
-			$( this ).data( 'filter' ),
-			$( this ).val()
-		);
-		Controller.loadFilters();
-		Controller.loadItems();
-		if ( Object.keys( DOM.getFilterValues() ).length === 0 ) {
-			UI.hideClearFiltersButton();
-		}
-	} );
+	DOM.$container
+		.find( '.rsd-filters' )
+		.on( 'change', 'select', handleFiltersSelect );
 
 	// Attach change event to sort by select.
-	DOM.$container.find( '.rsd-sortby-input' ).on( 'change', function () {
-		Controller.loadItems();
-	} );
+	DOM.$container
+		.find( '.rsd-sortby-input' )
+		.on( 'change', handleSortBySelect );
 
 	// Attach click event to 'Clear filters' button and get new results from API.
 	DOM.$container

@@ -113,4 +113,3 @@ class DOM {
 }
 
 export default new DOM();
-
