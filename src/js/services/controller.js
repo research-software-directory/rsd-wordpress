@@ -38,6 +38,7 @@ class Controller {
 		return instance;
 	}
 
+	// Set current filter values.
 	setCurrentFilters( filter, value ) {
 		if ( ! Array.isArray( value ) ) {
 			this.currentFilters[ filter ] = [ value ];
@@ -46,11 +47,12 @@ class Controller {
 		}
 	}
 
+	// Clear internal variable for current filters.
 	clearCurrentFilters() {
 		this.currentFilters = {};
 	}
 
-	// Get the result items from the API.
+	// Fetch result items from the API.
 	async fetchItems(
 		searchTerm = false,
 		filters = false,
@@ -308,11 +310,7 @@ class Controller {
 		} );
 	}
 
-	/*
-	Wrappers
-	*/
-
-	// Load items.
+	// Load items wrapper.
 	async loadItems() {
 		try {
 			// Fetch the items from the API.
@@ -335,7 +333,7 @@ class Controller {
 		}
 	}
 
-	// Load more items.
+	// Load more items wrapper.
 	async loadMoreItems() {
 		if ( ! this.hasMoreItems() ) {
 			return;
@@ -367,7 +365,7 @@ class Controller {
 		return this.itemsTotal === 0 || this.items.length < this.itemsTotal;
 	}
 
-	// Load filters
+	// Load filters wrapper.
 	async loadFilters() {
 		return this.fetchFilters()
 			.then( ( filters ) => {
