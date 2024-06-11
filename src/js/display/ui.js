@@ -28,6 +28,17 @@ class UI {
 		DOM.$container.find( '.rsd-results-clear-filters' ).hide();
 	}
 
+	toggleClearFiltersButton() {
+		if (
+			DOM.getSearchTerm() ||
+			Object.keys( DOM.getFilterValues() ).length !== 0
+		) {
+			this.showClearFiltersButton();
+		} else {
+			this.hideClearFiltersButton();
+		}
+	}
+
 	hideFiltersSidebar() {
 		DOM.$container.find( '.rsd-filter-sidebar' ).hide();
 	}

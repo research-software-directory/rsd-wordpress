@@ -51,15 +51,7 @@ async function clearFilters( reloadResults = true, clearSearch = true ) {
 		] );
 	}
 
-	// Show/hide the 'Clear filters' button, depending on if search term or filters are set.
-	if (
-		DOM.getSearchTerm() ||
-		Object.keys( DOM.getFilterValues() ).length !== 0
-	) {
-		UI.showClearFiltersButton();
-	} else {
-		UI.hideClearFiltersButton();
-	}
+	UI.toggleClearFiltersButton();
 }
 
 function handleSortBySelect() {
@@ -85,6 +77,7 @@ function handleFiltersSelect() {
 	Controller.setCurrentFilters( $( this ).data( 'filter' ), $( this ).val() );
 	Controller.loadFilters();
 	Controller.loadItems();
+	UI.toggleClearFiltersButton();
 }
 
 // Attach infinite scroll event that automatically loads more results (if any).
