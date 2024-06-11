@@ -51,10 +51,13 @@ async function clearFilters( reloadResults = true, clearSearch = true ) {
 		] );
 	}
 
+	// Show/hide the 'Clear filters' button, depending on if search term or filters are set.
 	if (
-		! DOM.getSearchTerm() &&
-		Object.keys( DOM.getFilterValues() ).length === 0
+		DOM.getSearchTerm() ||
+		Object.keys( DOM.getFilterValues() ).length !== 0
 	) {
+		UI.showClearFiltersButton();
+	} else {
 		UI.hideClearFiltersButton();
 	}
 }

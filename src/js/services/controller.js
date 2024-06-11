@@ -67,15 +67,6 @@ class Controller {
 		order = order ? order : DOM.getOrder( orderBy );
 		offset = offset ? offset : 0;
 
-		// Hide the 'Clear filters' button if no search term or filters are set.
-		// TODO: move this to appropriate place (different class related to UI).
-		if (
-			searchTerm ||
-			( filters && Object.keys( filters ).length !== 0 )
-		) {
-			UI.showClearFiltersButton();
-		}
-
 		// Build the API URL based on section.
 		let path = '';
 		const params = {
