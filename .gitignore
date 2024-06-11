@@ -38,6 +38,7 @@ Thumbs.db
 # ignore build files
 /build/
 /dist/
+/export/
 
 # ignore Composer dependencies
 vendor/
