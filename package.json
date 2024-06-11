@@ -21,7 +21,8 @@
     "serve": "vite preview",
     "test": "echo \"Error: no test specified\" && exit 1",
     "lint": "eslint src/**/*.js",
-    "lint:fix": "eslint src/**/*.js --fix"
+    "lint:fix": "eslint src/**/*.js --fix",
+    "export": "pnpm run build && mkdir -p export && git archive --format zip --output export/rsd-wordpress.zip ${GIT_TAG:-HEAD}",
   },
   "keywords": [
     "research software directory",
