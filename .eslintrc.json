@@ -38,6 +38,7 @@
   },
   "globals": {
     "jQuery": "readonly",
+    "$": "readonly",
     "rsdWordPressVars": "readonly"
   }
 }
