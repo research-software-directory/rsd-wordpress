@@ -378,7 +378,7 @@ class Controller {
 
 	// Load filters
 	async loadFilters() {
-		this.fetchFilters()
+		return this.fetchFilters()
 			.then( ( filters ) => {
 				UI.updateFilterValues( filters );
 				return filters;

@@ -36,7 +36,7 @@ function handleSearchEnterKey( e ) {
 	}
 }
 
-function clearFilters( reloadResults = true, clearSearch = true ) {
+async function clearFilters( reloadResults = true, clearSearch = true ) {
 	if ( clearSearch ) {
 		DOM.$container.find( '.rsd-search-input' ).val( '' );
 	}
@@ -45,8 +45,10 @@ function clearFilters( reloadResults = true, clearSearch = true ) {
 	Controller.clearCurrentFilters();
 
 	if ( reloadResults ) {
-		Controller.loadFilters();
-		Controller.loadItems();
+		await Promise.all( [
+			Controller.loadFilters(),
+			Controller.loadItems(),
+		] );
 	}
 
 	if (
