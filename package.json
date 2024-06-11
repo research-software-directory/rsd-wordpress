@@ -17,12 +17,14 @@
   },
   "scripts": {
     "dev": "NODE_ENV=development vite build --watch",
+    "dev:build": "NODE_ENV=development vite build",
     "build": "NODE_ENV=production vite build",
     "serve": "vite preview",
     "test": "echo \"Error: no test specified\" && exit 1",
     "lint": "eslint src/**/*.js",
     "lint:fix": "eslint src/**/*.js --fix",
     "export": "pnpm run build && mkdir -p export && git archive --format zip --output export/rsd-wordpress.zip ${GIT_TAG:-HEAD}",
+    "dev:export": "pnpm run dev:build && mkdir -p export && git archive --format zip --output export/rsd-wordpress.zip ${GIT_TAG:-HEAD}"
   },
   "keywords": [
     "research software directory",
