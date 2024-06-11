@@ -17,6 +17,9 @@ import { babel } from '@rollup/plugin-babel';
 const isProduction = process.env.NODE_ENV === 'production';
 
 const baseConfig = {
+	optimizeDeps: {
+		exclude: [ 'jquery' ],
+	},
 	define: {
 		'process.env': process.env,
 		$: 'window.jQuery',
