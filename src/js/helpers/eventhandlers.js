@@ -14,17 +14,13 @@ let scrollObserver = null;
 // (executing with a slight delay after entry changes, so that the search term is not sent with every character)
 // (also, if the user presses Enter, the search is executed immediately)
 
-function handleSearch() {
+async function handleSearch() {
 	clearTimeout( delayTimer );
 	const searchTerm = $( this ).val().toLowerCase();
-	delayTimer = setTimeout( function () {
-		Controller.loadFilters();
-		Controller.loadItems( searchTerm );
-		if ( searchTerm.trim() === '' ) {
-			UI.hideClearFiltersButton();
-		} else {
-			UI.showClearFiltersButton();
-		}
+	delayTimer = setTimeout( async function () {
+		await Controller.loadFilters();
+		await Controller.loadItems( searchTerm );
+		UI.toggleClearFiltersButton();
 	}, 500 );
 }
 
