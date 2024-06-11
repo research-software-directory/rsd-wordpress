@@ -143,7 +143,7 @@ class Controller {
 				url: API.getUrl( path, params ),
 				headers: { Prefer: 'count=exact' },
 				// eslint-disable-next-line object-shorthand
-				success: function ( response ) {
+				success: ( response ) => {
 					// Create an array of Item objects from the response.
 					const resultItems = [];
 					if ( response && Array.isArray( response ) ) {
@@ -165,7 +165,7 @@ class Controller {
 					resolve( resultItems );
 				},
 				// eslint-disable-next-line object-shorthand
-				error: function ( jqXHR, textStatus, errorThrown ) {
+				error: ( jqXHR, textStatus, errorThrown ) => {
 					reject( errorThrown );
 				},
 			} );
@@ -293,7 +293,7 @@ class Controller {
 					dataType: 'json',
 					contentType: 'application/json',
 					// eslint-disable-next-line object-shorthand
-					success: function ( response ) {
+					success: ( response ) => {
 						filters[ filter ] = new Filter(
 							data.title,
 							data.identifier,
@@ -303,7 +303,7 @@ class Controller {
 						resolve();
 					},
 					// eslint-disable-next-line object-shorthand
-					error: function ( jqXHR, textStatus, errorThrown ) {
+					error: ( jqXHR, textStatus, errorThrown ) => {
 						reject( errorThrown );
 					},
 				} );
