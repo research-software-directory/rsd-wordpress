@@ -32,11 +32,11 @@ const baseConfig = {
 		},
 		css: {
 			postcss: {
-				plugins: [postcss(), autoprefixer()],
+				plugins: [ postcss(), autoprefixer() ],
 			},
 			transformer: 'lightningcss',
 			lightningcss: {
-				targets: browserslistToTargets(browserslist('defaults')),
+				targets: browserslistToTargets( browserslist( 'defaults' ) ),
 			},
 		},
 	},
@@ -51,9 +51,9 @@ const devConfig = {
 			...baseConfig.build.rollupOptions,
 			output: {
 				...baseConfig.build.rollupOptions.output,
-				entryFileNames: `${baseConfig.build.lib.fileName}.js`,
-				chunkFileNames: `${baseConfig.build.lib.fileName}.js`,
-				assetFileNames: `${baseConfig.build.lib.fileName}.css`,
+				entryFileNames: `${ baseConfig.build.lib.fileName }.js`,
+				chunkFileNames: `${ baseConfig.build.lib.fileName }.js`,
+				assetFileNames: `${ baseConfig.build.lib.fileName }.css`,
 			},
 		},
 		css: {
@@ -72,16 +72,16 @@ const prodConfig = {
 		rollupOptions: {
 			...baseConfig.build.rollupOptions,
 			plugins: [
-				babel({
+				babel( {
 					exclude: 'node_modules/**',
 					babelHelpers: 'bundled',
-				}),
+				} ),
 			],
 			output: {
 				...baseConfig.build.rollupOptions.output,
-				entryFileNames: `${baseConfig.build.lib.fileName}.min.js`,
-				chunkFileNames: `${baseConfig.build.lib.fileName}.min.js`,
-				assetFileNames: `${baseConfig.build.lib.fileName}.min.css`,
+				entryFileNames: `${ baseConfig.build.lib.fileName }.min.js`,
+				chunkFileNames: `${ baseConfig.build.lib.fileName }.min.js`,
+				assetFileNames: `${ baseConfig.build.lib.fileName }.min.css`,
 			},
 		},
 		css: {
@@ -91,4 +91,4 @@ const prodConfig = {
 	},
 };
 
-export default defineConfig(isProduction ? prodConfig : devConfig);
+export default defineConfig( isProduction ? prodConfig : devConfig );
