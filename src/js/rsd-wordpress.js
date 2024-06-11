@@ -2,7 +2,6 @@
  * RSD WordPress plugin JavaScript
  *
  * @module rsd-wordpress
- * @since 0.4.0
  * @license Apache-2.0
  */
 
