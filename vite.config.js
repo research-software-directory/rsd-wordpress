@@ -17,6 +17,11 @@ import { babel } from '@rollup/plugin-babel';
 const isProduction = process.env.NODE_ENV === 'production';
 
 const baseConfig = {
+	define: {
+		'process.env': process.env,
+		$: 'window.jQuery',
+		jQuery: 'window.jQuery',
+	},
 	build: {
 		lib: {
 			entry: 'src/index.js',
