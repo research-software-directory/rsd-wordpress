@@ -130,6 +130,10 @@ input[type="search"].rsd-search-input {
 	padding: 0;
 }
 
+.rsd-results-item .card-image a {
+	display: block;
+}
+
 .rsd-results-item .card-image img {
 	width: 100%;
 	height: 250px;
