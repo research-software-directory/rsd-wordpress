@@ -190,7 +190,7 @@ class Display {
 
 		$i = 1;
 		?>
-			<div class="rsd-filter columns in-viewport">
+			<div class="rsd-filter columns small-16 medium-8 large-6 in-viewport">
 				<h3><label for="<?php echo esc_attr( $identifier ); ?>"><?php echo esc_html( $filter->get_title() ); ?></label></h3>
 				<?php if ( 'multicheckbox' === $filter->get_type() ) : ?>
 					<?php foreach ( $filter->get_items() as $item ) : ?>
