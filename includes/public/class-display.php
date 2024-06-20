@@ -190,6 +190,10 @@ class Display {
 
 		$i = 1;
 		?>
+			<?php
+			// Note: Currently, the column classes below are based on a 16-column grid for the Flex Grid system (deprecated since Foundation v6.4+).
+			// See https://get.foundation/sites/docs/flex-grid.html .
+			?>
 			<div class="rsd-filter columns small-16 medium-8 large-6 in-viewport">
 				<h3><label for="<?php echo esc_attr( $identifier ); ?>"><?php echo esc_html( $filter->get_title() ); ?></label></h3>
 				<?php if ( 'multicheckbox' === $filter->get_type() ) : ?>
