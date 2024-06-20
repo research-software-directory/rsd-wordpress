@@ -123,13 +123,20 @@ class Plugin {
 		require RSD_WP__PLUGIN_DIR . 'includes/models/class-project-item.php';
 		require RSD_WP__PLUGIN_DIR . 'includes/models/class-software-item.php';
 		require RSD_WP__PLUGIN_DIR . 'includes/public/class-display.php';
+		require RSD_WP__PLUGIN_DIR . 'includes/class-settings.php';
+
+		if ( is_admin() ) {
+			require RSD_WP__PLUGIN_DIR . 'includes/admin/class-settings-admin.php';
+		}
 	}
 
 	/**
 	 * Add the hooks used in the admin area.
 	 */
 	private function add_admin_hooks() {
-		// Do nothing (yet).
+		if ( is_admin() ) {
+			Admin\Settings_Admin::get_instance();
+		}
 	}
 
 	/**
