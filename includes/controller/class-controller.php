@@ -480,11 +480,20 @@ class Controller {
 		);
 		// phpcs:enable
 
+		// Load the configured filters, and prepare the filters to be requested from the API.
+		$filters_config = Settings::get_settings( 'filters' );
+		$filters_req    = array();
+		foreach ( $filters_default[ $section ] as $filter ) {
+			if ( isset( $filters_config[ $filter['identifier'] ] ) ) {
+				$filters_req[ $filter['identifier'] ] = $filter;
+			}
+		}
+
 		// Prepare the filters var.
 		$filters = array();
 
 		// Set the API paths and parameters for configured filters.
-		foreach ( $filters_default[ $section ] as $filter ) {
+		foreach ( $filters_req as $filter ) {
 			// Build the API path.
 			$path = Api::build_path( $filter['path'], $filter['params'] );
 
