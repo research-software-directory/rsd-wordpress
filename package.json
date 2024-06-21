@@ -23,8 +23,8 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "lint": "eslint src/**/*.js",
     "lint:fix": "eslint src/**/*.js --fix",
-    "export": "pnpm run build && mkdir -p export && git archive --format zip --output export/rsd-wordpress.zip ${GIT_TAG:-HEAD}",
-    "dev:export": "pnpm run dev:build && mkdir -p export && git archive --format zip --output export/rsd-wordpress.zip ${GIT_TAG:-HEAD}"
+    "export": "pnpm run build && mkdir -p export && git archive --format zip --output export/rsd-wordpress.zip ${GIT_TAG:-HEAD} && zip -ur export/rsd-wordpress.zip dist/",
+    "dev:export": "pnpm run dev:build && mkdir -p export && git archive --format zip --output export/rsd-wordpress.zip ${GIT_TAG:-HEAD} && zip -ur export/rsd-wordpress.zip dist/"
   },
   "keywords": [
     "research software directory",
