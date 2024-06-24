@@ -142,14 +142,32 @@ export default class Item {
 
 	getProps( props ) {
 		let html = '<ul class="rsd-results-item-props">';
+		const self = this;
+		const progressDateFormat = {
+			year: 'numeric',
+			month: 'short',
+		};
+
 		$.each( props, function ( prop, value ) {
-			html += `
-				<li class="rsd-results-item-prop-${ prop.toLowerCase() }">
-					<span aria-hidden="true" class="icon icon-${ prop.toLowerCase() }" title="${ prop }"></span>
-					<span class="value">${ value }</span>
-					<span class="prop">${ prop.toLowerCase() }</span>
-				</li>
-			`;
+			if ( 'Progress' === prop ) {
+				html += `
+					<li class="rsd-results-item-prop-progress" data-progress-percentage="${ value }">
+						<span class="value date-start">${ self.getDateStart( progressDateFormat ) }</span> -
+						<span class="value date-end">${ self.getDateEnd( progressDateFormat ) }</span>
+						<div class="progress-bar" role="progressbar" tabindex="0" aria-valuenow="${ value }" aria-valuemin="0" aria-valuemax="100">
+							<div class="progress-meter" style="width: ${ value }%;"></div>
+						</div>
+					</li>
+					`;
+			} else {
+				html += `
+					<li class="rsd-results-item-prop-${ prop.toLowerCase() }">
+						<span aria-hidden="true" class="icon icon-${ prop.toLowerCase() }" title="${ prop }"></span>
+						<span class="value">${ value }</span>
+						<span class="prop">${ prop.toLowerCase() }</span>
+					</li>
+					`;
+			}
 		} );
 		html += '</ul>';
 
