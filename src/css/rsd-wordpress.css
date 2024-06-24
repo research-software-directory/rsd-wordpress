@@ -197,6 +197,7 @@ input[type="search"].rsd-search-input {
 	text-align: center;
 	background-color: transparent;
 	color: #666;
+	font-size: 0.8rem;
 }
 
 .rsd-results-item-props li:last-child {
