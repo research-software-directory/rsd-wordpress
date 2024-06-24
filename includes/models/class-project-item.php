@@ -139,19 +139,33 @@ class Project_Item extends Item {
 	/**
 	 * Get the item start date.
 	 *
+	 * @param string $format The date format.
 	 * @return string
 	 */
-	public function get_date_start() {
-		return $this->date_start;
+	public function get_date_start( $format = 'Y-m-d' ) {
+		if ( empty( $this->date_start ) ) {
+			return '';
+		}
+
+		$timezone = get_option( 'timezone_string' );
+		$date     = new \DateTimeImmutable( $this->date_start, new \DateTimeZone( $timezone ) );
+		return $date->format( $format );
 	}
 
 	/**
 	 * Get the item end date.
 	 *
+	 * @param string $format The date format.
 	 * @return string
 	 */
-	public function get_date_end() {
-		return $this->date_end;
+	public function get_date_end( $format = 'Y-m-d' ) {
+		if ( empty( $this->date_end ) ) {
+			return '';
+		}
+
+		$timezone = get_option( 'timezone_string' );
+		$date     = new \DateTimeImmutable( $this->date_end, new \DateTimeZone( $timezone ) );
+		return $date->format( $format );
 	}
 
 	/**
@@ -218,17 +232,27 @@ class Project_Item extends Item {
 	}
 
 	/**
-	 * Get the item progress.
+	 * Get the item progress percentage.
 	 *
 	 * @return string
 	 */
-	public function get_progress() {
-		$progress = '';
-
-		if ( ! empty( $this->date_start ) && ! empty( $this->date_end ) ) {
-			$progress = wp_date( 'Y', strtotime( $this->date_end ) ) - wp_date( 'Y', strtotime( $this->date_start ) );
+	public function get_progress_percentage() {
+		if ( empty( $this->date_start ) || empty( $this->date_end ) ) {
+			return 0;
 		}
 
-		return $progress;
+		$date_start = new \DateTimeImmutable( $this->date_start );
+		$date_end   = new \DateTimeImmutable( $this->date_end );
+		$now        = new \DateTimeImmutable();
+
+		if ( $now > $date_end ) {
+			return 100;
+		} elseif ( $now < $date_start ) {
+			return 0;
+		} else {
+			$total   = $date_start->diff( $date_end )->days;
+			$elapsed = $date_start->diff( $now )->days;
+			return round( ( $elapsed / $total ) * 100 );
+		}
 	}
 }

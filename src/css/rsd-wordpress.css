@@ -197,6 +197,7 @@ input[type="search"].rsd-search-input {
 	text-align: center;
 	background-color: transparent;
 	color: #666;
+	font-size: 0.8rem;
 }
 
 .rsd-results-item-props li:last-child {
@@ -229,7 +230,17 @@ input[type="search"].rsd-search-input {
 }
 
 .rsd-results-item-props .rsd-results-item-prop-progress {
-	display: none;
+	display: block;
+	margin-bottom: 1rem;
+}
+
+.rsd-results-item-props .progress-bar {
+	height: 0.2rem;
+	background-color: #f9f9f9;
+}
+
+.rsd-results-item-props .progress-meter {
+	background-color: #cacaca;
 }
 
 .rsd-results-show-more {

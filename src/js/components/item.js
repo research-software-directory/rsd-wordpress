@@ -92,6 +92,44 @@ export default class Item {
 		return this.updated_at || '';
 	}
 
+	getDate(
+		dateStr,
+		format = { year: 'numeric', month: '2-digit', day: '2-digit' }
+	) {
+		if ( ! dateStr ) return '';
+
+		const date = new Date( dateStr );
+		const formatter = new Intl.DateTimeFormat( 'en-UK', format );
+		return formatter.format( date );
+	}
+
+	getDateStart(
+		format = { year: 'numeric', month: '2-digit', day: '2-digit' }
+	) {
+		return this.getDate( this.date_start, format );
+	}
+
+	getDateEnd(
+		format = { year: 'numeric', month: '2-digit', day: '2-digit' }
+	) {
+		return this.getDate( this.date_end, format );
+	}
+
+	getProgressPercentage() {
+		const dateStart = new Date( this.date_start );
+		const dateEnd = new Date( this.date_end );
+		const now = new Date();
+
+		if ( ! isNaN( dateStart.getTime() ) && ! isNaN( dateEnd.getTime() ) ) {
+			const total = ( dateEnd - dateStart ) / ( 1000 * 60 * 60 * 24 );
+			const elapsed = ( now - dateStart ) / ( 1000 * 60 * 60 * 24 );
+
+			return Math.round( ( elapsed / total ) * 100 );
+		}
+
+		return 0;
+	}
+
 	getLabels() {
 		let html = '<ul class="rsd-results-item-labels">';
 		$.each( this.keywords, function ( index, label ) {
@@ -104,14 +142,32 @@ export default class Item {
 
 	getProps( props ) {
 		let html = '<ul class="rsd-results-item-props">';
+		const self = this;
+		const progressDateFormat = {
+			year: 'numeric',
+			month: 'short',
+		};
+
 		$.each( props, function ( prop, value ) {
-			html += `
-				<li class="rsd-results-item-prop-${ prop.toLowerCase() }">
-					<span aria-hidden="true" class="icon icon-${ prop.toLowerCase() }" title="${ prop }"></span>
-					<span class="value">${ value }</span>
-					<span class="prop">${ prop.toLowerCase() }</span>
-				</li>
-			`;
+			if ( 'Progress' === prop ) {
+				html += `
+					<li class="rsd-results-item-prop-progress" data-progress-percentage="${ value }">
+						<span class="value date-start">${ self.getDateStart( progressDateFormat ) }</span> -
+						<span class="value date-end">${ self.getDateEnd( progressDateFormat ) }</span>
+						<div class="progress-bar" role="progressbar" tabindex="0" aria-valuenow="${ value }" aria-valuemin="0" aria-valuemax="100">
+							<div class="progress-meter" style="width: ${ value }%;"></div>
+						</div>
+					</li>
+					`;
+			} else {
+				html += `
+					<li class="rsd-results-item-prop-${ prop.toLowerCase() }">
+						<span aria-hidden="true" class="icon icon-${ prop.toLowerCase() }" title="${ prop }"></span>
+						<span class="value">${ value }</span>
+						<span class="prop">${ prop.toLowerCase() }</span>
+					</li>
+					`;
+			}
 		} );
 		html += '</ul>';
 

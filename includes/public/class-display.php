@@ -386,11 +386,12 @@ class Display {
 		$title    = $item->get_title();
 		$item_url = sprintf( 'https://research-software-directory.org/projects/%s', $item->get_slug() );
 		// translators: Aria label for the logo of a project item.
-		$aria_label         = sprintf( __( "Logo for '%s'", 'rsd-wordpress' ), $title );
-		$image_url          = $item->get_image_url();
-		$image_contain_attr = ( $item->get_image_contain() ? ' class="contain"' : '' );
-		$use_wp_timezone    = true;
-		$last_updated_local = $item->get_last_updated( $use_wp_timezone );
+		$aria_label           = sprintf( __( "Logo for '%s'", 'rsd-wordpress' ), $title );
+		$image_url            = $item->get_image_url();
+		$image_contain_attr   = ( $item->get_image_contain() ? ' class="contain"' : '' );
+		$use_wp_timezone      = true;
+		$last_updated_local   = $item->get_last_updated( $use_wp_timezone );
+		$progress_date_format = 'M Y';
 
 		if ( empty( $image_url ) ) {
 			$image_url = self::get_default_image_url();
@@ -418,8 +419,12 @@ class Display {
 					<?php endif; ?>
 				</div>
 				<ul class="rsd-results-item-props">
-					<li class="rsd-results-item-prop-progress">
-						<span class="prop"><?php esc_html_e( 'progress:', 'rsd-wordpress' ); ?></span> <?php echo esc_html( $item->get_progress() ); ?>
+					<li class="rsd-results-item-prop-progress" data-progress-percentage="<?php echo esc_attr( $item->get_progress_percentage() ); ?>">
+						<span class="value date-start"><?php echo esc_html( $item->get_date_start( $progress_date_format ) ); ?></span> -
+						<span class="value date-end"><?php echo esc_html( $item->get_date_end( $progress_date_format ) ); ?></span>
+						<div class="progress-bar" role="progressbar" tabindex="0" aria-valuenow="<?php echo esc_attr( $item->get_progress_percentage() ); ?>" aria-valuemin="0" aria-valuemax="100">
+							<div class="progress-meter" style="width: <?php echo esc_attr( $item->get_progress_percentage() ); ?>%;"></div>
+						</div>
 					</li>
 					<li class="rsd-results-item-prop-impact">
 						<span aria-hidden="true" class="icon icon-impact" title="<?php esc_html_e( 'Impact', 'rsd-wordpress' ); ?>"></span>
