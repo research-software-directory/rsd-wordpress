@@ -120,6 +120,7 @@ class UI {
 				title = item.title;
 				description = item.subtitle || '';
 				props = {
+					Progress: item.getProgressPercentage(),
 					Impact: item.getImpactCount(),
 					Output: item.getOutputCount(),
 				};
