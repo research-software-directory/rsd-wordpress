@@ -120,16 +120,31 @@ class UI {
 				title = item.title;
 				description = item.subtitle || '';
 				props = {
-					Progress: item.getProgressPercentage(),
-					Impact: item.getImpactCount(),
-					Output: item.getOutputCount(),
+					progress: {
+						label: 'Progress',
+						value: item.getProgressPercentage(),
+					},
+					impact: {
+						label: 'Impact references',
+						value: item.getImpactCount(),
+					},
+					output: {
+						label: 'Research outputs',
+						value: item.getOutputCount(),
+					},
 				};
 			} else {
 				title = item.brand_name;
 				description = item.short_statement || '';
 				props = {
-					Contributors: item.getContributorsCount(),
-					Mentions: item.getMentionsCount(),
+					contributors: {
+						label: 'Contributors',
+						value: item.getContributorsCount(),
+					},
+					mentions: {
+						label: 'Mentions',
+						value: item.getMentionsCount(),
+					},
 				};
 			}
 

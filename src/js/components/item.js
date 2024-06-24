@@ -153,23 +153,23 @@ export default class Item {
 			month: 'short',
 		};
 
-		$.each( props, function ( prop, value ) {
-			if ( 'Progress' === prop ) {
+		$.each( props, function ( prop, obj ) {
+			if ( 'progress' === prop ) {
 				html += `
-					<li class="rsd-results-item-prop-progress" data-progress-percentage="${ value }">
+					<li class="rsd-results-item-prop-progress" data-progress-percentage="${ obj.value }">
 						<span class="value date-start">${ self.getDateStart( progressDateFormat ) }</span> -
 						<span class="value date-end">${ self.getDateEnd( progressDateFormat ) }</span>
-						<div class="progress-bar" role="progressbar" tabindex="0" aria-valuenow="${ value }" aria-valuemin="0" aria-valuemax="100">
-							<div class="progress-meter" style="width: ${ value }%;"></div>
+						<div class="progress-bar" role="progressbar" tabindex="0" aria-valuenow="${ obj.value }" aria-valuemin="0" aria-valuemax="100">
+							<div class="progress-meter" style="width: ${ obj.value }%;"></div>
 						</div>
 					</li>
 					`;
 			} else {
 				html += `
 					<li class="rsd-results-item-prop-${ prop.toLowerCase() }">
-						<span aria-hidden="true" class="icon icon-${ prop.toLowerCase() }" title="${ prop }"></span>
-						<span class="value">${ value }</span>
-						<span class="prop">${ prop.toLowerCase() }</span>
+						<span aria-hidden="true" class="icon icon-${ prop.toLowerCase() }" title="${ obj.label }"></span>
+						<span class="value">${ obj.value }</span>
+						<span class="prop">${ obj.label }</span>
 					</li>
 					`;
 			}
