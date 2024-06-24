@@ -121,9 +121,14 @@ export default class Item {
 		const now = new Date();
 
 		if ( ! isNaN( dateStart.getTime() ) && ! isNaN( dateEnd.getTime() ) ) {
+			if ( now < dateStart ) {
+				return 0;
+			} else if ( now > dateEnd ) {
+				return 100;
+			}
+
 			const total = ( dateEnd - dateStart ) / ( 1000 * 60 * 60 * 24 );
 			const elapsed = ( now - dateStart ) / ( 1000 * 60 * 60 * 24 );
-
 			return Math.round( ( elapsed / total ) * 100 );
 		}
 
