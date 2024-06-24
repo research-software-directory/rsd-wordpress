@@ -139,19 +139,33 @@ class Project_Item extends Item {
 	/**
 	 * Get the item start date.
 	 *
+	 * @param string $format The date format.
 	 * @return string
 	 */
-	public function get_date_start() {
-		return $this->date_start;
+	public function get_date_start( $format = 'Y-m-d' ) {
+		if ( empty( $this->date_start ) ) {
+			return '';
+		}
+
+		$timezone = get_option( 'timezone_string' );
+		$date     = new \DateTimeImmutable( $this->date_start, new \DateTimeZone( $timezone ) );
+		return $date->format( $format );
 	}
 
 	/**
 	 * Get the item end date.
 	 *
+	 * @param string $format The date format.
 	 * @return string
 	 */
-	public function get_date_end() {
-		return $this->date_end;
+	public function get_date_end( $format = 'Y-m-d' ) {
+		if ( empty( $this->date_end ) ) {
+			return '';
+		}
+
+		$timezone = get_option( 'timezone_string' );
+		$date     = new \DateTimeImmutable( $this->date_end, new \DateTimeZone( $timezone ) );
+		return $date->format( $format );
 	}
 
 	/**
