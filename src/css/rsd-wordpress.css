@@ -241,6 +241,7 @@ input[type="search"].rsd-search-input {
 
 .rsd-results-item-props .progress-meter {
 	background-color: #cacaca;
+	max-width: 100%;
 }
 
 .rsd-results-show-more {
