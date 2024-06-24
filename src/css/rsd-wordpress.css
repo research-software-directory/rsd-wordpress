@@ -244,6 +244,11 @@ input[type="search"].rsd-search-input {
 	max-width: 100%;
 }
 
+.rsd-results-item-prop-impact,
+.rsd-results-item-prop-output {
+	text-transform: lowercase;
+}
+
 .rsd-results-show-more {
 	text-align: center;
 }
