@@ -210,7 +210,7 @@ input[type="search"].rsd-search-input {
 	background-position: left center;
 	width: 16px;
 	height: 16px;
-	vertical-align: text-top;
+	vertical-align: middle;
 }
 
 .icon-contributors {
