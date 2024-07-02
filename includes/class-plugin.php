@@ -135,6 +135,8 @@ class Plugin {
 	 */
 	private function add_admin_hooks() {
 		if ( is_admin() ) {
+			add_action( 'admin_enqueue_scripts', array( __NAMESPACE__ . '\Plugin', 'enqueue_admin_scripts' ) );
+
 			Admin\Settings_Admin::get_instance();
 		}
 	}
@@ -163,10 +165,24 @@ class Plugin {
 	}
 
 	/**
+	 * Enqueue plugin admin scripts and styles.
+	 */
+	public static function enqueue_admin_scripts() {
+		// Enqueue compiled stylesheet and scripts, using minified versions in production and staging environments.
+		$suffix = ( wp_get_environment_type() === 'production' || wp_get_environment_type() === 'staging' ? '.min' : '' );
+		wp_enqueue_script(
+			self::get_plugin_name() . '-admin-settings',
+			RSD_WP__PLUGIN_URL . 'dist/rsd-wordpress-admin' . $suffix . '.js',
+			array( 'jquery', 'wp-media-editor'  ),
+			self::get_version(),
+			true
+		);
+	}
+
+	/**
 	 * Process shortcode.
 	 *
 	 * @param array $atts Shortcode attributes.
-	 *
 	 * @return string
 	 */
 	public static function process_shortcode( $atts ) {
