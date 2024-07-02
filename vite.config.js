@@ -16,6 +16,11 @@ import { babel } from '@rollup/plugin-babel';
 
 const isProduction = process.env.NODE_ENV === 'production';
 
+const fileName = ( name, isMinified, ext ) => {
+	const min = isMinified ? '.min' : '';
+	return `${ name }${ min }.${ ext }`;
+};
+
 const baseConfig = {
 	optimizeDeps: {
 		exclude: [ 'jquery' ],
@@ -27,15 +32,27 @@ const baseConfig = {
 	},
 	build: {
 		lib: {
-			entry: 'src/index.js',
+			entry: {
+				'rsd-wordpress': 'src/index.js',
+				'rsd-wordpress-admin': 'src/index-admin.js',
+			},
 			name: 'rsd-wordpress',
-			fileName: 'rsd-wordpress',
 		},
 		emptyOutDir: false,
 		rollupOptions: {
 			output: {
-				chunkFileNames: '[name].js',
-				assetFileNames: '[name].[ext]',
+				entryFileNames: ( { name } ) =>
+					fileName( name, isProduction, 'js' ),
+				chunkFileNames: ( { name } ) =>
+					fileName( name, isProduction, 'js' ),
+				assetFileNames: ( assetInfo ) => {
+					const nameParts = assetInfo.name.split( '.' );
+					const ext = nameParts.length > 1 ? nameParts.pop() : 'css';
+					if ( ext === 'css' ) {
+						return fileName( 'rsd-wordpress', isProduction, ext );
+					}
+					return fileName( assetInfo.name, isProduction, ext );
+				},
 			},
 		},
 		css: {
@@ -59,9 +76,7 @@ const devConfig = {
 			...baseConfig.build.rollupOptions,
 			output: {
 				...baseConfig.build.rollupOptions.output,
-				entryFileNames: `${ baseConfig.build.lib.fileName }.js`,
-				chunkFileNames: `${ baseConfig.build.lib.fileName }.js`,
-				assetFileNames: `${ baseConfig.build.lib.fileName }.css`,
+				entryFileNames: ( { name } ) => fileName( name, false, 'js' ),
 			},
 		},
 		css: {
@@ -87,9 +102,7 @@ const prodConfig = {
 			],
 			output: {
 				...baseConfig.build.rollupOptions.output,
-				entryFileNames: `${ baseConfig.build.lib.fileName }.min.js`,
-				chunkFileNames: `${ baseConfig.build.lib.fileName }.min.js`,
-				assetFileNames: `${ baseConfig.build.lib.fileName }.min.css`,
+				entryFileNames: ( { name } ) => fileName( name, true, 'js' ),
 			},
 		},
 		css: {
