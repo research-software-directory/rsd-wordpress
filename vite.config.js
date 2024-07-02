@@ -72,13 +72,6 @@ const devConfig = {
 	build: {
 		...baseConfig.build,
 		minify: false,
-		rollupOptions: {
-			...baseConfig.build.rollupOptions,
-			output: {
-				...baseConfig.build.rollupOptions.output,
-				entryFileNames: ( { name } ) => fileName( name, false, 'js' ),
-			},
-		},
 		css: {
 			...baseConfig.build.css,
 			cssMinify: false,
@@ -100,10 +93,6 @@ const prodConfig = {
 					babelHelpers: 'bundled',
 				} ),
 			],
-			output: {
-				...baseConfig.build.rollupOptions.output,
-				entryFileNames: ( { name } ) => fileName( name, true, 'js' ),
-			},
 		},
 		css: {
 			...baseConfig.build.css,
