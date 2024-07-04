@@ -171,9 +171,9 @@ class Plugin {
 		// Enqueue compiled stylesheet and scripts, using minified versions in production and staging environments.
 		$suffix = ( wp_get_environment_type() === 'production' || wp_get_environment_type() === 'staging' ? '.min' : '' );
 		wp_enqueue_script(
-			self::get_plugin_name() . '-admin-settings',
+			self::get_plugin_name() . '-admin',
 			RSD_WP__PLUGIN_URL . 'dist/rsd-wordpress-admin' . $suffix . '.js',
-			array( 'jquery', 'wp-media-editor'  ),
+			array( 'jquery' ),
 			self::get_version(),
 			true
 		);
