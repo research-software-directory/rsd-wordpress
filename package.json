@@ -16,9 +16,13 @@
     "url": "https://github.com/research-software-directory/rsd-wordpress/issues"
   },
   "scripts": {
-    "dev": "NODE_ENV=development vite build --watch",
-    "dev:build": "NODE_ENV=development vite build",
-    "build": "NODE_ENV=production vite build",
+    "dev": "concurrently \"pnpm run dev:public\" \"pnpm run dev:admin\"",
+    "dev:public": "NODE_ENV=development ENTRY_NAME=rsd-wordpress ENTRY_FILE=src/index.js vite build --watch",
+    "dev:admin": "NODE_ENV=development ENTRY_NAME=rsd-wordpress-admin ENTRY_FILE=src/index-admin.js vite build --watch",
+    "dev:build": "NODE_ENV=development pnpm run build:public && NODE_ENV=development pnpm run build:admin",
+    "build": "NODE_ENV=production pnpm run build:public && NODE_ENV=production pnpm run build:admin",
+    "build:public": "ENTRY_NAME=rsd-wordpress ENTRY_FILE=src/index.js vite build",
+    "build:admin": "ENTRY_NAME=rsd-wordpress-admin ENTRY_FILE=src/index-admin.js vite build",
     "serve": "vite preview",
     "test": "echo \"Error: no test specified\" && exit 1",
     "lint": "eslint src/**/*.js",
@@ -45,9 +49,11 @@
     "@wordpress/prettier-config": "^3.15.0",
     "autoprefixer": "^10.4.19",
     "browserslist": "^4.23.1",
+    "concurrently": "^8.2.2",
     "eslint": "^8.57.0",
     "eslint-plugin-compat": "^4.2.0",
     "lightningcss": "^1.25.1",
+    "path": "^0.12.7",
     "postcss": "^8.4.39",
     "prettier": "npm:wp-prettier@^3.0.3",
     "vite": "^5.3.2"

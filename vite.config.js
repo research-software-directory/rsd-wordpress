@@ -13,15 +13,18 @@ import browserslist from 'browserslist';
 import { browserslistToTargets } from 'lightningcss';
 import autoprefixer from 'autoprefixer';
 import { babel } from '@rollup/plugin-babel';
+import { resolve } from 'path';
 
 const isProduction = process.env.NODE_ENV === 'production';
+const entryName = process.env.ENTRY_NAME || 'rsd-wordpress';
+const entryFile = process.env.ENTRY_FILE || 'src/index.js';
 
 const fileName = ( name, isMinified, ext ) => {
 	const min = isMinified ? '.min' : '';
 	return `${ name }${ min }.${ ext }`;
 };
 
-const baseConfig = {
+export default defineConfig( {
 	optimizeDeps: {
 		exclude: [ 'jquery' ],
 	},
@@ -31,29 +34,34 @@ const baseConfig = {
 		jQuery: 'window.jQuery',
 	},
 	build: {
-		lib: {
-			entry: {
-				'rsd-wordpress': 'src/index.js',
-				'rsd-wordpress-admin': 'src/index-admin.js',
-			},
-			name: 'rsd-wordpress',
-		},
 		emptyOutDir: false,
+		minify: isProduction,
+		cssMinify: isProduction ? 'lightningcss' : false,
+		sourcemap: isProduction,
+		lib: {
+			name: entryName,
+			entry: { [ entryName ]: resolve( __dirname, entryFile ) },
+		},
 		rollupOptions: {
 			output: {
+				format: 'iife',
 				entryFileNames: ( { name } ) =>
 					fileName( name, isProduction, 'js' ),
 				chunkFileNames: ( { name } ) =>
 					fileName( name, isProduction, 'js' ),
 				assetFileNames: ( assetInfo ) => {
-					const nameParts = assetInfo.name.split( '.' );
-					const ext = nameParts.length > 1 ? nameParts.pop() : 'css';
-					if ( ext === 'css' ) {
-						return fileName( 'rsd-wordpress', isProduction, ext );
-					}
-					return fileName( assetInfo.name, isProduction, ext );
+					const ext = assetInfo.name.split( '.' ).pop();
+					return fileName( entryName, isProduction, ext );
 				},
 			},
+			plugins: isProduction
+				? [
+					babel( {
+						exclude: 'node_modules/**',
+						babelHelpers: 'bundled',
+					} ),
+				]
+				: [],
 		},
 		css: {
 			postcss: {
@@ -65,40 +73,4 @@ const baseConfig = {
 			},
 		},
 	},
-};
-
-const devConfig = {
-	...baseConfig,
-	build: {
-		...baseConfig.build,
-		minify: false,
-		css: {
-			...baseConfig.build.css,
-			cssMinify: false,
-		},
-	},
-};
-
-const prodConfig = {
-	...baseConfig,
-	build: {
-		...baseConfig.build,
-		minify: true,
-		sourcemap: true,
-		rollupOptions: {
-			...baseConfig.build.rollupOptions,
-			plugins: [
-				babel( {
-					exclude: 'node_modules/**',
-					babelHelpers: 'bundled',
-				} ),
-			],
-		},
-		css: {
-			...baseConfig.build.css,
-			cssMinify: 'lightningcss',
-		},
-	},
-};
-
-export default defineConfig( isProduction ? prodConfig : devConfig );
+} );
