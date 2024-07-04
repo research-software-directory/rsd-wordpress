@@ -168,15 +168,22 @@ class Plugin {
 	 * Enqueue plugin admin scripts and styles.
 	 */
 	public static function enqueue_admin_scripts() {
-		// Enqueue compiled stylesheet and scripts, using minified versions in production and staging environments.
-		$suffix = ( wp_get_environment_type() === 'production' || wp_get_environment_type() === 'staging' ? '.min' : '' );
-		wp_enqueue_script(
-			self::get_plugin_name() . '-admin',
-			RSD_WP__PLUGIN_URL . 'dist/rsd-wordpress-admin' . $suffix . '.js',
-			array( 'jquery' ),
-			self::get_version(),
-			true
-		);
+		// Only enqueue the script on the specific admin page where it's needed.
+		$current_screen = get_current_screen();
+
+		if ( false !== strpos( $current_screen->id, 'rsd-wordpress' ) ) :
+			wp_enqueue_media();
+
+			// Enqueue compiled stylesheet and scripts, using minified versions in production and staging environments.
+			$suffix = ( wp_get_environment_type() === 'production' || wp_get_environment_type() === 'staging' ? '.min' : '' );
+			wp_enqueue_script(
+				self::get_plugin_name() . '-admin',
+				RSD_WP__PLUGIN_URL . 'dist/rsd-wordpress-admin' . $suffix . '.js',
+				array( 'jquery' ),
+				self::get_version(),
+				true
+			);
+		endif;
 	}
 
 	/**
