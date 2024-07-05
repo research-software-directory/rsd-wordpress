@@ -6,3 +6,9 @@
  */
 
 'use strict';
+
+// Import SCSS styles.
+import './css/admin.css';
+
+// Import JS components.
+import './js/admin-settings.js';
