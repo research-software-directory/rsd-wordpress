@@ -22,13 +22,6 @@ defined( 'ABSPATH' ) || exit;
  */
 class Display {
 	/**
-	 * Default image URL.
-	 *
-	 * @var string
-	 */
-	private static $default_img_url = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7';
-
-	/**
 	 * The single instance of the class.
 	 *
 	 * @var Display|null
@@ -47,15 +40,6 @@ class Display {
 		}
 
 		return self::$instance;
-	}
-
-	/**
-	 * Get the default image URL.
-	 *
-	 * @return string
-	 */
-	public static function get_default_image_url() {
-		return self::$default_img_url;
 	}
 
 	/**
@@ -332,7 +316,7 @@ class Display {
 		$last_updated_local = $item->get_last_updated( $use_wp_timezone );
 
 		if ( empty( $image_url ) ) {
-			$image_url = self::get_default_image_url();
+			$image_url = Settings::get_default_image_url();
 		}
 
 		ob_start();
@@ -394,7 +378,7 @@ class Display {
 		$progress_date_format = 'M Y';
 
 		if ( empty( $image_url ) ) {
-			$image_url = self::get_default_image_url();
+			$image_url = Settings::get_default_image_url();
 		}
 
 		ob_start();
