@@ -170,14 +170,21 @@ class Plugin {
 	public static function enqueue_admin_scripts() {
 		// Only enqueue the script on the specific admin page where it's needed.
 		$current_screen = get_current_screen();
-
 		if ( false !== strpos( $current_screen->id, 'rsd-wordpress' ) ) :
+			// Enqueue media scripts for the media uploader.
 			wp_enqueue_media();
 
 			// Enqueue compiled stylesheet and scripts, using minified versions in production and staging environments.
+			$handle = self::get_plugin_name() . '-admin';
 			$suffix = ( wp_get_environment_type() === 'production' || wp_get_environment_type() === 'staging' ? '.min' : '' );
+			wp_enqueue_style(
+				$handle,
+				RSD_WP__PLUGIN_URL . 'dist/rsd-wordpress-admin' . $suffix . '.css',
+				array(),
+				self::get_version()
+			);
 			wp_enqueue_script(
-				self::get_plugin_name() . '-admin',
+				$handle,
 				RSD_WP__PLUGIN_URL . 'dist/rsd-wordpress-admin' . $suffix . '.js',
 				array( 'jquery' ),
 				self::get_version(),
