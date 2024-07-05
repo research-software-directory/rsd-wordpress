@@ -111,6 +111,21 @@ class Settings_Admin extends \RSD\Settings {
 			'rsd-wordpress',
 			'rsd_filters_section'
 		);
+
+		add_settings_section(
+			'rsd_images_section',
+			__( 'Images', 'rsd-wordpress' ),
+			array( __CLASS__, 'images_section_html' ),
+			'rsd-wordpress'
+		);
+
+		add_settings_field(
+			'img_url',
+			__( 'Default image URL', 'rsd-wordpress' ),
+			array( __CLASS__, 'default_img_url_html' ),
+			'rsd-wordpress',
+			'rsd_images_section'
+		);
 	}
 
 	/**
@@ -119,7 +134,16 @@ class Settings_Admin extends \RSD\Settings {
 	 * @return void
 	 */
 	public static function filters_section_html() {
-		echo '<p>' . esc_html__( 'Configure the filters to be shown for each section using the checkboxes below.', 'rsd-wordpress' ) . '</p>';
+		echo '<p>' . esc_html__( 'Configure the filters to be shown for each section using the checkboxes below.', 'rsd-wordpress' ) . '</p>' . "\n";
+	}
+
+	/**
+	 * Images section HTML callback.
+	 *
+	 * @return void
+	 */
+	public static function images_section_html() {
+		// Do nothing (yet).
 	}
 
 	/**
@@ -165,5 +189,26 @@ class Settings_Admin extends \RSD\Settings {
 	 */
 	public static function projects_default_filters_html() {
 		self::default_filters_html( 'projects' );
+	}
+
+	/**
+	 * Default image URL HTML callback.
+	 *
+	 * @return void
+	 */
+	public static function default_img_url_html() {
+		$settings = get_option( 'rsd_wordpress_settings', array() );
+		$img_url  = isset( $settings['img_url'] ) ? $settings['img_url'] : '';
+		?>
+		<div id="rsd-default-img-preview" class="rsd-image-preview">
+			<img src="<?php echo esc_url( $img_url ); ?>" alt="" class="<?php echo esc_attr( empty( $img_url ) ? 'hidden' : '' ); ?>">
+		</div>
+		<input type="text" id="rsd-default-img-url" name="rsd_wordpress_settings[img_url]" value="<?php echo esc_attr( $img_url ); ?>" class="regular-text">
+		<button type="button" class="button" id="rsd-select-default-img"><?php esc_html_e( 'Select image', 'rsd-wordpress' ); ?></button>
+		<button id="rsd-remove-default-img" type="button" class="button button-secondary reset<?php echo esc_attr( empty( $img_url ) ? ' hidden' : '' ); ?>">
+			<?php esc_html_e( 'Remove image', 'rsd-wordpress' ); ?>
+		</button>
+		<p class="description"><?php esc_html_e( 'The default image URL to be used for items without an image.', 'rsd-wordpress' ); ?></p>
+		<?php
 	}
 }

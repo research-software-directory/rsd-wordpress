@@ -1,0 +1,30 @@
+/**
+ * RSD WordPress plugin styles - admin area.
+ *
+ * @package RSD_WP
+ * @license Apache-2.0
+ * @link https://research-software-directory.org
+ */
+
+.settings_page_rsd-wordpress button.reset {
+	color: #b32d2e;
+	text-decoration: none;
+	border-color: transparent;
+	box-shadow: none;
+	background: 0 0;
+}
+
+.settings_page_rsd-wordpress button.reset:focus,
+.settings_page_rsd-wordpress button.reset:hover {
+	background: #b32d2e;
+	color: #fff;
+	border-color: #b32d2e;
+	box-shadow: 0 0 0 1px #b32d2e;
+}
+
+.settings_page_rsd-wordpress .rsd-image-preview img:not(.hidden) {
+	display: block;
+	max-width: 100%;
+	max-height: 250px;
+	margin-bottom: 1rem;
+}

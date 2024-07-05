@@ -74,6 +74,7 @@ class Settings {
 					'organisation'   => __( 'Partners', 'rsd-wordpress' ),
 				),
 			),
+			'img_url' => 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7', // 1x1 transparent GIF.
 		);
 
 		if ( null === $key ) {
@@ -112,9 +113,25 @@ class Settings {
 				}
 			}
 			return $values;
+		} elseif ( 'img_url' === $key ) {
+			// Return the configured default image URL.
+			if ( isset( $settings['img_url'] ) && ! empty( $settings['img_url'] ) ) {
+				return $settings['img_url'];
+			} else {
+				return self::get_defaults( 'img_url' );
+			}
 		}
 
 		// Return any other requested settings.
 		return isset( $settings[ $key ] ) ? $settings[ $key ] : array();
+	}
+
+	/**
+	 * Get the default image URL from settings.
+	 *
+	 * @return string
+	 */
+	public static function get_default_image_url() {
+		return self::get_settings( 'img_url' );
 	}
 }
