@@ -233,6 +233,7 @@ class Plugin {
 		// Make filter labels available in JS.
 		$labels       = Controller::get_filter_labels();
 		$localize_arr = array(
+			'defaultImgUrl'       => Settings::get_default_image_url(),
 			'defaultFilterLabels' => $labels,
 		);
 		// If a search query is provided, also make it available in JS.
