@@ -48,6 +48,8 @@ export default class Item {
 	getImgUrl() {
 		if ( this.image_id ) {
 			return `https://research-software-directory.org/image/rpc/get_image?uid=${ this.image_id }`;
+		} else if ( rsdWordPressVars.defaultImgUrl ) {
+			return rsdWordPressVars.defaultImgUrl;
 		}
 
 		return 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7'; // Transparent 1x1 GIF
