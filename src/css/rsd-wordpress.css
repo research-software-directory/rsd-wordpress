@@ -235,6 +235,11 @@ input[type="search"].rsd-search-input {
 	margin-right: 0;
 }
 
+.rsd-results-item-props .progress-bar,
+.rsd-results-item-props .progress-meter {
+	border-radius: 0.5rem;
+}
+
 .rsd-results-item-props .progress-bar {
 	height: 0.3rem;
 	background-color: #f9f9f9;
