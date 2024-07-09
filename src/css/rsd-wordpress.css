@@ -232,6 +232,7 @@ input[type="search"].rsd-search-input {
 .rsd-results-item-props .rsd-results-item-prop-progress {
 	display: block;
 	margin-bottom: 1rem;
+	margin-right: 0;
 }
 
 .rsd-results-item-props .progress-bar {
