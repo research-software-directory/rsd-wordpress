@@ -4,6 +4,7 @@
 
 import DOM from '../helpers/dom';
 import Controller from '../services/controller';
+import Choices from 'choices.js';
 
 let instance = null;
 
