@@ -8,7 +8,7 @@
  */
 
 .rsd-filters {
-	padding: 1.5rem 1.5rem 1rem;
+	padding: 1.5rem;
 }
 
 .rsd-results-count,
@@ -303,4 +303,27 @@ input[type="search"].rsd-search-input {
 .icon-backtotop:hover,
 .icon-backtotop:focus {
 	background-image: url('../../assets/img/icon-backtotop_alt-white.svg');
+}
+
+/* Component style overrides */
+
+/* Choices.js */
+.choices[data-type*="select-one"] .choices__input {
+	border-radius: 0;
+}
+
+.choices__input,
+.choices__input[type="text"],
+.choices__input[type="search"] {
+	text-overflow: ellipsis;
+}
+
+.choices[data-type="select-multiple"] .choices__inner {
+	/* padding: 0; */
+}
+
+.choices__list--dropdown .choices__item,
+.choices__list[aria-expanded] .choices__item {
+	padding-left: 1.2rem;
+	padding-right: 1.2rem;
 }

@@ -104,8 +104,13 @@ class DOM {
 			const $filter = $( this );
 			const identifier = $filter.data( 'filter' );
 			const value = $filter.val();
-			if ( value && value !== '' ) {
-				filters[ identifier ] = [ value ];
+			if (
+				value &&
+				( value !== '' || ( Array.isArray( value ) && value.length ) )
+			) {
+				filters[ identifier ] = Array.isArray( value )
+					? value
+					: [ value ];
 			}
 		} );
 		return filters;

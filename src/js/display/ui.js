@@ -4,6 +4,7 @@
 
 import DOM from '../helpers/dom';
 import Controller from '../services/controller';
+import Choices from 'choices.js';
 
 let instance = null;
 
@@ -12,6 +13,8 @@ class UI {
 		if ( ! instance ) {
 			instance = this;
 		}
+
+		this.choicesInstances = {};
 
 		return instance;
 	}
@@ -65,32 +68,54 @@ class UI {
 			.text( `${ count } items found` );
 	}
 
-	updateFilterValues( filters ) {
-		$.each( filters, function ( identifier, filter ) {
-			const $filter = DOM.$container.find(
-				`.rsd-filters select[data-filter="${ identifier }"]`
-			);
-			// Get first placeholder item.
-			const $placeholder = $filter.find( '.placeholder' );
-			// Clear the filter.
-			$filter.empty();
-			// Add the placeholder item back and add the new filter values.
-			$filter.append( $placeholder );
-			// Add the new filter values.
-			filter.getItems().forEach( function ( item ) {
-				const value = item.name;
-				const label = filter.getLabel( value );
-				let selected = '';
-				if (
-					Controller.currentFilters[ identifier ] &&
-					Controller.currentFilters[ identifier ].includes( value )
-				) {
-					selected = ' selected';
-				}
-				$filter.append(
-					`<option value="${ value }"${ selected }>${ label }</option>`
-				);
+	enhanceFilterSelects() {
+		const self = this;
+
+		$( '.rsd-filters select[data-filter]' ).each( function () {
+			const identifier = $( this ).data( 'filter' );
+			const $placeholder = $( this ).find( 'option.placeholder' ).first();
+			const placeholderStr = $placeholder
+				? $placeholder.text().trim()
+				: '';
+			$( this ).attr( 'placeholder', placeholderStr );
+			if ( $placeholder ) {
+				$placeholder.remove();
+			}
+
+			self.choicesInstances[ identifier ] = new Choices( this, {
+				searchEnabled: false,
+				searchFields: [ 'value' ],
+				itemSelectText: '',
+				removeItemButton: true,
+				placeholder: true,
+				placeholderValue: placeholderStr,
+				searchPlaceholderValue: placeholderStr,
 			} );
+		} );
+	}
+
+	updateFilterValues( filters ) {
+		Object.entries( filters ).forEach( ( [ identifier, filter ] ) => {
+			if ( this.choicesInstances[ identifier ] ) {
+				const obj = this.choicesInstances[ identifier ];
+				// Clear the filter.
+				obj.clearStore();
+				// Add the new filter values.
+				const items = filter.getItems().map( ( item ) => {
+					const isSelected =
+						Controller.currentFilters[ identifier ] &&
+						Controller.currentFilters[ identifier ].includes(
+							item.name
+						);
+					return {
+						value: item.name,
+						label: filter.getLabel( item.name ),
+						selected: isSelected,
+					};
+				} );
+				// Add the new filter values.
+				obj.setChoices( items, 'value', 'label', true );
+			}
 		} );
 	}
 

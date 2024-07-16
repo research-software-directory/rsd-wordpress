@@ -356,6 +356,11 @@ class Controller {
 	public static function fetch_filters( $section = false ) {
 		$section = ( $section ? $section : self::get_section() );
 
+		// Set the default arguments.
+		$default_args = array(
+			'multiple' => true,
+		);
+
 		// Set the default API path parameters.
 		$default_params = array(
 			'organisation_id' => self::get_organisation_id(),
@@ -372,14 +377,17 @@ class Controller {
 				'project_status' => array(
 					'title'      => __( 'Project Status', 'rsd-wordpress' ),
 					'identifier' => 'project_status',
-					'args'       => array(
-						'labels' => array(
-							'upcoming'    => __( 'Upcoming', 'rsd-wordpress' ),
-							'in_progress' => __( 'In progress', 'rsd-wordpress' ),
-							'finished'    => __( 'Finished', 'rsd-wordpress' ),
-							'unknown'     => __( 'Unknown', 'rsd-wordpress' ),
+					'args'       => wp_parse_args(
+						array(
+							'labels' => array(
+								'upcoming'    => __( 'Upcoming', 'rsd-wordpress' ),
+								'in_progress' => __( 'In progress', 'rsd-wordpress' ),
+								'finished'    => __( 'Finished', 'rsd-wordpress' ),
+								'unknown'     => __( 'Unknown', 'rsd-wordpress' ),
+							),
+							'placeholder' => __( 'Filter by project status', 'rsd-wordpress' ),
 						),
-						'placeholder' => __( 'Filter by project status', 'rsd-wordpress' ),
+						$default_args
 					),
 					'path'       => '/rpc/org_project_status_filter',
 					'params'     => wp_parse_args(
@@ -392,8 +400,11 @@ class Controller {
 				'keywords' => array(
 					'title'      => __( 'Keywords', 'rsd-wordpress' ),
 					'identifier' => 'keyword',
-					'args'       => array(
-						'placeholder' => __( 'Filter by keyword', 'rsd-wordpress' ),
+					'args'       => wp_parse_args(
+						array(
+							'placeholder' => __( 'Filter by keyword', 'rsd-wordpress' ),
+						),
+						$default_args
 					),
 					'path'       => '/rpc/org_project_keywords_filter',
 					'params'     => wp_parse_args(
@@ -406,9 +417,12 @@ class Controller {
 				'research_domains' => array(
 					'title'      => __( 'Research Domains', 'rsd-wordpress' ),
 					'identifier' => 'domain',
-					'args'       => array(
-						'labeled_only' => true,
-						'placeholder'  => __( 'Filter by research domain', 'rsd-wordpress' ),
+					'args'       => wp_parse_args(
+						array(
+							'labeled_only' => true,
+							'placeholder'  => __( 'Filter by research domain', 'rsd-wordpress' ),
+						),
+						$default_args
 					),
 					'path'       => '/rpc/org_project_domains_filter',
 					'params'     => wp_parse_args(
@@ -421,8 +435,11 @@ class Controller {
 				'partners' => array(
 					'title'      => __( 'Partners', 'rsd-wordpress' ),
 					'identifier' => 'organisation',
-					'args'       => array(
-						'placeholder'  => __( 'Filter by partner', 'rsd-wordpress' ),
+					'args'       => wp_parse_args(
+						array(
+							'placeholder'  => __( 'Filter by partner', 'rsd-wordpress' ),
+						),
+						$default_args
 					),
 					'path'       => '/rpc/org_project_participating_organisations_filter',
 					'params'     => wp_parse_args(
@@ -437,8 +454,11 @@ class Controller {
 				'keywords'  => array(
 					'title'      => __( 'Keywords', 'rsd-wordpress' ),
 					'identifier' => 'keyword',
-					'args'       => array(
-						'placeholder' => __( 'Filter by keyword', 'rsd-wordpress' ),
+					'args'       => wp_parse_args(
+						array(
+							'placeholder' => __( 'Filter by keyword', 'rsd-wordpress' ),
+						),
+						$default_args
 					),
 					'path'       => '/rpc/org_software_keywords_filter',
 					'params'     => wp_parse_args(
@@ -451,8 +471,11 @@ class Controller {
 				'programming_languages' => array(
 					'title'      => __( 'Programming Languages', 'rsd-wordpress' ),
 					'identifier' => 'prog_language',
-					'args'       => array(
-						'placeholder' => __( 'Filter by programming language', 'rsd-wordpress' ),
+					'args'       => wp_parse_args(
+						array(
+							'placeholder' => __( 'Filter by programming language', 'rsd-wordpress' ),
+						),
+						$default_args
 					),
 					'path'       => '/rpc/org_software_languages_filter',
 					'params'     => wp_parse_args(
@@ -465,8 +488,11 @@ class Controller {
 				'license' => array(
 					'title'      => __( 'Licenses', 'rsd-wordpress' ),
 					'identifier' => 'license',
-					'args'       => array(
-						'placeholder' => __( 'Filter by license', 'rsd-wordpress' ),
+					'args'       => wp_parse_args(
+						array(
+							'placeholder' => __( 'Filter by license', 'rsd-wordpress' ),
+						),
+						$default_args
 					),
 					'path'       => '/rpc/org_software_licenses_filter',
 					'params'     => wp_parse_args(

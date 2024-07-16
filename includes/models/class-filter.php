@@ -42,6 +42,13 @@ class Filter {
 	public $type = 'select';
 
 	/**
+	 * The filter multiple flag.
+	 *
+	 * @var bool
+	 */
+	public $multiple = false;
+
+	/**
 	 * The filter items.
 	 *
 	 * @var array
@@ -87,6 +94,7 @@ class Filter {
 		$this->title      = $title;
 		$this->identifier = $identifier;
 		$this->type       = ( ! empty( $args['type'] ) ? $args['type'] : 'select' );
+		$this->multiple   = ( ! empty( $args['multiple'] ) ? true : false );
 		$this->args       = wp_parse_args( $args, $default_args );
 
 		if ( ! empty( $args['labels'] ) ) {
@@ -151,6 +159,24 @@ class Filter {
 	 */
 	public function get_type() {
 		return $this->type;
+	}
+
+	/**
+	 * Set filter multiple flag.
+	 *
+	 * @param bool $multiple The filter multiple flag.
+	 */
+	public function set_multiple( $multiple ) {
+		$this->multiple = $multiple;
+	}
+
+	/**
+	 * Get filter multiple flag.
+	 *
+	 * @return bool
+	 */
+	public function get_multiple() {
+		return $this->multiple;
 	}
 
 	/**
