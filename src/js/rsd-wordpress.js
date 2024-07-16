@@ -32,6 +32,8 @@ import {
 	$( 'body' ).addClass( 'rsd-wordpress-loaded' );
 	// Hide search button, since we're using the input event to trigger a search.
 	UI.hideSearchButton();
+	// Enhance filter select elements with Choices.js.
+	UI.enhanceFilterSelects();
 
 	// When search query is not set from PHP, check if search query or any filters are set and show the 'Clear filters' button.
 	if (
