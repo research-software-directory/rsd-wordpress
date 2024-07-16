@@ -186,9 +186,9 @@ class Display {
 						<?php ++$i; ?>
 					<?php endforeach; ?>
 				<?php else : ?>
-					<select name="<?php echo esc_attr( $identifier ); ?>" id="<?php echo esc_attr( $identifier ); ?>" data-filter="<?php echo esc_attr( $filter->get_identifier() ); ?>">
+					<select name="<?php echo esc_attr( $identifier ); ?>" id="<?php echo esc_attr( $identifier ); ?>" data-filter="<?php echo esc_attr( $filter->get_identifier() ); ?>"<?php echo ( $filter->get_multiple() ? ' multiple' : '' ); ?>>
 					<?php if ( 'select' === $filter->get_type() ) : ?>
-						<option value="" class="placeholder"><?php echo esc_html( $filter->get_placeholder_title() ); ?></option>
+						<option value="" disabled class="placeholder"><?php echo esc_html( $filter->get_placeholder_title() ); ?></option>
 					<?php endif; ?>
 					<?php foreach ( $filter->get_items() as $item ) : ?>
 						<option value="<?php echo esc_attr( $item['name'] ); ?>"><?php echo esc_html( $filter->get_label( $item['name'] ) ); ?></option>
