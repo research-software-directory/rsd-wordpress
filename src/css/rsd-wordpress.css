@@ -142,6 +142,10 @@ input[type="search"].rsd-search-input {
 	border: none;
 }
 
+[data-section="software"] .rsd-results-item .card-image img {
+	object-fit: scale-down;
+}
+
 .rsd-results-item .card-image img .contain {
 	object-fit: contain;
 }
