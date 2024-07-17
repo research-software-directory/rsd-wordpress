@@ -311,6 +311,11 @@ input[type="search"].rsd-search-input {
 
 /* Component style overrides */
 
+/* Tom Select */
+.ts-wrapper.multi .ts-control > div {
+	padding-left: 0.5rem;
+}
+
 /* Choices.js */
 .choices[data-type*="select-one"] .choices__input {
 	border-radius: 0;

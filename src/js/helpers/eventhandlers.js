@@ -37,6 +37,10 @@ async function clearFilters( reloadResults = true, clearSearch = true ) {
 		DOM.$container.find( '.rsd-search-input' ).val( '' );
 	}
 	DOM.$container.find( '.rsd-filters select' ).val( '' );
+	// Clear Tom Select values
+	Object.values( UI.selectInstances ).forEach( ( selectInst ) => {
+		selectInst.clear();
+	} );
 
 	Controller.clearCurrentFilters();
 

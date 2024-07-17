@@ -9,7 +9,7 @@
 'use strict';
 
 // Import styles.
-import 'choices.js/public/assets/styles/choices.min.css';
+import 'tom-select/dist/css/tom-select.css';
 import './css/rsd-wordpress.css';
 
 // Import JS components.
