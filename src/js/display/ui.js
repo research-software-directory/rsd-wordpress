@@ -4,7 +4,10 @@
 
 import DOM from '../helpers/dom';
 import Controller from '../services/controller';
-import TomSelect from 'tom-select';
+import TomSelect from 'tom-select/dist/js/tom-select.base.js';
+import TomSelectRemoveButton from 'tom-select/dist/js/plugins/remove_button.js';
+
+TomSelect.define( 'remove_button', TomSelectRemoveButton );
 
 let instance = null;
 
