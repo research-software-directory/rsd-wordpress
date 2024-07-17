@@ -323,7 +323,6 @@ input[type="search"].rsd-search-input {
 }
 
 .choices[data-type="select-multiple"] .choices__inner {
-	/* padding: 0; */
 	font-size: 1rem;
 }
 
