@@ -4,7 +4,7 @@
 
 import DOM from '../helpers/dom';
 import Controller from '../services/controller';
-import Choices from 'choices.js';
+import TomSelect from 'tom-select';
 
 let instance = null;
 
@@ -79,14 +79,11 @@ class UI {
 				$placeholder.remove();
 			}
 
-			self.selectInstances[ identifier ] = new Choices( this, {
-				searchEnabled: false,
-				searchFields: [ 'value' ],
-				itemSelectText: '',
-				removeItemButton: true,
-				placeholder: true,
-				placeholderValue: placeholderStr,
-				searchPlaceholderValue: placeholderStr,
+			self.selectInstances[ identifier ] = new TomSelect( this, {
+				create: false,
+				searchField: [ 'value' ],
+				placeholder: placeholderStr,
+				plugins: [ 'remove_button' ],
 			} );
 		} );
 	}
@@ -96,22 +93,17 @@ class UI {
 			const selectInst = this.selectInstances[ identifier ];
 			if ( selectInst ) {
 				// Clear the filter.
-				selectInst.clearStore();
+				selectInst.clearOptions();
+
+				// Prepare the new filter values.
+				const items = filter.getItems().map( ( item ) => ( {
+					value: item.name,
+					text: filter.getLabel( item.name ),
+				} ) );
+
 				// Add the new filter values.
-				const items = filter.getItems().map( ( item ) => {
-					const isSelected =
-						Controller.currentFilters[ identifier ] &&
-						Controller.currentFilters[ identifier ].includes(
-							item.name
-						);
-					return {
-						value: item.name,
-						label: filter.getLabel( item.name ),
-						selected: isSelected,
-					};
-				} );
-				// Add the new filter values.
-				selectInst.setChoices( items, 'value', 'label', true );
+				selectInst.addOptions( items );
+				selectInst.refreshOptions( false );
 			}
 		} );
 	}
