@@ -324,10 +324,15 @@ input[type="search"].rsd-search-input {
 
 .choices[data-type="select-multiple"] .choices__inner {
 	/* padding: 0; */
+	font-size: 1rem;
 }
 
 .choices__list--dropdown .choices__item,
 .choices__list[aria-expanded] .choices__item {
 	padding-left: 1.2rem;
 	padding-right: 1.2rem;
+}
+
+.choices__list--multiple .choices__item {
+	font-size: 0.8rem;
 }
