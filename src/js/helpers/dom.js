@@ -115,6 +115,12 @@ class DOM {
 		} );
 		return filters;
 	}
+
+	hasFilterValues() {
+		return Object.values( this.getFilterValues() ).some(
+			( arr ) => arr.length > 0
+		);
+	}
 }
 
 export default new DOM();

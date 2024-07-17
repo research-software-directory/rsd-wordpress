@@ -38,8 +38,7 @@ import {
 	// When search query is not set from PHP, check if search query or any filters are set and show the 'Clear filters' button.
 	if (
 		! rsdWordPressVars.search &&
-		( DOM.getSearchTerm() ||
-			Object.keys( DOM.getFilterValues() ).length !== 0 )
+		( DOM.getSearchTerm() || DOM.hasFilterValues() )
 	) {
 		Controller.currentFilters = DOM.getFilterValues();
 		// (Re)load filters and items.

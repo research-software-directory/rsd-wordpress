@@ -32,10 +32,7 @@ class UI {
 	}
 
 	toggleClearFiltersButton() {
-		if (
-			DOM.getSearchTerm() ||
-			Object.keys( DOM.getFilterValues() ).length !== 0
-		) {
+		if ( DOM.getSearchTerm() || DOM.hasFilterValues() ) {
 			this.showClearFiltersButton();
 		} else {
 			this.hideClearFiltersButton();
