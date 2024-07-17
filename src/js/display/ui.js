@@ -14,7 +14,7 @@ class UI {
 			instance = this;
 		}
 
-		this.choicesInstances = {};
+		this.selectInstances = {};
 
 		return instance;
 	}
@@ -79,7 +79,7 @@ class UI {
 				$placeholder.remove();
 			}
 
-			self.choicesInstances[ identifier ] = new Choices( this, {
+			self.selectInstances[ identifier ] = new Choices( this, {
 				searchEnabled: false,
 				searchFields: [ 'value' ],
 				itemSelectText: '',
@@ -93,10 +93,10 @@ class UI {
 
 	updateFilterValues( filters ) {
 		Object.entries( filters ).forEach( ( [ identifier, filter ] ) => {
-			if ( this.choicesInstances[ identifier ] ) {
-				const obj = this.choicesInstances[ identifier ];
+			const selectInst = this.selectInstances[ identifier ];
+			if ( selectInst ) {
 				// Clear the filter.
-				obj.clearStore();
+				selectInst.clearStore();
 				// Add the new filter values.
 				const items = filter.getItems().map( ( item ) => {
 					const isSelected =
@@ -111,7 +111,7 @@ class UI {
 					};
 				} );
 				// Add the new filter values.
-				obj.setChoices( items, 'value', 'label', true );
+				selectInst.setChoices( items, 'value', 'label', true );
 			}
 		} );
 	}
