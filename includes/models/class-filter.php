@@ -86,9 +86,9 @@ class Filter {
 	 */
 	public function __construct( $title, $identifier, $data = array(), $args = array() ) {
 		$default_args = array(
-			'placeholder'  => '',
-			'show_count'   => true,
-			'labeled_only' => false,
+			'placeholder'      => '',    // Default placeholder title.
+			'show_count'       => true,  // Show item count.
+			'labeled_only'     => false, // Show only labeled items.
 		);
 
 		$this->title      = $title;
