@@ -386,7 +386,11 @@ class Display {
 		<div class="rsd-results-item column card" data-id="<?php echo esc_attr( $item->get_id() ); ?>" data-last-updated="<?php echo esc_attr( $last_updated_local ); ?>">
 			<div class="card-image">
 				<a href="<?php echo esc_attr( $item_url ); ?>" target="_blank" rel="external"><img src="<?php echo esc_attr( $image_url ); ?>"
-				alt="" title="<?php echo esc_attr( $title ); ?>" aria-label="<?php echo esc_attr( $aria_label ); ?>"<?php echo esc_attr( $image_contain_attr ); ?>></a>
+				alt="" title="<?php echo esc_attr( $title ); ?>" aria-label="<?php echo esc_attr( $aria_label ); ?>"
+				<?php // phpcs:ignore
+				echo $image_contain_attr;
+				?>
+				></a>
 			</div>
 			<div class="card-section">
 				<h3><a href="<?php echo esc_attr( $item_url ); ?>" target="_blank" rel="external"><?php echo esc_html( $item->get_title() ); ?></a></h3>
