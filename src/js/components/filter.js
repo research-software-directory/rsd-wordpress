@@ -7,7 +7,7 @@ export default class Filter {
 		const defaultArgs = {
 			placeholder: '',
 			showCount: true,
-			labeled_only: false,
+			labeledOnly: false,
 			labels: [],
 		};
 		this.title = title;
@@ -33,7 +33,7 @@ export default class Filter {
 	}
 
 	getItems( labeledOnly = false ) {
-		if ( labeledOnly || this.args.labeled_only ) {
+		if ( labeledOnly || this.args.labeledOnly ) {
 			const filterItems = [];
 			const labels = this.getLabels();
 			$.each( this.items, function ( index, item ) {

@@ -203,7 +203,7 @@ class Controller {
 					identifier: 'domain',
 					args: {
 						...defaultArgs,
-						labeled_only: true,
+						labeledOnly: true,
 						labels: { ...this.defaultFilterLabels.domain },
 					},
 					filter_as_param: 'research_domain_filter',
