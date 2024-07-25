@@ -296,8 +296,10 @@ class Filter {
 	 * Get filter value label.
 	 *
 	 * @param string $name The filter value.
+	 * @param bool   $show_count Show item count.
+	 * @return string
 	 */
-	public function get_label( $name ) {
+	public function get_label( $name, $show_count = null ) {
 		$labels = $this->get_labels();
 
 		if ( ! empty( $labels[ $name ] ) ) {
@@ -306,7 +308,7 @@ class Filter {
 			$label = $name;
 		}
 
-		if ( ! empty( $this->args['show_count'] ) ) {
+		if ( $show_count || ( is_null( $show_count ) && $this->args['show_count'] ) ) {
 			$label .= ' (' . $this->get_item_count( $name ) . ')';
 		}
 

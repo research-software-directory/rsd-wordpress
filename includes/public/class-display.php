@@ -191,7 +191,7 @@ class Display {
 						<option value="" disabled class="placeholder"><?php echo esc_html( $filter->get_placeholder_title() ); ?></option>
 					<?php endif; ?>
 					<?php foreach ( $filter->get_items() as $item ) : ?>
-						<option value="<?php echo esc_attr( $item['name'] ); ?>"><?php echo esc_html( $filter->get_label( $item['name'] ) ); ?></option>
+						<option value="<?php echo esc_attr( $item['name'] ); ?>" label="<?php echo esc_attr( $filter->get_label( $item['name'] ) ); ?>"><?php echo esc_html( $filter->get_label( $item['name'], false ) ); ?></option>
 					<?php endforeach; ?>
 					</select>
 				<?php endif; ?>

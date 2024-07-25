@@ -84,8 +84,25 @@ class UI {
 
 			self.selectInstances[ identifier ] = new TomSelect( this, {
 				create: false,
-				searchField: [ 'value' ],
+				labelField: 'text',
+				searchField: [ 'text' ],
 				placeholder: placeholderStr,
+				render: {
+					option: ( data, escape ) => {
+						let label = '';
+						if ( data.label ) {
+							label = data.label;
+						} else if ( data.$option && data.$option.label ) {
+							label = data.$option.label;
+						} else if ( data.text ) {
+							label = data.text;
+						}
+						return `<div>${ escape( label ) }</div>`;
+					},
+					item: ( data, escape ) => {
+						return `<div>${ escape( data.text ) }</div>`;
+					},
+				},
 				plugins: [ 'remove_button' ],
 			} );
 		} );
@@ -101,7 +118,8 @@ class UI {
 				// Prepare the new filter values.
 				const items = filter.getItems().map( ( item ) => ( {
 					value: item.name,
-					text: filter.getLabel( item.name ),
+					label: filter.getLabel( item.name ),
+					text: filter.getLabel( item.name, false ),
 				} ) );
 
 				// Add the new filter values.
