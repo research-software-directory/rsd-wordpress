@@ -74,14 +74,17 @@ export default class Filter {
 		return this.labels;
 	}
 
-	getLabel( name ) {
+	getLabel( name, showCount ) {
 		let label = name;
 
 		if ( this.args.labels && this.args.labels[ name ] ) {
 			label = this.args.labels[ name ];
 		}
 
-		if ( this.args.showCount ) {
+		if (
+			showCount ||
+			( typeof showCount === 'undefined' && this.args.showCount )
+		) {
 			label += ' (' + this.getItemCount( name ) + ')';
 		}
 
