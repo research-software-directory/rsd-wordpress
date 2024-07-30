@@ -2,7 +2,7 @@
 Contributors: research-software-directory, mezzomedia, ctwhome
 Tags: RSD, Research Software Directory, wordpress, api, overview
 Requires at least: 6.0
-Tested up to: 6.5
+Tested up to: 6.6
 Requires PHP: 7.0
 Stable tag: 1.0.0
 License: Apache-2.0
@@ -11,6 +11,74 @@ License URI: https://www.apache.org/licenses/LICENSE-2.0
 WordPress plugin that displays projects and software information using the Research Software Directory API.
 
 == Changelog ==
+
+= 0.13.5 - 2024-07-30 =
+* Fix: Add `showCount` flag to `Filter.getLabel()` in JS as well.
+
+= 0.13.4 - 2024-07-25 =
+* Update `Filter::get_label()` / `Filter.getLabel()` method to accept optional `show_count` / `showCount` parameter.
+
+= 0.13.3 - 2024-07-23 =
+* Replace Choices.js multi-select integration with Tom Select.
+* Fix: Remove incorrect space between `img .contain`.
+
+= 0.13.2 - 2024-07-17 =
+* Adjust font size for multi-select selected values.
+
+= 0.13.1 - 2024-07-16 =
+* Scale down result item images on Software section.
+
+= 0.13.0 - 2024-07-16 =
+* Implement Choices.js to add multi-select (default) support for filters.
+
+= 0.12.3 - 2024-07-09 =
+* Add default border radius to Projects progress bar and meter elements and reset progress bar right margin.
+
+= 0.12.2 - 2024-07-09 =
+* Use default image URL if item does not have an image set in JS.
+
+= 0.12.1 - 2024-07-05 =
+* Add default image to RSD settings page in admin.
+* Enqueue admin stylesheet, JS code and media editor scripts and styles on RSD page in admin area.
+
+= 0.12.0 - 2024-07-04 =
+* Build: Optimize Vite config and use different method to watch and build multiple entry points with Vite.
+
+= 0.11.5 - 2024-07-02 =
+* Enqueue admin JS script.
+* Re-align result item props icons vertically and slightly increase Projects items progress bar height.
+
+= 0.11.4 - 2024-06-24 =
+* Use nested objects for item properties for more flexibility with label and values.
+* Fix: Improve JS Projects item progress percentage calculation.
+* Use lowercase for Impact and Output properties.
+
+= 0.11.3 - 2024-06-24 =
+* Add progress percentage to result item properties in card footer.
+* Add date formatting in `Project_Item` class date methods.
+
+= 0.11.2 - 2024-06-20 =
+* Ensure anchor element for result item images surrounds the full image.
+* Define responsive behaviour for filter columns.
+* Only request and show configured filter(s) in `Controller` class.
+* Add `Settings` and `Admin\Settings_Admin` classes and hook it up in `Plugin` class.
+
+= 0.11.1 - 2024-06-11 =
+* Add script `export` that exports production zip file in `/export/`, and `dev:export` that exports zip with unminified JS and CSS dist files.
+* Also include `WordPress-Core` ruleset in PHP_CS config.
+
+= 0.11.0 - 2024-06-11 =
+* Use async/await for all functions that require waiting on API results, like `.loadFilters()` and `.loadItems()` methods.
+* Use arrow functions to let `this` refer to parent class, even in `Promise` callback functions.
+* Split and move JS classes and functions into their own modules.
+* Build: Exclude jQuery from JS bundle files in Vite config, add `$` as a readonly global variable and add jQuery environment to ESLint configuration.
+
+= 0.10.6 - 2024-06-04 =
+* Use UNIX timestamp format for `last-updated` data attribute for result items.
+* Fix bugs for search term set through PHP at page load.
+
+= 0.10.5 - 2024-06-30 =
+* Re-order logic for when search term is set through PHP and use search term from URL, e.g. `?q=example`.
 
 = 0.10.4 - 2024-05-28 =
 * Disable pointer events for invisible back-to-top button.
