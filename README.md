@@ -19,7 +19,20 @@ To limit the initial amount of nine items at page load:
 [research_software_directory section="software" limit="9" organisation="35c17f17-6b5f-4385-aa8b-6b1d33a10157"]
 ```
 
-### Deployment or unit testing: build compiled bundle files first
+### Exporting production ready plugin bundle
+
+To create a smaller, production-ready ZIP file of all the plugin files without any development related files, use the project `export` script:
+```shell
+# First install the required Node.js dependencies
+$ pnpm install
+
+# Export ZIP file to `/export` folder
+$ pnpm run export
+```
+
+The folder extracted from the ZIP file, which contains the plugin files required for production, can then be used to deploy to a production server.
+
+### Deployment or testing: build compiled bundle files first
 
 The current configuration uses [Vite](https://vitejs.dev/) to build the plugin front end assets, CSS and JS. Before using the plugin in a production environment (which is the default), make sure to run the build script:
 ```shell
