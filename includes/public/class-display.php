@@ -53,7 +53,7 @@ class Display {
 		// Render the RSD components.
 		ob_start();
 		?>
-		<div id="rsd-wordpress" class="rsd" data-section="<?php echo esc_attr( Controller::get_section() ); ?>" data-organisation_id="<?php echo esc_attr( Controller::get_organisation_id() ); ?>">
+		<div id="rsd-wordpress" class="rsd-wordpress" data-section="<?php echo esc_attr( Controller::get_section() ); ?>" data-organisation_id="<?php echo esc_attr( Controller::get_organisation_id() ); ?>">
 			<?php
 			if ( ! $items ) {
 				esc_html_e( 'No data returned from API', 'rsd-wordpress' );
