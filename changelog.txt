@@ -12,6 +12,15 @@ WordPress plugin that displays projects and software information using the Resea
 
 == Changelog ==
 
+= 1.1.1 - 2024-09-26 =
+* Update changelog.
+
+= 1.1.0 - 2024-09-26 =
+* Rename container element class from `.rsd` to `.rsd-wordpress`
+
+= 1.0.2 - 2024-09-17 =
+* Update Node dependencies and `pnpm` version.
+
 = 1.0.1 - 2024-09-17 =
 * Update changelog.
 
