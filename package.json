@@ -55,6 +55,7 @@
     "concurrently": "^10.0.3",
     "eslint": "^10.6.0",
     "eslint-plugin-compat": "^7.0.2",
+    "eslint-plugin-no-unsanitized": "^4.1.5",
     "globals": "^17.7.0",
     "lightningcss": "^1.32.0",
     "path": "^0.12.7",
