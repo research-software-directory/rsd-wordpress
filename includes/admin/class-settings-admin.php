@@ -9,6 +9,9 @@
 
 namespace RSD\Admin;
 
+// Exit if accessed directly.
+defined( 'ABSPATH' ) || exit;
+
 /**
  * Plugin settings class.
  *

@@ -8,6 +8,9 @@
 
 namespace RSD;
 
+// Exit if accessed directly.
+defined( 'ABSPATH' ) || exit;
+
 /**
  * Plugin settings class.
  *
