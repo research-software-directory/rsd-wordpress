@@ -98,7 +98,9 @@ export default class Item {
 		dateStr,
 		format = { year: 'numeric', month: '2-digit', day: '2-digit' }
 	) {
-		if ( ! dateStr ) return '';
+		if ( ! dateStr ) {
+			return '';
+		}
 
 		const date = new Date( dateStr );
 		const formatter = new Intl.DateTimeFormat( 'en-UK', format );
