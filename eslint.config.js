@@ -29,6 +29,7 @@ export default [
 		},
 		rules: {
 			'no-console': 'off',
+			'prettier/prettier': 'warn',
 			indent: [ 'error', 'tab' ],
 			'linebreak-style': [ 'error', 'unix' ],
 			quotes: [ 'error', 'single' ],
