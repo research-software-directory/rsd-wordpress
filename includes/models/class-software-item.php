@@ -191,32 +191,4 @@ class Software_Item extends Item {
 	public function get_closed_source() {
 		return $this->closed_source;
 	}
-
-	/**
-	 * Get the item programming language(s) as a string.
-	 *
-	 * @since 0.1.0
-	 * @return string
-	 */
-	public function get_prog_lang_string() {
-		if ( is_array( $this->prog_lang ) && count( $this->prog_lang ) > 0 ) {
-			return implode( ', ', $this->prog_lang );
-		} else {
-			return array();
-		}
-	}
-
-	/**
-	 * Get the item licenses as a string.
-	 *
-	 * @since 0.1.0
-	 * @return string
-	 */
-	public function get_licenses_string() {
-		if ( is_array( $this->licenses ) && count( $this->licenses ) > 0 ) {
-			return implode( ', ', $this->licenses );
-		} else {
-			return array();
-		}
-	}
 }
