@@ -135,7 +135,6 @@ class Controller {
 				type: 'GET',
 				url: API.getUrl( path, params ),
 				headers: { Prefer: 'count=exact' },
-				// eslint-disable-next-line object-shorthand
 				success: ( response ) => {
 					// Create an array of Item objects from the response.
 					const resultItems = [];
@@ -157,7 +156,6 @@ class Controller {
 
 					resolve( resultItems );
 				},
-				// eslint-disable-next-line object-shorthand
 				error: ( jqXHR, textStatus, errorThrown ) => {
 					reject( errorThrown );
 				},
@@ -285,7 +283,6 @@ class Controller {
 					data: JSON.stringify( data.params ),
 					dataType: 'json',
 					contentType: 'application/json',
-					// eslint-disable-next-line object-shorthand
 					success: ( response ) => {
 						filters[ filter ] = new Filter(
 							data.title,
@@ -295,7 +292,6 @@ class Controller {
 						);
 						resolve();
 					},
-					// eslint-disable-next-line object-shorthand
 					error: ( jqXHR, textStatus, errorThrown ) => {
 						reject( errorThrown );
 					},
