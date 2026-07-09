@@ -146,7 +146,7 @@ class Api {
 	 * @param string $path The path.
 	 * @param array  $args The arguments.
 	 * @param bool   $retrieve_headers Whether to retrieve the headers.
-	 * @return array The API response data and headers.
+	 * @return array|\WP_Error The API response data and headers, or a WP_Error on request failure.
 	 */
 	public static function get_response( $path, $args = array(), $retrieve_headers = false ) {
 		// Call the API.
@@ -154,7 +154,7 @@ class Api {
 		$response = wp_remote_get( $url, $args );
 
 		if ( is_wp_error( $response ) ) {
-			return 'Error: ' . $response->get_error_message();
+			return $response;
 		}
 
 		// Decode the API response.

@@ -523,13 +523,17 @@ class Controller {
 			// Build the API path.
 			$path = Api::build_path( $filter['path'], $filter['params'] );
 
-			// Get the API response.
+			// Get the API response, skipping this filter if the request failed.
 			$response = Api::get_response( $path );
+			if ( is_wp_error( $response ) ) {
+				continue;
+			}
 
 			// Process data.
+			$data           = ( is_array( $response['data'] ) ? $response['data'] : array() );
 			$args           = ( ! empty( $filter['args'] ) ? $filter['args'] : array() );
 			$id             = $filter['identifier'];
-			$filters[ $id ] = new Filter( $filter['title'], $filter['identifier'], $response['data'], $args );
+			$filters[ $id ] = new Filter( $filter['title'], $filter['identifier'], $data, $args );
 
 			// Additionally retrieve and set labels for specific filter(s).
 			if ( 'domain' === $id ) {
@@ -542,11 +546,13 @@ class Controller {
 				);
 				$response = Api::get_response( $path );
 
-				$labels = array();
-				foreach ( $response['data'] as $item ) {
-					$labels[ $item['key'] ] = $item['name'];
+				if ( ! is_wp_error( $response ) && is_array( $response['data'] ) ) {
+					$labels = array();
+					foreach ( $response['data'] as $item ) {
+						$labels[ $item['key'] ] = $item['name'];
+					}
+					$filters[ $id ]->set_labels( $labels );
 				}
-				$filters[ $id ]->set_labels( $labels );
 			} elseif ( 'project_status' === $id ) {
 				// Remove 'unknown' status from items.
 				$filters[ $id ]->remove_item( 'unknown' );
@@ -671,8 +677,11 @@ class Controller {
 
 		// Get the API response.
 		$response = Api::get_response( $path, $args, true );
-		$headers  = $response['headers'];
-		$data     = $response['data'];
+		if ( is_wp_error( $response ) ) {
+			return false;
+		}
+		$headers = $response['headers'];
+		$data    = $response['data'];
 
 		// Process data.
 		$items = array();

@@ -69,6 +69,21 @@ class UI {
 			.text( `${ count } items found` );
 	}
 
+	showErrorMessage( message ) {
+		this.hideErrorMessage();
+		DOM.$container
+			.find( '.rsd-results-items' )
+			.before(
+				`<div class="rsd-results-error"><p>${ escapeHtml(
+					message
+				) }</p></div>`
+			);
+	}
+
+	hideErrorMessage() {
+		DOM.$container.find( '.rsd-results-error' ).remove();
+	}
+
 	enhanceFilterSelects() {
 		const self = this;
 
