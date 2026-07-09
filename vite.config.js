@@ -29,7 +29,6 @@ export default defineConfig( {
 		exclude: [ 'jquery' ],
 	},
 	define: {
-		'process.env': process.env,
 		$: 'window.jQuery',
 		jQuery: 'window.jQuery',
 	},
