@@ -87,7 +87,14 @@ class Settings_Admin extends \RSD\Settings {
 	 * @return void
 	 */
 	public static function init() {
-		register_setting( 'rsd-wordpress', 'rsd_wordpress_settings' );
+		register_setting(
+			'rsd-wordpress',
+			'rsd_wordpress_settings',
+			array(
+				'type'              => 'array',
+				'sanitize_callback' => array( __CLASS__, 'sanitize_settings' ),
+			)
+		);
 
 		add_settings_section(
 			'rsd_filters_section',
@@ -126,6 +133,36 @@ class Settings_Admin extends \RSD\Settings {
 			'rsd-wordpress',
 			'rsd_images_section'
 		);
+	}
+
+	/**
+	 * Sanitize the settings before saving.
+	 *
+	 * @param mixed $settings The raw settings value as submitted.
+	 * @return array The sanitized settings.
+	 */
+	public static function sanitize_settings( $settings ) {
+		$sanitized = array();
+
+		if ( ! is_array( $settings ) ) {
+			return $sanitized;
+		}
+
+		// Only keep known filter identifiers for each section.
+		foreach ( array( 'software', 'projects' ) as $section ) {
+			$key = $section . '_default_filters';
+			if ( ! empty( $settings[ $key ] ) && is_array( $settings[ $key ] ) ) {
+				$valid             = array_keys( self::get_defaults( 'filters', $section ) );
+				$sanitized[ $key ] = array_values( array_intersect( $settings[ $key ], $valid ) );
+			}
+		}
+
+		// The default image URL must be a valid URL.
+		if ( ! empty( $settings['img_url'] ) ) {
+			$sanitized['img_url'] = esc_url_raw( $settings['img_url'] );
+		}
+
+		return $sanitized;
 	}
 
 	/**
