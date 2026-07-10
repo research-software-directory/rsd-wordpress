@@ -38,32 +38,10 @@ class Api {
 	private static $version = 'v1';
 
 	/**
-	 * The single instance of the class.
-	 *
-	 * @var Api|null
-	 */
-	private static $instance = null;
-
-	/**
-	 * Get the singleton instance of the class.
-	 *
-	 * @since 0.3.2
-	 * @access public
-	 * @return Api
-	 */
-	public static function get_instance() {
-		if ( null === self::$instance ) {
-			self::$instance = new self();
-		}
-
-		return self::$instance;
-	}
-
-	/**
-	 * Constructor.
+	 * Constructor (private: this class is used statically).
 	 *
 	 * @since 0.0.1
-	 * @access public
+	 * @access private
 	 */
 	private function __construct() {
 	}

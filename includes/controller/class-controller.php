@@ -113,27 +113,6 @@ class Controller {
 	private static $result_items = false;
 
 	/**
-	 * The instance of the Controller class.
-	 *
-	 * @var Controller|null
-	 */
-	private static $instance = null;
-
-	/**
-	 * Get the instance of the Controller class.
-	 *
-	 * @since 0.3.2
-	 * @return Controller
-	 */
-	public static function get_instance() {
-		if ( null === self::$instance ) {
-			self::$instance = new self();
-		}
-
-		return self::$instance;
-	}
-
-	/**
 	 * Set the section to display.
 	 *
 	 * @param string $section The section to display.
