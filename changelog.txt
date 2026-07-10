@@ -4,13 +4,37 @@ Tags: RSD, Research Software Directory, wordpress, api, overview
 Requires at least: 6.0
 Tested up to: 6.6
 Requires PHP: 7.0
-Stable tag: 1.0.0
+Stable tag: 1.3.0
 License: Apache-2.0
 License URI: https://www.apache.org/licenses/LICENSE-2.0
 
 WordPress plugin that displays projects and software information using the Research Software Directory API.
 
 == Changelog ==
+
+= 1.3.0 - 2026-07-10 =
+* Security: Escape all RSD API data in JS-rendered results to prevent XSS; URL-encode `slug` and `image_id` in item URLs.
+* Security: Add `sanitize_callback` to plugin settings registration.
+* Security: Add missing `ABSPATH` guards to settings classes.
+* Fix: Handle RSD API failures gracefully; visitors now see an error notice instead of a silently empty results list.
+* Fix: Malformed close-button markup in the filters sidebar.
+* Add `eslint-plugin-no-unsanitized` to ESLint so unescaped HTML rendering fails lint.
+* Remove unused string helper methods from `Software_Item`.
+
+= 1.2.1 - 2026-07-09 =
+* Update `README.md` for improved shortcode examples and clarity.
+* Fix lint errors and remove stale `eslint-disable` comments.
+* Restore `prettier/prettier` as a warning in flat config.
+
+= 1.2.0 - 2026-07-09 =
+* Migrate ESLint config to flat config format.
+* Update Node dependencies to major versions.
+* Remove unused `process.env` exposure from Vite `define`.
+* Fix: Quote glob in lint scripts so it expands recursively.
+
+= 1.1.2 - 2026-07-09 =
+* Upgrade `pnpm` to v11 and pin Node.js version for this plugin.
+* Update Node and Composer dependencies.
 
 = 1.1.1 - 2024-09-26 =
 * Update changelog.
