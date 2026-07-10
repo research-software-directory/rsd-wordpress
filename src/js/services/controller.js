@@ -321,10 +321,14 @@ class Controller {
 			this.currentOffset = offset + this.items.length;
 
 			// Display the results.
+			UI.hideErrorMessage();
 			UI.displayResults( this.items, this.itemsTotal );
 			// Re-attach infinite scroll event.
 			enhanceResultsInfiniteScroll();
 		} catch ( error ) {
+			UI.showErrorMessage(
+				'Could not load results from the Research Software Directory. Please try again later.'
+			);
 			console.error( '🎹 Error fetching items: ', error );
 		}
 	}
@@ -350,8 +354,12 @@ class Controller {
 
 			// Append the results.
 			const appendItems = true;
+			UI.hideErrorMessage();
 			UI.displayResults( newItems, this.itemsTotal, appendItems );
 		} catch ( error ) {
+			UI.showErrorMessage(
+				'Could not load more results from the Research Software Directory. Please try again later.'
+			);
 			console.error( '🎹 Error fetching more items: ', error );
 		}
 	}

@@ -2,7 +2,7 @@
  * Item component
  */
 
-import { getSlugFromURL } from '../helpers/utils';
+import { getSlugFromURL, escapeHtml } from '../helpers/utils';
 import Controller from '../services/controller';
 
 export default class Item {
@@ -42,12 +42,16 @@ export default class Item {
 	}
 
 	getUrl() {
-		return `https://research-software-directory.org/${ Controller.section }/${ this.slug }`;
+		return `https://research-software-directory.org/${
+			Controller.section
+		}/${ encodeURIComponent( this.slug ) }`;
 	}
 
 	getImgUrl() {
 		if ( this.image_id ) {
-			return `https://research-software-directory.org/image/rpc/get_image?uid=${ this.image_id }`;
+			return `https://research-software-directory.org/image/rpc/get_image?uid=${ encodeURIComponent(
+				this.image_id
+			) }`;
 		} else if ( rsdWordPressVars.defaultImgUrl ) {
 			return rsdWordPressVars.defaultImgUrl;
 		}
@@ -142,7 +146,7 @@ export default class Item {
 	getLabels() {
 		let html = '<ul class="rsd-results-item-labels">';
 		$.each( this.keywords, function ( index, label ) {
-			html += `<li class="label">${ label }</li>`;
+			html += `<li class="label">${ escapeHtml( label ) }</li>`;
 		} );
 		html += '</ul>';
 
@@ -158,22 +162,32 @@ export default class Item {
 		};
 
 		$.each( props, function ( prop, obj ) {
+			const value = escapeHtml( obj.value );
+			const label = escapeHtml( obj.label );
+
 			if ( 'progress' === prop ) {
+				const dateStart = escapeHtml(
+					self.getDateStart( progressDateFormat )
+				);
+				const dateEnd = escapeHtml(
+					self.getDateEnd( progressDateFormat )
+				);
 				html += `
-					<li class="rsd-results-item-prop-progress" data-progress-percentage="${ obj.value }">
-						<span class="value date-start">${ self.getDateStart( progressDateFormat ) }</span> -
-						<span class="value date-end">${ self.getDateEnd( progressDateFormat ) }</span>
-						<div class="progress-bar" role="progressbar" tabindex="0" aria-valuenow="${ obj.value }" aria-valuemin="0" aria-valuemax="100">
-							<div class="progress-meter" style="width: ${ obj.value }%;"></div>
+					<li class="rsd-results-item-prop-progress" data-progress-percentage="${ value }">
+						<span class="value date-start">${ dateStart }</span> -
+						<span class="value date-end">${ dateEnd }</span>
+						<div class="progress-bar" role="progressbar" tabindex="0" aria-valuenow="${ value }" aria-valuemin="0" aria-valuemax="100">
+							<div class="progress-meter" style="width: ${ value }%;"></div>
 						</div>
 					</li>
 					`;
 			} else {
+				const propClass = escapeHtml( prop.toLowerCase() );
 				html += `
-					<li class="rsd-results-item-prop-${ prop.toLowerCase() }">
-						<span aria-hidden="true" class="icon icon-${ prop.toLowerCase() }" title="${ obj.label }"></span>
-						<span class="value">${ obj.value }</span>
-						<span class="prop">${ obj.label }</span>
+					<li class="rsd-results-item-prop-${ propClass }">
+						<span aria-hidden="true" class="icon icon-${ propClass }" title="${ label }"></span>
+						<span class="value">${ value }</span>
+						<span class="prop">${ label }</span>
 					</li>
 					`;
 			}

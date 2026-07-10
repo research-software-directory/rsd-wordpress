@@ -4,6 +4,7 @@
 
 import DOM from '../helpers/dom';
 import Controller from '../services/controller';
+import { escapeHtml } from '../helpers/utils';
 import TomSelect from 'tom-select/dist/js/tom-select.base.js';
 import TomSelectRemoveButton from 'tom-select/dist/js/plugins/remove_button.js';
 
@@ -66,6 +67,21 @@ class UI {
 		DOM.$container
 			.find( '.rsd-results-count' )
 			.text( `${ count } items found` );
+	}
+
+	showErrorMessage( message ) {
+		this.hideErrorMessage();
+		DOM.$container
+			.find( '.rsd-results-items' )
+			.before(
+				`<div class="rsd-results-error"><p>${ escapeHtml(
+					message
+				) }</p></div>`
+			);
+	}
+
+	hideErrorMessage() {
+		DOM.$container.find( '.rsd-results-error' ).remove();
 	}
 
 	enhanceFilterSelects() {
@@ -183,21 +199,16 @@ class UI {
 				};
 			}
 
-			let imageContainAttr = '';
-			if ( item.getImageContain() ) {
-				imageContainAttr = ' class="contain"';
-			}
-
 			// prettier-ignore
 			$itemsContainer.append( `
-				<div class="rsd-results-item column card in-viewport" data-id="${ item.getId() }" data-last-updated="${ item.getLastUpdated() }">
+				<div class="rsd-results-item column card in-viewport" data-id="${ escapeHtml( item.getId() ) }" data-last-updated="${ escapeHtml( item.getLastUpdated() ) }">
 					<div class="card-image">
-						<a href="${ item.getUrl() }" target="_blank" rel="external"><img src="${ item.getImgUrl() }"
-							 alt="" title="${ title }" aria-label="${ title }"${ imageContainAttr }></a>
+						<a href="${ escapeHtml( item.getUrl() ) }" target="_blank" rel="external"><img src="${ escapeHtml( item.getImgUrl() ) }"
+							 alt="" title="${ escapeHtml( title ) }" aria-label="${ escapeHtml( title ) }" class="${ escapeHtml( item.getImageContain() ? 'contain' : '' ) }"></a>
 					</div>
 					<div class="card-section">
-						<h3><a href="${ item.getUrl() }" target="_blank" rel="external">${ title }</a></h3>
-						<p>${ description }</p>
+						<h3><a href="${ escapeHtml( item.getUrl() ) }" target="_blank" rel="external">${ escapeHtml( title ) }</a></h3>
+						<p>${ escapeHtml( description ) }</p>
 					</div>
 					<div class="card-footer">
 						<div class="rsd-results-item-specs">

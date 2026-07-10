@@ -63,7 +63,7 @@ function enhanceFiltersSidebar() {
 
 	// Add close button to filters sidebar.
 	$sidebar.prepend( `
-		<button class="close-button" aria-label="Close alert" type="button"
+		<button class="close-button" aria-label="Close alert" type="button">
 			<span aria-hidden="true">&times;</span>
 		</button>
 	` );
