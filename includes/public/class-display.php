@@ -323,11 +323,11 @@ class Display {
 		?>
 		<div class="rsd-results-item column card" data-id="<?php echo esc_attr( $item->get_id() ); ?>" data-last-updated="<?php echo esc_attr( $last_updated_local ); ?>">
 			<div class="card-image">
-				<a href="<?php echo esc_attr( $item_url ); ?>" target="_blank" rel="external"><img src="<?php echo esc_attr( $image_url ); ?>"
+				<a href="<?php echo esc_attr( $item_url ); ?>" target="_blank" rel="external noopener"><img src="<?php echo esc_attr( $image_url ); ?>"
 				alt="" title="<?php echo esc_attr( $title ); ?>" aria-label="<?php echo esc_attr( $aria_label ); ?>"></a>
 			</div>
 			<div class="card-section">
-				<h3><a href="<?php echo esc_attr( $item_url ); ?>" target="_blank" rel="external"><?php echo esc_html( $item->get_brand_name() ); ?></a></h3>
+				<h3><a href="<?php echo esc_attr( $item_url ); ?>" target="_blank" rel="external noopener"><?php echo esc_html( $item->get_brand_name() ); ?></a></h3>
 				<p><?php echo esc_html( mb_strimwidth( $item->get_short_statement(), 0, 100, '...' ) ); ?></p>
 			</div>
 			<div class="card-footer">
@@ -385,7 +385,7 @@ class Display {
 		?>
 		<div class="rsd-results-item column card" data-id="<?php echo esc_attr( $item->get_id() ); ?>" data-last-updated="<?php echo esc_attr( $last_updated_local ); ?>">
 			<div class="card-image">
-				<a href="<?php echo esc_attr( $item_url ); ?>" target="_blank" rel="external"><img src="<?php echo esc_attr( $image_url ); ?>"
+				<a href="<?php echo esc_attr( $item_url ); ?>" target="_blank" rel="external noopener"><img src="<?php echo esc_attr( $image_url ); ?>"
 				alt="" title="<?php echo esc_attr( $title ); ?>" aria-label="<?php echo esc_attr( $aria_label ); ?>"
 				<?php // phpcs:ignore
 				echo $image_contain_attr;
@@ -393,7 +393,7 @@ class Display {
 				></a>
 			</div>
 			<div class="card-section">
-				<h3><a href="<?php echo esc_attr( $item_url ); ?>" target="_blank" rel="external"><?php echo esc_html( $item->get_title() ); ?></a></h3>
+				<h3><a href="<?php echo esc_attr( $item_url ); ?>" target="_blank" rel="external noopener"><?php echo esc_html( $item->get_title() ); ?></a></h3>
 				<p><?php echo esc_html( mb_strimwidth( $item->get_subtitle(), 0, 100, '...' ) ); ?></p>
 			</div>
 			<div class="card-footer">
