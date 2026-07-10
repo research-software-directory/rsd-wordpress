@@ -210,6 +210,8 @@ class Display {
 	public static function display_results( $items ) {
 		ob_start();
 
+		$sort_fields = array();
+
 		if ( 'projects' === Controller::get_section() ) {
 			$sort_fields = array(
 				'output_cnt' => __( 'Output', 'rsd-wordpress' ),
