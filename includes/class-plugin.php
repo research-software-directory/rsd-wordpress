@@ -153,14 +153,19 @@ class Plugin {
 	public static function enqueue_public_scripts() {
 		global $post;
 
-		if ( ! is_a( $post, 'WP_Post' ) || ! has_shortcode( get_the_content(), 'research_software_directory' ) ) {
-			return;
-		}
-
-		// Enqueue compiled stylesheet and scripts, using minified versions in production and staging environments.
+		// Register compiled stylesheet and scripts, using minified versions in production and staging environments.
 		$suffix = ( wp_get_environment_type() === 'production' || wp_get_environment_type() === 'staging' ? '.min' : '' );
-		wp_enqueue_style( self::get_plugin_name() . '-public', RSD_WP__PLUGIN_URL . 'dist/rsd-wordpress' . $suffix . '.css', array(), self::get_version() );
-		wp_enqueue_script( self::get_plugin_name() . '-public', RSD_WP__PLUGIN_URL . 'dist/rsd-wordpress' . $suffix . '.js', array( 'jquery' ), self::get_version(), true );
+		wp_register_style( self::get_plugin_name() . '-public', RSD_WP__PLUGIN_URL . 'dist/rsd-wordpress' . $suffix . '.css', array(), self::get_version() );
+		wp_register_script( self::get_plugin_name() . '-public', RSD_WP__PLUGIN_URL . 'dist/rsd-wordpress' . $suffix . '.js', array( 'jquery' ), self::get_version(), true );
+
+		// Enqueue in the head when the shortcode is in the post content, so the
+		// initial render is styled without a flash of unstyled content. The
+		// shortcode handler also enqueues on render, as a fallback for widgets
+		// and template files where this detection does not apply.
+		if ( is_a( $post, 'WP_Post' ) && has_shortcode( $post->post_content, 'research_software_directory' ) ) {
+			wp_enqueue_style( self::get_plugin_name() . '-public' );
+			wp_enqueue_script( self::get_plugin_name() . '-public' );
+		}
 	}
 
 	/**
@@ -228,6 +233,11 @@ class Plugin {
 
 		// Fetch the filters from API.
 		Controller::fetch_filters();
+
+		// Enqueue the registered assets (no-op if already enqueued in the head),
+		// so the shortcode also works from widgets and template files.
+		wp_enqueue_style( self::get_plugin_name() . '-public' );
+		wp_enqueue_script( self::get_plugin_name() . '-public' );
 
 		// Make filter labels available in JS.
 		$labels       = Controller::get_filter_labels();
