@@ -30,7 +30,7 @@ To limit the initial number of items shown at page load to nine:
 | `organisation-id` | The RSD organisation UUID to show items for      | Netherlands eScience Center organisation |
 | `limit`           | Number of items to show at initial page load     | `48`                                     |
 
-Note: the shortcode only works in post or page content (not in widgets or template files), since the plugin's assets are only loaded when the shortcode is detected in the content.
+Note: only one `[research_software_directory]` shortcode per page is supported; any further occurrences render a notice instead of a second overview. The shortcode works in post and page content, and also in widgets and template files (where the plugin styles load in the footer).
 
 ### Plugin settings
 
