@@ -4,13 +4,21 @@ Tags: RSD, Research Software Directory, wordpress, api, overview
 Requires at least: 6.0
 Tested up to: 6.6
 Requires PHP: 7.0
-Stable tag: 1.3.0
+Stable tag: 1.3.1
 License: Apache-2.0
 License URI: https://www.apache.org/licenses/LICENSE-2.0
 
 WordPress plugin that displays projects and software information using the Research Software Directory API.
 
 == Changelog ==
+
+= 1.3.1 - 2026-07-10 =
+* Fix: Load plugin assets when the shortcode renders outside post content, so it also works from widgets and template files.
+* Fix: Guard progress calculation against zero-day project duration (rendered "Infinity").
+* Fix: Initialize `$sort_fields` before section check, preventing a PHP warning for invalid `section` values.
+* Add `noopener` to external item links.
+* Parse API timestamps explicitly as UTC (safety measure; the API sends a UTC offset which takes precedence).
+* Version `pnpm-lock.yaml` for reproducible builds.
 
 = 1.3.0 - 2026-07-10 =
 * Security: Escape all RSD API data in JS-rendered results to prevent XSS; URL-encode `slug` and `image_id` in item URLs.
