@@ -40,6 +40,13 @@ class Plugin {
 	private static $instance = null;
 
 	/**
+	 * Whether the shortcode has already been rendered on this page.
+	 *
+	 * @var bool
+	 */
+	private static $shortcode_rendered = false;
+
+	/**
 	 * Get the singleton instance of the class.
 	 *
 	 * @since 0.3.2
@@ -207,6 +214,14 @@ class Plugin {
 		if ( is_admin() ) {
 			return;
 		}
+
+		// Only one shortcode per page is supported: the JS front end binds to a
+		// single container element, so further instances would render as
+		// non-functional HTML with a duplicate id.
+		if ( self::$shortcode_rendered ) {
+			return '<p class="rsd-wordpress-notice">' . esc_html__( 'Only one Research Software Directory shortcode per page is supported.', 'rsd-wordpress' ) . '</p>';
+		}
+		self::$shortcode_rendered = true;
 
 		// Merge default attributes with attributes used in shortcode.
 		$atts = shortcode_atts(
