@@ -138,7 +138,10 @@ abstract class Item {
 	 * @return string
 	 */
 	public function get_last_updated( $use_wp_timezone = false, $format = 'U' ) {
-		$date = new \DateTimeImmutable( $this->get_updated_at() );
+		// Note: The UTC $timezone argument is added as a safety measure only:
+		// The API is expected to send timestamps including a UTC offset (+00:00),
+		// which takes precedence over the $timezone argument.
+		$date = new \DateTimeImmutable( $this->get_updated_at(), new \DateTimeZone( 'UTC' ) );
 
 		if ( $use_wp_timezone ) {
 			return wp_date( $format, $date->getTimestamp() );

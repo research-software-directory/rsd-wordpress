@@ -252,6 +252,9 @@ class Project_Item extends Item {
 		} else {
 			$total   = $date_start->diff( $date_end )->days;
 			$elapsed = $date_start->diff( $now )->days;
+			if ( 0 === $total ) {
+				return 100;
+			}
 			return round( ( $elapsed / $total ) * 100 );
 		}
 	}

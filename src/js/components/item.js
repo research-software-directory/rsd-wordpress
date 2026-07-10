@@ -137,6 +137,9 @@ export default class Item {
 
 			const total = ( dateEnd - dateStart ) / ( 1000 * 60 * 60 * 24 );
 			const elapsed = ( now - dateStart ) / ( 1000 * 60 * 60 * 24 );
+			if ( total <= 0 ) {
+				return 100;
+			}
 			return Math.round( ( elapsed / total ) * 100 );
 		}
 

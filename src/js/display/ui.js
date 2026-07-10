@@ -203,11 +203,11 @@ class UI {
 			$itemsContainer.append( `
 				<div class="rsd-results-item column card in-viewport" data-id="${ escapeHtml( item.getId() ) }" data-last-updated="${ escapeHtml( item.getLastUpdated() ) }">
 					<div class="card-image">
-						<a href="${ escapeHtml( item.getUrl() ) }" target="_blank" rel="external"><img src="${ escapeHtml( item.getImgUrl() ) }"
+						<a href="${ escapeHtml( item.getUrl() ) }" target="_blank" rel="external noopener"><img src="${ escapeHtml( item.getImgUrl() ) }"
 							 alt="" title="${ escapeHtml( title ) }" aria-label="${ escapeHtml( title ) }" class="${ escapeHtml( item.getImageContain() ? 'contain' : '' ) }"></a>
 					</div>
 					<div class="card-section">
-						<h3><a href="${ escapeHtml( item.getUrl() ) }" target="_blank" rel="external">${ escapeHtml( title ) }</a></h3>
+						<h3><a href="${ escapeHtml( item.getUrl() ) }" target="_blank" rel="external noopener">${ escapeHtml( title ) }</a></h3>
 						<p>${ escapeHtml( description ) }</p>
 					</div>
 					<div class="card-footer">
