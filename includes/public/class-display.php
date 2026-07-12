@@ -22,27 +22,6 @@ defined( 'ABSPATH' ) || exit;
  */
 class Display {
 	/**
-	 * The single instance of the class.
-	 *
-	 * @var Display|null
-	 */
-	private static $instance = null;
-
-	/**
-	 * Get the singleton instance of the class.
-	 *
-	 * @since 0.3.2
-	 * @return Display
-	 */
-	public static function get_instance() {
-		if ( null === self::$instance ) {
-			self::$instance = new self();
-		}
-
-		return self::$instance;
-	}
-
-	/**
 	 * Renders all components: search bar, results settings, filter sidebar and results.
 	 *
 	 * @param array $items The items to display.

@@ -25,33 +25,6 @@ class Settings {
 	private static $defaults = array();
 
 	/**
-	 * The single instance of the class.
-	 *
-	 * @var Settings|null
-	 */
-	private static $instance = null;
-
-	/**
-	 * Get the singleton instance of the class.
-	 *
-	 * @return Settings
-	 */
-	public static function get_instance() {
-		if ( null === self::$instance ) {
-			self::$instance = new self();
-		}
-
-		return self::$instance;
-	}
-
-	/**
-	 * Constructor.
-	 */
-	private function __construct() {
-		// Do nothing (yet).
-	}
-
-	/**
 	 * Get the default settings.
 	 *
 	 * @param string|null $key The settings key.
