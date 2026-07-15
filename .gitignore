@@ -27,8 +27,6 @@ yarn.lock
 *.log
 *.sql
 *.sqlite
-wp_data
-db_data
 .history
 
 # ignore OS generated files

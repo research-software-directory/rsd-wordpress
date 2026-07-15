@@ -42,12 +42,30 @@ After activating the plugin, go to **Settings → Research Software Directory** 
 
 - Node.js >= 22 (see `.nvmrc`) and [pnpm](https://pnpm.io/) for building the front end assets
 - Composer for the PHP coding standards tooling
+- [Docker](https://www.docker.com/) for the quick-start test environment below
 
 ### Installing the plugin in WordPress
 
-This plugin can be used in a new or existing WordPress installation in a local development environment. For a super quick testing environment, the bundled `docker-compose.yml` can be used with the application [Local](https://localwp.com/).
+For a quick test environment, this repo uses [`wp-env`](https://developer.wordpress.org/block-editor/reference-guides/packages/packages-env/), the standard WordPress tool for spinning up a Dockerized WordPress site with the current plugin already mounted and activated:
 
-First make sure your WordPress installation is functional, then move the plugin folder to the `plugins` folder of your installation, which is usually something like `<wordpress_folder>/wp-content/plugins/`.
+```shell
+# Install dependencies and build the (unminified) front end assets
+$ pnpm install
+$ pnpm run dev:build
+
+# Start the environment
+$ pnpm run env:start
+```
+
+This starts a WordPress site at `http://localhost:8888` (log in at `/wp-admin` with `admin` / `password`) with the plugin active and a page containing the `[research_software_directory]` shortcode already published, so you can try the plugin out immediately.
+
+```shell
+$ pnpm run env:stop      # stop the environment
+$ pnpm run env:destroy   # tear it down completely
+$ pnpm run env:cli       # run any wp-cli command, e.g. `pnpm run env:cli plugin list`
+```
+
+To use the plugin in an existing WordPress installation instead, move the plugin folder to the `plugins` folder of your installation, which is usually something like `<wordpress_folder>/wp-content/plugins/`.
 
 ### Building the bundle files
 
