@@ -4,13 +4,16 @@ Tags: RSD, Research Software Directory, wordpress, api, overview
 Requires at least: 6.0
 Tested up to: 6.6
 Requires PHP: 7.0
-Stable tag: 1.4.0
+Stable tag: 1.4.1
 License: Apache-2.0
 License URI: https://www.apache.org/licenses/LICENSE-2.0
 
 WordPress plugin that displays projects and software information using the Research Software Directory API.
 
 == Changelog ==
+
+= 1.4.1 - 2026-07-15 =
+* Replace the bundled `docker-compose.yml` with `wp-env` for a working one-command local test environment (`pnpm run env:start`); see the README for details.
 
 = 1.4.0 - 2026-07-12 =
 * Only one `[research_software_directory]` shortcode per page is supported: further instances now render a notice instead of non-functional HTML with a duplicate element id.
