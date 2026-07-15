@@ -1,0 +1,10 @@
+{
+	"plugins": ["."],
+	"testsEnvironment": false,
+	"config": {
+		"WP_ENVIRONMENT_TYPE": "local"
+	},
+	"lifecycleScripts": {
+		"afterStart": "wp-env run cli wp post create --post_type=page --post_status=publish --post_title='RSD Test Page' --post_content='[research_software_directory]' --porcelain > /dev/null 2>&1 || true"
+	}
+}
